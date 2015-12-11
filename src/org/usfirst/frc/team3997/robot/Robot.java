@@ -1,6 +1,6 @@
 
 package org.usfirst.frc.team3997.robot;
-//right
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
