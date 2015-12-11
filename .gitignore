@@ -7,7 +7,7 @@
  
 *.pydevproject
 .metadata
-.project
+#.project
 bin/**
 tmp/**
 tmp/**/*
@@ -16,7 +16,7 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-.classpath
+#.classpath
 .settings/
 .loadpath
 /src/main/resources/rebel.xml
