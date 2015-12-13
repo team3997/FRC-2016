@@ -1,5 +1,7 @@
 
-package org.usfirst.frc.team3997.robot;
+package com.team3997.frc2016;
+
+import com.team3997.frc2016.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -22,14 +24,14 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
 	
-	static RobotDrive driveTrain;
+	public static DriveSubsystem drive;
 	Joystick gamePad;
 	double xVal;
 	double yVal;
 	double rotVal;
 	
     public void robotInit() {
-    	driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1]);
+    	
     	gamePad = new Joystick(Params.JOYSTICK_USB);
     	
     	
@@ -65,7 +67,7 @@ public class Robot extends IterativeRobot {
     	xVal = gamePad.getX();
 		yVal = gamePad.getY();
 		rotVal = gamePad.getZ();
-		Robot.driveTrain.tankDrive(xVal,  yVal);
+		drive.setDrive(gamePad.getX(), gamePad.getY(), Params.squareInputs);
     }
     
     
