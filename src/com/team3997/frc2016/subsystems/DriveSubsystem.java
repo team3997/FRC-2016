@@ -11,13 +11,13 @@ public class DriveSubsystem{
 	
 	RobotDrive driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
 	
-	TalonMotor leftB = new TalonMotor(Params.DRIVE_PINS[0], true);
+	/*TalonMotor leftB = new TalonMotor(Params.DRIVE_PINS[0], true);
     TalonMotor leftA = new TalonMotor(Params.DRIVE_PINS[1], true);
     TalonMotor rightB = new TalonMotor(Params.DRIVE_PINS[2], true);
-    TalonMotor rightA = new TalonMotor(Params.DRIVE_PINS[3], true);
+    TalonMotor rightA = new TalonMotor(Params.DRIVE_PINS[3], true);*/
     
     public void setDrive(double x, double y, boolean squareInputs){
-    	driveTrain.arcadeDrive(x, y, squareInputs);
+    	driveTrain.arcadeDrive(-x, -y, squareInputs);
     }
     
     /**
@@ -60,11 +60,11 @@ public class DriveSubsystem{
     /**
      * Force stops all of the drive motors.
      */
-    public void stop() {
+    /*public void stop() {
         rightB.stop();
         rightA.stop();
         leftB.stop();
         leftA.stop();
-    }
+    }*/
     
 }

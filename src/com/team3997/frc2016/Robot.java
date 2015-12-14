@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
 	double rotVal;
 	
     public void robotInit() {
-    	
+    	drive = new DriveSubsystem();
     	gamePad = new Joystick(Params.JOYSTICK_USB);
     	
     	
@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
     	xVal = gamePad.getX();
 		yVal = gamePad.getY();
 		rotVal = gamePad.getZ();
-		drive.setDrive(gamePad.getX(), gamePad.getY(), Params.squareInputs);
+		drive.setDrive(xVal, yVal, Params.squareInputs);
     }
     
     
