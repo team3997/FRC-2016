@@ -7,9 +7,12 @@
  */
 package com.team3997.frc2016;
 
+//import com.team3997.frc2016.commands.Vision;
 import com.team3997.frc2016.subsystems.DriveSubsystem;
+import com.team3997.frc2016.util.LogitechGamepad;
 import com.team3997.frc2016.components.Dashboard;
 import com.team3997.frc2016.components.UpdateParameters;
+import com.team3997.frc2016.commands.Vision;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -19,29 +22,37 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.AxisCamera;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends IterativeRobot {
 
-	Joystick gamePad;
+	LogitechGamepad gamePad;
+	Vision vision;
 	double xVal;
 	double yVal;
 	double zVal;
-	//double motorSpeed;
-	//Preferences prefs;
-	Dashboard dashboard;
+	
+	
+	
+	private Dashboard dashboard;
 	public static DriveSubsystem drive;
 	
 	
     public void robotInit() {
+    	vision = new Vision();
     	drive = new DriveSubsystem();
     	dashboard = new Dashboard();
-    	gamePad = new Joystick(Params.JOYSTICK_USB);
-    	
-    	//prefs = Preferences.getInstance();
-		//motorSpeed = prefs.getDouble("motorSpeed", Params.MOTOR_SPEED);
+    	gamePad = new LogitechGamepad(Params.JOYSTICK_USB);
     	
 		UpdateParameters.update();
-    	//CameraServer.getInstance().startAutomaticCapture();
+		
+		vision.visionExec();
+		
+		
     }
 
     public void autonomousInit() {
@@ -53,19 +64,29 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit(){
+    	
+    	dashboard.put("x: ", xVal);
+		dashboard.put("y: ", -yVal);
+		dashboard.put("z: ", zVal);
+		dashboard.put("Max MotorSpeed: ", Params.MOTOR_SPEED.getDouble());
+    	
     	UpdateParameters.update();
     }
     
     public void teleopPeriodic() {
-    	xVal = gamePad.getX() * Params.MOTOR_SPEED.getDouble();
-		yVal = gamePad.getY() * Params.MOTOR_SPEED.getDouble();
-		zVal = gamePad.getZ() * Params.MOTOR_SPEED.getDouble();
+    	
+    	xVal = gamePad.getLeftX() * Params.MOTOR_SPEED.getDouble();
+		yVal = gamePad.getLeftY() * Params.MOTOR_SPEED.getDouble();
+		zVal = gamePad.getRightX() * Params.MOTOR_SPEED.getDouble();
 		
 		drive.setDrive(yVal, xVal, Params.squareInputs);
 		
 		dashboard.put("x: ", xVal);
 		dashboard.put("y: ", -yVal);
 		dashboard.put("z: ", zVal);
+		
+		dashboard.put("Camera Enabled?", Params.VISION);
+        dashboard.put("Advanced Vision?", Params.VISION_ADVANCED);
     }
     
     public void testInit() {

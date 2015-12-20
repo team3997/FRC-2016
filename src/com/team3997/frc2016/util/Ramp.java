@@ -36,6 +36,7 @@ public class Ramp {
     		newValue += oldValue < targetValue ? rampSpeed : -rampSpeed;
     	else
     		newValue = targetValue;
+    	
     	oldValue = newValue;
     	return newValue;
     }
