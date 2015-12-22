@@ -1,5 +1,5 @@
 /*
- * FRC TEAM 3997. 2016 master
+ * FRC TEAM 3997. 2016 CV
  * 
  * Thanks to the following teams for sharing their code!: 
  * 	1477, 1899
