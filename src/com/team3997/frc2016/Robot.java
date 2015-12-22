@@ -29,14 +29,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends IterativeRobot {
-
+	
 	LogitechGamepad gamePad;
 	Vision vision;
 	double xVal;
 	double yVal;
 	double zVal;
-	
-	
 	
 	private Dashboard dashboard;
 	public static DriveSubsystem drive;
@@ -75,18 +73,22 @@ public class Robot extends IterativeRobot {
     
     public void teleopPeriodic() {
     	
-    	xVal = gamePad.getLeftX() * Params.MOTOR_SPEED.getDouble();
-		yVal = gamePad.getLeftY() * Params.MOTOR_SPEED.getDouble();
-		zVal = gamePad.getRightX() * Params.MOTOR_SPEED.getDouble();
+    	vision.visionExec();
+    	
+    	xVal = (gamePad.getLeftX()) * (Params.MOTOR_SPEED.getDouble());
+		yVal = (gamePad.getLeftY()) * (Params.MOTOR_SPEED.getDouble());
+		zVal = (gamePad.getRightX()) * (Params.MOTOR_SPEED.getDouble());
 		
 		drive.setDrive(yVal, xVal, Params.squareInputs);
 		
 		dashboard.put("x: ", xVal);
 		dashboard.put("y: ", -yVal);
 		dashboard.put("z: ", zVal);
+		dashboard.put("Vision Session ", vision.session);
+		dashboard.put("Vision Buffer ", vision.buffer);
 		
-		dashboard.put("Camera Enabled?", Params.VISION);
-        dashboard.put("Advanced Vision?", Params.VISION_ADVANCED);
+		/*dashboard.put("Camera Enabled?", Params.VISION);
+        dashboard.put("Advanced Vision?", Params.VISION_ADVANCED);*/
     }
     
     public void testInit() {
