@@ -48,8 +48,6 @@ public class Robot extends IterativeRobot {
     	
 		UpdateParameters.update();
 		
-		vision.visionExec();
-		
 		
     }
 
@@ -62,6 +60,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit(){
+		vision.start();
     	
     	dashboard.put("x: ", xVal);
 		dashboard.put("y: ", -yVal);
@@ -73,7 +72,7 @@ public class Robot extends IterativeRobot {
     
     public void teleopPeriodic() {
     	
-    	vision.visionExec();
+    	vision.grab();
     	
     	xVal = (gamePad.getLeftX()) * (Params.MOTOR_SPEED.getDouble());
 		yVal = (gamePad.getLeftY()) * (Params.MOTOR_SPEED.getDouble());
@@ -84,11 +83,20 @@ public class Robot extends IterativeRobot {
 		dashboard.put("x: ", xVal);
 		dashboard.put("y: ", -yVal);
 		dashboard.put("z: ", zVal);
+		
 		dashboard.put("Vision Session ", vision.session);
 		dashboard.put("Vision Buffer ", vision.buffer);
 		
 		/*dashboard.put("Camera Enabled?", Params.VISION);
         dashboard.put("Advanced Vision?", Params.VISION_ADVANCED);*/
+    }
+    
+    public void disabledInit() {
+        vision.stop();
+    }
+    
+    public void disabledPeriodic() {
+        
     }
     
     public void testInit() {
