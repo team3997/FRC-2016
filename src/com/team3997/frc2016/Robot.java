@@ -7,12 +7,10 @@
  */
 package com.team3997.frc2016;
 
-//import com.team3997.frc2016.commands.Vision;
 import com.team3997.frc2016.subsystems.DriveSubsystem;
 import com.team3997.frc2016.util.LogitechGamepad;
 import com.team3997.frc2016.components.Dashboard;
 import com.team3997.frc2016.components.UpdateParameters;
-import com.team3997.frc2016.commands.Vision;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -31,7 +29,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 public class Robot extends IterativeRobot {
 	
 	LogitechGamepad gamePad;
-	Vision vision;
 	double xVal;
 	double yVal;
 	double zVal;
@@ -41,7 +38,6 @@ public class Robot extends IterativeRobot {
 	
 	
     public void robotInit() {
-    	vision = new Vision();
     	drive = new DriveSubsystem();
     	dashboard = new Dashboard();
     	gamePad = new LogitechGamepad(Params.JOYSTICK_USB);
@@ -60,7 +56,6 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit(){
-		vision.start();
     	
     	dashboard.put("x: ", xVal);
 		dashboard.put("y: ", -yVal);
@@ -71,8 +66,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-    	
-    	vision.grab();
+
     	
     	xVal = (gamePad.getLeftX()) * (Params.MOTOR_SPEED.getDouble());
 		yVal = (gamePad.getLeftY()) * (Params.MOTOR_SPEED.getDouble());
@@ -84,15 +78,9 @@ public class Robot extends IterativeRobot {
 		dashboard.put("y: ", -yVal);
 		dashboard.put("z: ", zVal);
 		
-		dashboard.put("Vision Session ", vision.session);
-		dashboard.put("Vision Buffer ", vision.buffer);
-		
-		/*dashboard.put("Camera Enabled?", Params.VISION);
-        dashboard.put("Advanced Vision?", Params.VISION_ADVANCED);*/
     }
     
     public void disabledInit() {
-        vision.stop();
     }
     
     public void disabledPeriodic() {
