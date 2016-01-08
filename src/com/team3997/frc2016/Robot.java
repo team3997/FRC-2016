@@ -60,7 +60,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit(){
-		vision.start();
+    	
+    	vision.start();
     	
     	dashboard.put("x: ", xVal);
 		dashboard.put("y: ", -yVal);
