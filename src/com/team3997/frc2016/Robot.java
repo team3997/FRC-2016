@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * FRC TEAM 3997. 2016 master
+=======
+ * FRC TEAM 3997. 2016 NI
+>>>>>>> mike-NI
  * 
  * Thanks to the following teams for sharing their code!: 
  * 	1477, 1899
@@ -60,7 +64,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit(){
-		vision.start();
+    	
+    	vision.start();
     	
     	dashboard.put("x: ", xVal);
 		dashboard.put("y: ", -yVal);

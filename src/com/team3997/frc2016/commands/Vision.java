@@ -19,12 +19,24 @@ import edu.wpi.first.wpilibj.Timer;
 public class Vision {
 	public int session;
 	public int buffer;
+	public boolean isVisionEnabled;
 	//AxisCamera camera;
 	//CameraServer server;
 	Image frame;
 	ColorRange colorRange;
     int targetCycler;
     boolean debug;
+    
+    int imaqError;
+    
+    double AREA_MINIMUM = 0.5; //Default Area minimum for particle as a percentage of total image area
+    
+    private final NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(24, 49);     //Default hue range for yellow tote
+    private final NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(67, 255);    //Default saturation range for yellow tote
+    private final NIVision.Range TOTE_VAL_RANGE = new NIVision.Range(49, 255);    //Default value range for yellow tote
+    
+    NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
+	NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
     
     NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 	
@@ -46,18 +58,34 @@ public class Vision {
 	public void start(){
 		NIVision.IMAQdxConfigureGrab(session); //session?
         NIVision.IMAQdxStartAcquisition(session);
+        isVisionEnabled = true;
+        
 	}
 	
 	public void grab(){
 		buffer = NIVision.IMAQdxGrab(session, frame, 1);
-		//NIVision.imaqColorThreshold(frame, frame, 0, ColorMode.HSL, new Range(0, 255), new Range(0, 255), new Range(128, 255));
+		NIVision.imaqColorThreshold(frame, frame, 255, NIVision.ColorMode.HSV, 
+				TOTE_HUE_RANGE, TOTE_SAT_RANGE, TOTE_VAL_RANGE);
         NIVision.imaqDrawShapeOnImage(frame, frame, rect,
                 DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 0.0f);
         
+        int numParticles = NIVision.imaqCountParticles(frame, 1);
+    	SmartDashboard.putNumber("Masked particles", numParticles);
+        
         //if (camera.isFreshImage()){
 			//camera.getImage(frame);
+        
 			CameraServer.getInstance().setImage(frame);
-		//}
+			
+			//filter out small particles
+			/*float areaMin = (float)SmartDashboard.getNumber("Area min %", AREA_MINIMUM);
+			criteria[0].lower = areaMin;
+			imaqError = NIVision.imaqParticleFilter4(frame, frame, criteria, filterOptions, null);
+
+			//Send particle count after filtering to dashboard
+			numParticles = NIVision.imaqCountParticles(frame, 1);
+			SmartDashboard.putNumber("Filtered particles", numParticles);*/
+		
 	}
 
 	public void stop(){
