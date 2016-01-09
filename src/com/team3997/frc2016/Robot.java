@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * FRC TEAM 3997. 2016 master
-=======
  * FRC TEAM 3997. 2016 NI
->>>>>>> mike-NI
  * 
  * Thanks to the following teams for sharing their code!: 
  * 	1477, 1899
@@ -13,7 +9,7 @@ package com.team3997.frc2016;
 
 //import com.team3997.frc2016.commands.Vision;
 import com.team3997.frc2016.subsystems.DriveSubsystem;
-import com.team3997.frc2016.util.LogitechGamepad;
+import com.team3997.frc2016.util.LogitechDualShockGamepad;
 import com.team3997.frc2016.components.Dashboard;
 import com.team3997.frc2016.components.UpdateParameters;
 import com.team3997.frc2016.commands.Vision;
@@ -34,7 +30,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends IterativeRobot {
 	
-	LogitechGamepad gamePad;
+	LogitechDualShockGamepad gamePad;
 	Vision vision;
 	double xVal;
 	double yVal;
@@ -48,7 +44,7 @@ public class Robot extends IterativeRobot {
     	vision = new Vision();
     	drive = new DriveSubsystem();
     	dashboard = new Dashboard();
-    	gamePad = new LogitechGamepad(Params.JOYSTICK_USB);
+    	gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
     	
 		UpdateParameters.update();
 		
@@ -67,9 +63,6 @@ public class Robot extends IterativeRobot {
     	
     	vision.start();
     	
-    	dashboard.put("x: ", xVal);
-		dashboard.put("y: ", -yVal);
-		dashboard.put("z: ", zVal);
 		dashboard.put("Max MotorSpeed: ", Params.MOTOR_SPEED.getDouble());
     	
     	UpdateParameters.update();
@@ -77,7 +70,7 @@ public class Robot extends IterativeRobot {
     
     public void teleopPeriodic() {
     	
-    	vision.grab();
+    	//vision.grab();
     	
     	xVal = (gamePad.getLeftX()) * (Params.MOTOR_SPEED.getDouble());
 		yVal = (gamePad.getLeftY()) * (Params.MOTOR_SPEED.getDouble());
@@ -98,6 +91,7 @@ public class Robot extends IterativeRobot {
     
     public void disabledInit() {
         vision.stop();
+        UpdateParameters.update();
     }
     
     public void disabledPeriodic() {

@@ -46,9 +46,6 @@ public class Vision {
         session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
         
 
-        // open the camera at the IP address assigned. This is the IP address that the camera
-        // can be accessed through the web interface.
-        //camera = new AxisCamera("10.39.97.10"); 
         colorRange=ColorRange.YellowToteRange();
         targetCycler=0;
         
@@ -64,14 +61,12 @@ public class Vision {
 	
 	public void grab(){
 		buffer = NIVision.IMAQdxGrab(session, frame, 1);
-		NIVision.imaqColorThreshold(frame, frame, 255, NIVision.ColorMode.HSV, 
-				TOTE_HUE_RANGE, TOTE_SAT_RANGE, TOTE_VAL_RANGE);
+		/*NIVision.imaqColorThreshold(frame, frame, 255, NIVision.ColorMode.HSV, 
+				TOTE_HUE_RANGE, TOTE_SAT_RANGE, TOTE_VAL_RANGE);*/
         NIVision.imaqDrawShapeOnImage(frame, frame, rect,
-                DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 0.0f);
-        
-        int numParticles = NIVision.imaqCountParticles(frame, 1);
-    	SmartDashboard.putNumber("Masked particles", numParticles);
-        
+        		DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 0.0f);
+       		//int numParticles = NIVision.imaqCountParticles(frame, 1);
+       		//SmartDashboard.putNumber("Masked particles", numParticles);
         //if (camera.isFreshImage()){
 			//camera.getImage(frame);
         

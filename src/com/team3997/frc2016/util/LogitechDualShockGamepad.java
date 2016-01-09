@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  */
 
-public class LogitechGamepad {
+public class LogitechDualShockGamepad {
     private Joystick joystick;
     
-    public LogitechGamepad(int portNum) {
+    public LogitechDualShockGamepad(int portNum) {
         this.joystick = new Joystick(portNum);
     }
     
