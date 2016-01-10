@@ -1,23 +1,51 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Params;
-import com.team3997.frc2016.util.TalonMotor;
+import com.team3997.frc2016.util.LogitechDualShockGamepad;
+import com.team3997.frc2016.components.Dashboard;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 
 public class DriveSubsystem{
 	
-	RobotDrive driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
+	double xValOP;
+	double yValOP;
+	double zValOP;
 	
-	/*TalonMotor leftB = new TalonMotor(Params.DRIVE_PINS[0], true);
-    TalonMotor leftA = new TalonMotor(Params.DRIVE_PINS[1], true);
-    TalonMotor rightB = new TalonMotor(Params.DRIVE_PINS[2], true);
-    TalonMotor rightA = new TalonMotor(Params.DRIVE_PINS[3], true);*/
-    
+	private LogitechDualShockGamepad gamePad;
+
+	RobotDrive driveTrain;
+	
+	//int
+	public DriveSubsystem() {
+		gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
+		driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
+    }
+	
+	
+	//easy to use drive function
     public void setDrive(double x, double y, boolean squareInputs){
     	driveTrain.arcadeDrive(-x, -y, squareInputs);
+    }
+    
+    // Function that runs during teleop periodically
+    public void runTeleOp(){
+    	
+    	//Get Joystick input from gamepad
+    	xValOP = (gamePad.getLeftX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+		yValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+		zValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+    	
+		//Drive at the given input magnitude
+    	setDrive(yValOP, xValOP, Params.squareInputs);
+    	
+    	//Print drive magnitudes if wanted
+		if(Params.printTeleOpDriveOuputs){
+			Dashboard.put("x: ", xValOP);
+			Dashboard.put("y: ", -yValOP);
+			Dashboard.put("z: ", zValOP);
+		}
     }
     
     /**

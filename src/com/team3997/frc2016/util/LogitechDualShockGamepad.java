@@ -1,13 +1,8 @@
 package com.team3997.frc2016.util;
 
 import edu.wpi.first.wpilibj.Joystick;
-/**
- * 
- * 
- * 
- * @author mikec
- *
- */
+
+
 
 public class LogitechDualShockGamepad {
     private Joystick joystick;

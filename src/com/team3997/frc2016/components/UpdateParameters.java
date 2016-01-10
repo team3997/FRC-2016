@@ -1,6 +1,6 @@
 package com.team3997.frc2016.components;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.team3997.frc2016.components.Dashboard;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -21,7 +21,7 @@ public class UpdateParameters {
         try {
             paramsFile.createNewFile();
         } catch (IOException e) {
-            SmartDashboard.putString("error", e.getMessage());
+            Dashboard.put("PARAMS error", e.getMessage());
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * FRC TEAM 3997. 2016 NI
+ * FRC TEAM 3997. 2016 RR
  * 
  * Thanks to the following teams for sharing their code!: 
  * 	1477, 1899
@@ -8,94 +8,60 @@
 package com.team3997.frc2016;
 
 //import com.team3997.frc2016.commands.Vision;
-import com.team3997.frc2016.subsystems.DriveSubsystem;
-import com.team3997.frc2016.util.LogitechDualShockGamepad;
-import com.team3997.frc2016.components.Dashboard;
+import com.team3997.frc2016.subsystems.*;
+import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.UpdateParameters;
-import com.team3997.frc2016.commands.Vision;
+import com.team3997.frc2016.components.Vision;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.AxisCamera;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends IterativeRobot {
-	
-	LogitechDualShockGamepad gamePad;
+	DriveSubsystem drive;
+	Shooter shooter;
+	Intake intake;
+	Climber climber;
 	Vision vision;
-	double xVal;
-	double yVal;
-	double zVal;
-	
-	private Dashboard dashboard;
-	public static DriveSubsystem drive;
 	
 	
     public void robotInit() {
-    	vision = new Vision();
     	drive = new DriveSubsystem();
-    	dashboard = new Dashboard();
-    	gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
+    	shooter = new Shooter();
+    	intake = new Intake();
+    	climber = new Climber();
+    	vision = new Vision();
+    	Auton.listOptions();
     	
 		UpdateParameters.update();
-		
-		
     }
 
     public void autonomousInit() {
     	UpdateParameters.update();
+    	Auton.init();
     }
     
     public void autonomousPeriodic() {
-    	
+    	Auton.run();
     }
 
     public void teleopInit(){
-    	
-    	vision.start();
-    	
-		dashboard.put("Max MotorSpeed: ", Params.MOTOR_SPEED.getDouble());
-    	
     	UpdateParameters.update();
     }
     
     public void teleopPeriodic() {
-    	
-    	//vision.grab();
-    	
-    	xVal = (gamePad.getLeftX()) * (Params.MOTOR_SPEED.getDouble());
-		yVal = (gamePad.getLeftY()) * (Params.MOTOR_SPEED.getDouble());
-		zVal = (gamePad.getRightX()) * (Params.MOTOR_SPEED.getDouble());
-		
-		drive.setDrive(yVal, xVal, Params.squareInputs);
-		
-		dashboard.put("x: ", xVal);
-		dashboard.put("y: ", -yVal);
-		dashboard.put("z: ", zVal);
-		
-		dashboard.put("Vision Session ", vision.session);
-		dashboard.put("Vision Buffer ", vision.buffer);
-		
-		/*dashboard.put("Camera Enabled?", Params.VISION);
-        dashboard.put("Advanced Vision?", Params.VISION_ADVANCED);*/
+		drive.runTeleOp();
+    	intake.runTeleOp();
+    	shooter.runTeleOp();
+    	climber.runTeleOp();
     }
     
     public void disabledInit() {
-        vision.stop();
+    	Auton.listOptions();
         UpdateParameters.update();
     }
     
     public void disabledPeriodic() {
-        
+
     }
     
     public void testInit() {
