@@ -29,9 +29,9 @@ public class Intake{
     // Function that runs during teleop periodically
     public void runTeleOp(){
     	
-    	//if only button 1 is pressed, then intake
-    	if(gamePad.getButton(1)){
-    		if(!gamePad.getButton(3)){
+    	//if only intake button is pressed, then intake
+    	if(gamePad.getButton(Params.INTAKE_BUTTON)){
+    		if(!gamePad.getButton(Params.OUTTAKE_BUTTON)){
     			runIntake();
     		}
     		else{
@@ -39,9 +39,9 @@ public class Intake{
     		}
     	}
     	
-    	//if only button 3 is pressed, then outtake
-    	else if(gamePad.getButton(3)){
-    		if(!gamePad.getButton(1)){
+    	//if only outtake button is pressed, then outtake
+    	else if(gamePad.getButton(Params.OUTTAKE_BUTTON)){
+    		if(!gamePad.getButton(Params.INTAKE_BUTTON)){
     			runIntake(intakeMotorSpeed, -1);
     		}
     		else{

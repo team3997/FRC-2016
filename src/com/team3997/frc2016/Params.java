@@ -2,8 +2,20 @@ package com.team3997.frc2016;
 
 import com.team3997.frc2016.components.UpdateParameters;
 
+/**
+ * 
+ * All constants (pin numbers, final booleans etc) go in this class.
+ *
+ */
+
 public class Params extends UpdateParameters {
 	
+	/*
+	 * 
+	 * Parameters path
+	 * 
+	 */
+	public static final String CONSTANTS_FILE = "/home/admin/params.txt";
 	
 	/*
 	 * 
@@ -11,6 +23,9 @@ public class Params extends UpdateParameters {
 	 * 
 	 */
     	public static final int JOYSTICK_USB = 0;
+    	
+    	public static final int INTAKE_BUTTON = 1;
+    	public static final int OUTTAKE_BUTTON = 3;
 	
 	
 	/*
@@ -29,8 +44,9 @@ public class Params extends UpdateParameters {
      * Intake Parameters
      * 
      */
-    	public static final int INTAKE_PINS[] = {0, 0}; //left, right
+    	public static final int INTAKE_PINS[] = {0, 1}; //left, right
     	public static final double INTAKE_MOTOR_SPEED = 0.85;
+
     
     
     /*
@@ -38,7 +54,7 @@ public class Params extends UpdateParameters {
      * Shooter Parameters
      * 
      */
-    	public static final int FLYWHEEL_PIN = 0;
+    	public static final int FLYWHEEL_PIN = 2;
     	public static final double FLYWHEEl_MOTOR_SPEED = 0.85;
     
     /*

@@ -1,11 +1,30 @@
 package com.team3997.frc2016.components;
 
+import com.team3997.frc2016.Params;
 import com.team3997.frc2016.components.Dashboard;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+/**
+ * 
+ * Easy to use constant loader made by Texas Torque. (1477)
+ * 
+ * PURPOSE:
+ * This is used to update constants (such as PID) to the robot without redeploying.
+ * 
+ * HOW TO USE:
+ * Add a Constant object to the Params.java file, then
+ * add that constant to the text file via FTP on the roboRio @ "/home/admin/params.txt"
+ *
+ * The constants in the text file use the following format:
+ * nameOfParameter valueOfParameter
+ * shooterMotorLeft 2
+ *
+ */
 
 public class UpdateParameters {
 
@@ -17,7 +36,7 @@ public class UpdateParameters {
     private static File paramsFile;
 
     public static void makeFile() {
-        paramsFile = new File("/home/admin/params.txt");
+        paramsFile = new File(Params.CONSTANTS_FILE);
         try {
             paramsFile.createNewFile();
         } catch (IOException e) {

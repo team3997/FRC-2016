@@ -1,5 +1,13 @@
 package com.team3997.frc2016.auton;
 
+/**
+ * 
+ * Class that maps the different autonomous modes.
+ * 
+ * @author Michael
+ *
+ */
+
 public class AutonModes{
 
 	public final static int DO_NOTHING = 0;

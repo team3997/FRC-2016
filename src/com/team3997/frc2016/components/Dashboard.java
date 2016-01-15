@@ -2,6 +2,12 @@ package com.team3997.frc2016.components;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * 
+ * Easy to use dashboard class. Just include this file and use:
+ * Dashboard.put("Label", variable); 
+ * to put a string, double, or boolean to the dashboard.
+ */
 public class Dashboard {
     
 	//Set a dashboard string.

@@ -17,7 +17,7 @@ public class DriveSubsystem{
 
 	RobotDrive driveTrain;
 	
-	//int
+	//init
 	public DriveSubsystem() {
 		gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
 		driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
@@ -33,9 +33,9 @@ public class DriveSubsystem{
     public void runTeleOp(){
     	
     	//Get Joystick input from gamepad
-    	xValOP = (gamePad.getLeftX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+    	xValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
 		yValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
-		zValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+		//zValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
     	
 		//Drive at the given input magnitude
     	setDrive(yValOP, xValOP, Params.squareInputs);
@@ -44,55 +44,7 @@ public class DriveSubsystem{
 		if(Params.printTeleOpDriveOuputs){
 			Dashboard.put("x: ", xValOP);
 			Dashboard.put("y: ", -yValOP);
-			Dashboard.put("z: ", zValOP);
+			//Dashboard.put("z: ", zValOP);
 		}
     }
-    
-    /**
-     * Drives straight, adjusting for curve values from gyro.
-     * This code is for mecanum drive systems!!!
-     * 
-     * 
-     * @param speed The speed to drive.
-     * @param curve The value read from the gyro.
-     */
-    /*public void driveStraight(double speed, double curve) {
-        curve = -curve;
-        double leftOutput, rightOutput;
-
-        if (curve < 0) {
-            double value = Math.log(-curve);
-            double ratio = (value - 0.5) / (value + 0.5);
-            if (ratio == 0)
-                ratio = .0000000001;
-            leftOutput = speed / ratio;
-            rightOutput = speed;
-        } else if (curve > 0) {
-            double value = Math.log(curve);
-            double ratio = (value - 0.5) / (value + 0.5);
-            if (ratio == 0)
-                ratio = .0000000001;
-            leftOutput = speed;
-            rightOutput = speed / ratio;
-        } else {
-            leftOutput = speed;
-            rightOutput = speed;
-        }
-        frontLeft.set(leftOutput);
-        rearLeft.set(leftOutput);
-        frontRight.set(rightOutput);
-        rearRight.set(rightOutput);
-    }*/
-    
-    
-    /**
-     * Force stops all of the drive motors.
-     */
-    /*public void stop() {
-        rightB.stop();
-        rightA.stop();
-        leftB.stop();
-        leftA.stop();
-    }*/
-    
 }

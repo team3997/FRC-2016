@@ -8,6 +8,13 @@ import com.team3997.frc2016.subsystems.Intake;
 import com.team3997.frc2016.subsystems.Shooter;
 import com.team3997.frc2016.util.LogitechDualShockGamepad;
 
+/**
+ * 
+ * Different functions that autonomous programs may need to use
+ * (driving, shooting, vision) 
+ * @author Michael
+ *
+ */
 public class AutonFunctions{
 
 	Shooter shooter = new Shooter();
@@ -16,5 +23,5 @@ public class AutonFunctions{
 	Vision vision = new Vision();
 	DriveSubsystem drive = new DriveSubsystem();
 	LogitechDualShockGamepad gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
-	
+
 }

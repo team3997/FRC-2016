@@ -2,7 +2,12 @@ package com.team3997.frc2016.util;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-
+/**
+ * 
+ * Easy to use class to access buttons of a logitech dual shock gamepad
+ * @author Michael
+ *
+ */
 
 public class LogitechDualShockGamepad {
     private Joystick joystick;
