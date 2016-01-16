@@ -3,6 +3,7 @@ package com.team3997.frc2016.util;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.components.Dashboard;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,24 +22,32 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class CameraSwitcher{
 	private static CameraServer server;
+	
 	private static AxisCamera Axis;
 	private static USBCamera USB;
+	
 	private Debounce toggleCamButton;
 	private Debounce toggleExpButton;
+	
 	private boolean toggleCam = false;
+	
 	public Image image;
 	
 	private Joystick gamePad;
 	
 	public CameraSwitcher(){
 		USB = new USBCamera(Params.CAMERA_USB);
-		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		gamePad = new Joystick(Params.JOYSTICK_USB);
-		toggleCamButton = new Debounce(gamePad, Params.CAMERA_TOGGLE_BUTTON);
-		toggleExpButton = new Debounce(gamePad, 5);
+		Axis = new AxisCamera(Params.CAMERA_AXIS_IP);
 		
-		Axis = new AxisCamera("10.39.97.89");
-		Axis.writeExposurePriority(0);
+		gamePad = new Joystick(Params.JOYSTICK_USB);
+		
+		toggleCamButton = new Debounce(gamePad, Params.CAMERA_TOGGLE_BUTTON);
+		toggleExpButton = new Debounce(gamePad, Params.EXPOSURE_BUTTON);
+		
+		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		
+		Axis.writeResolution(AxisCamera.Resolution.k320x240);
+		Axis.writeExposurePriority(50);
 		
 		server = CameraServer.getInstance();
         server.setQuality(50);
@@ -51,13 +60,16 @@ public class CameraSwitcher{
 		if(toggleCamButton.getFall()){ //if this doesn't work, try getRise
 			toggleCam = !toggleCam; //Change the state of the toggle boolean
 		}
+		
+		sendCameraInfoToDashboard();
+		
 		runCam();
-		server.setImage(image);
+		server.setImage(image); //This is the function that sends the picture to the Dashboard
 		
 	}
 	
 	private void runCam(){
-		if(toggleCam){
+		if(toggleCam){ 
 			USB.stopCapture();
 			Axis.getImage(image);
 		} 
@@ -67,6 +79,7 @@ public class CameraSwitcher{
 		}
 	}
 	
+	//This runs in teleop init
 	public static void init(){
 		USB.openCamera();
 		USB.setFPS(15);
@@ -77,7 +90,23 @@ public class CameraSwitcher{
 		USB.startCapture(); //start default camera (USB)*/
 	}
 	
+	//This runs in disabled init
 	public static void end(){
 		USB.closeCamera();
+	}
+	
+	private void sendCameraInfoToDashboard(){
+		if(Params.DASHBOARD_CAMERA_SETTINGS){
+			// Axis Camera settings
+			Dashboard.put("AXISCAM Brightness", Axis.getBrightness());
+			Dashboard.put("AXISCAM Compresssion", Axis.getCompression());
+			Dashboard.put("AXISCAM Max FPS", Axis.getMaxFPS());
+			Dashboard.put("AXISCAM Color Level", Axis.getColorLevel());
+			Dashboard.put("AXISCAM Exposure Priority", Axis.getExposurePriority());
+			
+			Dashboard.put("USBCAM Brightness", USB.getBrightness());
+			
+			Dashboard.put("CAMSERVER Quality", server.getQuality());
+		}
 	}
 }

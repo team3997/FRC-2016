@@ -10,7 +10,6 @@ package com.team3997.frc2016;
 //import com.team3997.frc2016.commands.Vision;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.CameraSwitcher;
-import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.UpdateParameters;
 import com.team3997.frc2016.components.Vision;
 
@@ -35,9 +34,6 @@ public class Robot extends IterativeRobot {
 		vision = new Vision();
 		cameraSwitcher = new CameraSwitcher();
 
-		// List autonomous options to the driver station
-		//Auton.listOptions();
-
 		// Update parameters from text file
 		UpdateParameters.update();
 
@@ -49,18 +45,14 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		
 		UpdateParameters.update();
-
-		//Auton.init();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		//Auton.run();
 	}
 
 	@Override
 	public void teleopInit() {
-		//Auton.stop();
 		UpdateParameters.update();
 		CameraSwitcher.init();
 	}
@@ -77,8 +69,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledInit() {
-		//Auton.stop();
-		//Auton.listOptions();
 		CameraSwitcher.end();
 		UpdateParameters.update();
 

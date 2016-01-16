@@ -27,7 +27,7 @@ public class DriveSubsystem{
 	 }
 	
 	//easy to use drive function
-    public void setDrive(double y, double x, boolean squareInputs){
+    public void setDrive(double x, double y, boolean squareInputs){
     	driveTrain.arcadeDrive(y, x, squareInputs); //y and x are inverted for some reason
     }
     
