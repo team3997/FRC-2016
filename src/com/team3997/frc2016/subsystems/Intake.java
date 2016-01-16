@@ -1,14 +1,14 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Params;
-import com.team3997.frc2016.util.LogitechDualShockGamepad;
+import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.components.Dashboard;
 import edu.wpi.first.wpilibj.Talon;
 
 
 public class Intake{
 	
-	private LogitechDualShockGamepad gamePad;
+	private LogitechDualGamepad gamePad;
 	private int leftIntakeMotorPin = Params.INTAKE_PINS[0];
 	private int rightIntakeMotorPin = Params.INTAKE_PINS[1];
 	private double intakeMotorSpeed = Params.INTAKE_MOTOR_SPEED;
@@ -17,7 +17,7 @@ public class Intake{
 	Talon rightIntakeMotor;
 	
 	public Intake(){
-		gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
+		gamePad = new LogitechDualGamepad(Params.JOYSTICK_USB);
 		leftIntakeMotor = new Talon(leftIntakeMotorPin);
 		rightIntakeMotor = new Talon(rightIntakeMotorPin);
 		

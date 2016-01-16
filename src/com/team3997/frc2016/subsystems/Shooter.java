@@ -1,21 +1,21 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Params;
-import com.team3997.frc2016.util.LogitechDualShockGamepad;
+import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.components.Dashboard;
 import edu.wpi.first.wpilibj.Talon;
 
 
 public class Shooter{
 	
-	private LogitechDualShockGamepad gamePad;
+	private LogitechDualGamepad gamePad;
 	private int flyWheelMotorPin = Params.FLYWHEEL_PIN;
 	private double defaultFlyWheelSpeed = Params.FLYWHEEl_MOTOR_SPEED;
 	
 	Talon flyWheel;
 	
 	public Shooter(){
-		gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
+		gamePad = new LogitechDualGamepad(Params.JOYSTICK_USB);
 		flyWheel = new Talon(flyWheelMotorPin);
 		
 		// set fly wheel to stop for safety

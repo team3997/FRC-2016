@@ -28,7 +28,7 @@ public class Vision {
 	}
 	
 	public void runTeleOp(){
-		areas = grip.getNumberArray("area", defaultValue); //Get the numbers from the array
+		/*areas = grip.getNumberArray("area", defaultValue); //Get the numbers from the array
 		Dashboard.put("No. of Contours", areas.length); // Print the number of contours detected
 		for(i=0; i < areas.length; i++){
 			Dashboard.put("areas", areas[i]); //Bad way of printing the area of each contour
@@ -38,7 +38,7 @@ public class Vision {
 		}
 		for(i=0; i < ys.length; i++){
 			Dashboard.put("centerY", ys[i]);
-		}
+		}*/
 	}
 	
 	public void autoShooter(){ //not that this is a constructor

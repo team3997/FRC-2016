@@ -6,7 +6,7 @@ import com.team3997.frc2016.subsystems.Climber;
 import com.team3997.frc2016.subsystems.DriveSubsystem;
 import com.team3997.frc2016.subsystems.Intake;
 import com.team3997.frc2016.subsystems.Shooter;
-import com.team3997.frc2016.util.LogitechDualShockGamepad;
+import com.team3997.frc2016.util.LogitechDualGamepad;
 
 /**
  * 
@@ -25,7 +25,7 @@ public class AutonFunctions{
 	static Climber climber = new Climber();
 	static Vision vision = new Vision();
 	static DriveSubsystem driveTrain = new DriveSubsystem();
-	static LogitechDualShockGamepad gamePad = new LogitechDualShockGamepad(Params.JOYSTICK_USB);
+	static LogitechDualGamepad gamePad = new LogitechDualGamepad(Params.JOYSTICK_USB);
 	
 	//Function that returns the auton timer
 	public static double getTime(){

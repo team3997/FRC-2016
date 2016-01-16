@@ -14,6 +14,7 @@ import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.UpdateParameters;
 import com.team3997.frc2016.components.Vision;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
 		UpdateParameters.update();
 
 		// vision.visionInit();
+		
 	}
 
 	@Override
@@ -60,6 +62,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		//Auton.stop();
 		UpdateParameters.update();
+		CameraSwitcher.init();
 	}
 
 	@Override
@@ -76,7 +79,9 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		//Auton.stop();
 		//Auton.listOptions();
+		CameraSwitcher.end();
 		UpdateParameters.update();
+
 	}
 
 	@Override

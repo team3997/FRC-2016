@@ -1,9 +1,14 @@
 package com.team3997.frc2016.util;
 
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
 import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.image.NIVisionException;
+import edu.wpi.first.wpilibj.vision.AxisCamera;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * 
@@ -15,45 +20,64 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 
 public class CameraSwitcher{
-	private CameraServer USB;
-	private CameraServer Axis;
-	private Debounce toggleButton;
+	private static CameraServer server;
+	private static AxisCamera Axis;
+	private static USBCamera USB;
+	private Debounce toggleCamButton;
+	private Debounce toggleExpButton;
 	private boolean toggleCam = false;
+	public Image image;
 	
 	private Joystick gamePad;
 	
 	public CameraSwitcher(){
+		USB = new USBCamera(Params.CAMERA_USB);
+		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		gamePad = new Joystick(Params.JOYSTICK_USB);
-		toggleButton = new Debounce(gamePad, Params.CAMERA_TOGGLE_BUTTON);
+		toggleCamButton = new Debounce(gamePad, Params.CAMERA_TOGGLE_BUTTON);
+		toggleExpButton = new Debounce(gamePad, 5);
 		
-		//USB Camera settings
-		USB = CameraServer.getInstance();
-		USB.setSize(0);
-		USB.setQuality(50);
+		Axis = new AxisCamera("10.39.97.89");
+		Axis.writeExposurePriority(0);
 		
-		//Axis Camera settings (try commenting out these settings if exposure settings get overwritten)
-		Axis = CameraServer.getInstance();
-		Axis.setSize(0);
-		Axis.setQuality(50);
-		
-		//Set default camera to automatically send default camera to dashboard
-		USB.startAutomaticCapture(Params.CAMERA_USB); //start default camera (USB)
+		server = CameraServer.getInstance();
+        server.setQuality(50);
+
 	}
+	
 	
 	//This function runs during periodically during teleop 
 	public void runTeleOP(){
-		if(toggleButton.getFall()){ //if this doesn't work, try getRise
-			toggle(); 	//Activate the toggle function
+		if(toggleCamButton.getFall()){ //if this doesn't work, try getRise
 			toggleCam = !toggleCam; //Change the state of the toggle boolean
+		}
+		runCam();
+		server.setImage(image);
+		
+	}
+	
+	private void runCam(){
+		if(toggleCam){
+			USB.stopCapture();
+			Axis.getImage(image);
+		} 
+		else {
+			USB.startCapture();
+			USB.getImage(image);
 		}
 	}
 	
-	private void toggle(){
-		if(!toggleCam){
-			Axis.startAutomaticCapture(Params.CAMERA_AXIS);
-		} 
-		else {
-			USB.startAutomaticCapture(Params.CAMERA_USB);
-		}
+	public static void init(){
+		USB.openCamera();
+		USB.setFPS(15);
+		USB.updateSettings();
+		
+		
+		//Set default camera to automatically send default camera to dashboard
+		USB.startCapture(); //start default camera (USB)*/
+	}
+	
+	public static void end(){
+		USB.closeCamera();
 	}
 }
