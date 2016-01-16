@@ -35,12 +35,9 @@ public class AutonCommand extends AutonFunctions{
 	public static void drive(double time, boolean parallel, double x, double y){
 		goalTime += time;
 		if(!parallel){
-			while(isTime()){
+			if(isTime()){
 				driveTrain.setDrive(x, y, false);
 			}
-		}
-		else {
-			driveTrain.setDrive(x, y, false);
 		}
 		
 	}

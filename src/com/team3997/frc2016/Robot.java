@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	Vision vision;
 	CameraSwitcher cameraSwitcher;
 
+	@Override
 	public void robotInit() {
 		// Init robot functions
 		drive = new DriveSubsystem();
@@ -34,7 +35,7 @@ public class Robot extends IterativeRobot {
 		cameraSwitcher = new CameraSwitcher();
 
 		// List autonomous options to the driver station
-		Auton.listOptions();
+		//Auton.listOptions();
 
 		// Update parameters from text file
 		UpdateParameters.update();
@@ -42,44 +43,53 @@ public class Robot extends IterativeRobot {
 		// vision.visionInit();
 	}
 
+	@Override
 	public void autonomousInit() {
 		
 		UpdateParameters.update();
 
-		Auton.init();
+		//Auton.init();
 	}
 
+	@Override
 	public void autonomousPeriodic() {
-		Auton.run();
+		//Auton.run();
 	}
 
+	@Override
 	public void teleopInit() {
-		Auton.stop();
+		//Auton.stop();
 		UpdateParameters.update();
 	}
 
+	@Override
 	public void teleopPeriodic() {
 		drive.runTeleOp();
-		intake.runTeleOp();
 		shooter.runTeleOp();
+		intake.runTeleOp();
 		climber.runTeleOp();
-		vision.visionPut();
+		vision.runTeleOp();
+		cameraSwitcher.runTeleOP();
 	}
 
+	@Override
 	public void disabledInit() {
-		Auton.stop();
+		//Auton.stop();
 		//Auton.listOptions();
 		UpdateParameters.update();
 	}
 
+	@Override
 	public void disabledPeriodic() {
 
 	}
 
+	@Override
 	public void testInit() {
 		UpdateParameters.update();
 	}
 
+	@Override
 	public void testPeriodic() {
 
 	}

@@ -1,15 +1,12 @@
 package com.team3997.frc2016.auton.modes;
 
-import com.team3997.frc2016.auton.AutonFunctions;
 import com.team3997.frc2016.auton.AutonCommand;
 
+public class DriveForward extends AutonCommand {
 
-public class DriveForward extends AutonFunctions{
-	
-	public static void run(){
-		AutonCommand.start();
+	public static void run() {
+		drive(3.0, !parallel, 0.0, 0.85);
 		
-		AutonCommand.drive(3.0, !parallel, 0.0, 0.85);
 	}
-	
+
 }

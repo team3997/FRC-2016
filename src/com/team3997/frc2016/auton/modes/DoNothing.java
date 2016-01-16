@@ -1,12 +1,11 @@
 package com.team3997.frc2016.auton.modes;
 
-import com.team3997.frc2016.auton.AutonFunctions;
+import com.team3997.frc2016.auton.AutonCommand;
 
+public class DoNothing extends AutonCommand {
 
-public class DoNothing extends AutonFunctions{
-	
-	public static void run(){
-		
+	public static void run() {
+
 	}
-	
+
 }

@@ -9,55 +9,54 @@ import com.team3997.frc2016.components.UpdateParameters;
  */
 
 public class Params extends UpdateParameters {
-	
+
 	/*
 	 * 
 	 * Other Params
-	 * 
 	 */
 	public static final String CONSTANTS_FILE = "/home/admin/params.txt";
 	public static final String CAMERA_USB = "cam1";
 	public static final String CAMERA_AXIS = "cam0";
 	public static final int CAMERA_TOGGLE_BUTTON = 9;
-	
+
 	/*
 	 * 
 	 * Joystick
-	 * 
 	 */
-    	public static final int JOYSTICK_USB = 0;
-    	public static final int INTAKE_BUTTON = 1;
-    	public static final int OUTTAKE_BUTTON = 3;
+	public static final int JOYSTICK_USB = 0;
+	public static final int INTAKE_BUTTON = 1;
+	public static final int OUTTAKE_BUTTON = 3;
+
+	/*
+	 * 
+	 * Operator Panel
+	 */
+	public static final int OP_USB = 1;
 	/*
 	 * 
 	 * Drive Parameters
-	 * 
 	 */
-    	public static final int DRIVE_PINS[] = {8,9,7,6}; //front left pin, right pin
-    	public static final boolean printTeleOpDriveOuputs = true;
-    	public static final Constant DRIVE_MOTOR_SPEED = new Constant("MOTOR_SPEED", 0.5);
-    	public static final boolean squareInputs = true;
-    /*
-     * 
-     * Intake Parameters
-     * 
-     */
-    	public static final int INTAKE_PINS[] = {0, 1}; //left, right
-    	public static final double INTAKE_MOTOR_SPEED = 0.85;
-    
-    /*
-     * 
-     * Shooter Parameters
-     * 
-     */
-    	public static final int FLYWHEEL_PIN = 2;
-    	public static final double FLYWHEEl_MOTOR_SPEED = 0.85;
-    /*
-     * 
-     * Climber Parameters
-     * 
-     */
-    
-    
+	public static final int DRIVE_PINS[] = { 8, 9, 7, 6 }; // front left pin,
+															// right pin
+	public static final boolean printTeleOpDriveOuputs = true;
+	public static final Constant DRIVE_MOTOR_SPEED = new Constant("MOTOR_SPEED", 0.5);
+	public static final boolean squareInputs = true;
+	/*
+	 * 
+	 * Intake Parameters
+	 */
+	public static final int INTAKE_PINS[] = { 0, 1 }; // left, right
+	public static final double INTAKE_MOTOR_SPEED = 0.85;
+
+	/*
+	 * 
+	 * Shooter Parameters
+	 */
+	public static final int FLYWHEEL_PIN = 2;
+	public static final double FLYWHEEl_MOTOR_SPEED = 0.85;
+	/*
+	 * 
+	 * Climber Parameters
+	 */
 
 }

@@ -25,10 +25,10 @@ public class Auton extends AutonModes{
 		autonMode = DashboardAutonPicker.pick(); //if the user selected an option, change the autonmode to that option
 		Dashboard.put("AUTO autonMode", autonMode); //print the autonmode
 		
+		autonTimer.reset();
 	}
 	
 	public static void run(){
-		autonTimer.reset();
 		SetAutonMode.run(autonMode); //run the selected autonomous mode
 	}
 	

@@ -23,16 +23,11 @@ public class Vision {
 	public Vision() {
 		//Specify the path of the GRIP values
 		grip = NetworkTable.getTable("GRIP/myContoursReport");
+		
 		//Runtime.getRuntime().exec(new String[]{"/usr/local/frc/JRE/bin/java", "-jar", "grip.jar", filename});
 	}
 	
-	/*public void visionInit(){
-		areas = grip.getNumberArray("area", defaultValue);
-		xs = grip.getNumberArray("centerX", defaultValue);
-		ys = grip.getNumberArray("centerY", defaultValue);
-	}*/
-	
-	public void visionPut(){
+	public void runTeleOp(){
 		areas = grip.getNumberArray("area", defaultValue); //Get the numbers from the array
 		Dashboard.put("No. of Contours", areas.length); // Print the number of contours detected
 		for(i=0; i < areas.length; i++){
