@@ -23,6 +23,9 @@ public class DriveSubsystem{
 		driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
     }
 	
+	 public void stop(){
+	    	driveTrain.arcadeDrive(0, 0, false);
+	 }
 	
 	//easy to use drive function
     public void setDrive(double x, double y, boolean squareInputs){
@@ -38,13 +41,12 @@ public class DriveSubsystem{
 		//zValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
     	
 		//Drive at the given input magnitude
-    	setDrive(yValOP, xValOP, Params.squareInputs);
+    	setDrive(xValOP, yValOP, Params.squareInputs);
     	
     	//Print drive magnitudes if wanted
 		if(Params.printTeleOpDriveOuputs){
-			Dashboard.put("x: ", xValOP);
-			Dashboard.put("y: ", -yValOP);
-			//Dashboard.put("z: ", zValOP);
+			Dashboard.put("joystick x: ", xValOP);
+			Dashboard.put("joystick y: ", -yValOP);
 		}
     }
 }
