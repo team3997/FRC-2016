@@ -1,6 +1,6 @@
 package com.team3997.frc2016;
 
-import com.team3997.frc2016.components.Vision;
+import com.team3997.frc2016.components.GripVision;
 import com.team3997.frc2016.subsystems.Climber;
 import com.team3997.frc2016.subsystems.Drive;
 import com.team3997.frc2016.subsystems.Intake;
@@ -21,5 +21,5 @@ public class HardwareBase {
 	  
 	  public static Climber kClimber = new Climber();
 
-	  public static Vision kVision = new Vision();
+	  public static GripVision kVision = new GripVision();
 }

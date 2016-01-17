@@ -10,8 +10,8 @@ package com.team3997.frc2016;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.CameraSwitcher;
 import com.team3997.frc2016.auton.AutonSystem;
+import com.team3997.frc2016.components.GripVision;
 import com.team3997.frc2016.components.UpdateParameters;
-import com.team3997.frc2016.components.Vision;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	Shooter shooter = HardwareBase.kShooter;
 	Intake intake = HardwareBase.kIntake;
 	Climber climber = HardwareBase.kClimber;
-	Vision vision = HardwareBase.kVision;
+	GripVision vision = HardwareBase.kVision;
 	
 	CameraSwitcher cameraSwitcher;
 	AutonSystem autonSystem;

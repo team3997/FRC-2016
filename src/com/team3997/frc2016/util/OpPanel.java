@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * 
- * Easy to use class to access buttons of our operator panel
+ * Easy to use class to access buttons of our operator panel (if we use one)
  * @author Michael
  *
  */

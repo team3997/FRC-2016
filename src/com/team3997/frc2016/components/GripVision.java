@@ -1,12 +1,10 @@
 package com.team3997.frc2016.components;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
-import com.team3997.frc2016.components.Dashboard;
 
 
 
-public class Vision {
+public class GripVision {
 	
 	NetworkTable grip;
 	double[] defaultValue = new double[0];
@@ -20,7 +18,7 @@ public class Vision {
 	
 	
 	
-	public Vision() {
+	public GripVision() {
 		//Specify the path of the GRIP values
 		grip = NetworkTable.getTable("GRIP/myContoursReport");
 		
@@ -41,7 +39,7 @@ public class Vision {
 		}*/
 	}
 	
-	public void autoShooter(){ //not that this is a constructor
+	/*public void autoShooter(){ //not that this is a constructor
 		
 		//this is just a pseudo code of how this may work
 		
@@ -69,7 +67,7 @@ public class Vision {
 		else{
 			//Shooter.shoot();
 		}
-	}
+	}*/
 	
 	
 	
