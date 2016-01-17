@@ -18,32 +18,32 @@ public class Params extends UpdateParameters {
 	public static final String CAMERA_USB = "cam1";
 	public static final String CAMERA_AXIS = "cam0";
 	public static final String CAMERA_AXIS_IP = "10.39.97.89";
-	public static final int CAMERA_TOGGLE_BUTTON = 9;
 	public static final boolean DASHBOARD_CAMERA_SETTINGS = true;
 
 	/*
 	 * 
-	 * Joystick
+	 * Driver Joystick
 	 */
-	public static final int JOYSTICK_USB = 0;
+	public static final int DRIVER_JOYSTICK_USB = 0;
 	public static final int INTAKE_BUTTON = 1;
 	public static final int OUTTAKE_BUTTON = 3;
 	public static final int EXPOSURE_BUTTON = 5;
 
 	/*
 	 * 
-	 * Operator Panel
+	 * Operator Joystick
 	 */
-	public static final int OP_USB = 1;
+	public static final int OP_JOYSTICK_USB = 1;
+	public static final int OP_CAMERA_TOGGLE_BUTTON = 9;
 	/*
 	 * 
 	 * Drive Parameters
 	 */
 	public static final int DRIVE_PINS[] = { 8, 9, 7, 6 }; // front left pin,
 															// right pin
-	public static final boolean printTeleOpDriveOuputs = true;
+	public static final boolean DASHBOARD_TELE_DRIVE = true;
 	public static Constant DRIVE_MOTOR_SPEED = new Constant("MOTOR_SPEED", 0.5);
-	public static final boolean squareInputs = true;
+	public static final boolean SQUARE_INPUTS = true;
 	/*
 	 * 
 	 * Intake Parameters
@@ -56,7 +56,7 @@ public class Params extends UpdateParameters {
 	 * Shooter Parameters
 	 */
 	public static final int FLYWHEEL_PIN = 2;
-	public static final double FLYWHEEl_MOTOR_SPEED = 0.85;
+	public static final double FLYWHEEL_MOTOR_SPEED = 0.85;
 	/*
 	 * 
 	 * Climber Parameters

@@ -9,14 +9,12 @@ import edu.wpi.first.wpilibj.Talon;
 public class Shooter{
 	
 	private LogitechDualGamepad gamePad;
-	private int flyWheelMotorPin = Params.FLYWHEEL_PIN;
-	private double defaultFlyWheelSpeed = Params.FLYWHEEl_MOTOR_SPEED;
 	
-	Talon flyWheel;
+	private Talon flyWheel;
 	
-	public Shooter(){
-		gamePad = new LogitechDualGamepad(Params.JOYSTICK_USB);
-		flyWheel = new Talon(flyWheelMotorPin);
+	public Shooter(int motorPin){
+		gamePad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
+		flyWheel = new Talon(motorPin);
 		
 		// set fly wheel to stop for safety
 		flyWheel.set(0.0);
@@ -36,7 +34,7 @@ public class Shooter{
     
     // Run the fly wheel at default motor speed
     public void runShooter(){
-    	flyWheel.set(defaultFlyWheelSpeed);
+    	flyWheel.set(Params.FLYWHEEL_MOTOR_SPEED);
     }
     
     // Run fly wheel at custom direction and speed

@@ -9,18 +9,13 @@ import edu.wpi.first.wpilibj.Talon;
 public class Intake{
 	
 	private LogitechDualGamepad gamePad;
-	private int leftIntakeMotorPin = Params.INTAKE_PINS[0];
-	private int rightIntakeMotorPin = Params.INTAKE_PINS[1];
 	private double intakeMotorSpeed = Params.INTAKE_MOTOR_SPEED;
 	
 	Talon leftIntakeMotor;
 	Talon rightIntakeMotor;
 	
-	public Intake(){
-		gamePad = new LogitechDualGamepad(Params.JOYSTICK_USB);
-		leftIntakeMotor = new Talon(leftIntakeMotorPin);
-		rightIntakeMotor = new Talon(rightIntakeMotorPin);
-		
+	public Intake(int pin1, int pin2){
+		gamePad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
 		// set motors to stop for safety
 		stopIntake();
 	}

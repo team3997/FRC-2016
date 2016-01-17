@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
  */
 
 public class CameraSwitcher{
-	private static CameraServer server;
+	private static CameraServer dashboardImage;
 	
 	private static AxisCamera Axis;
 	private static USBCamera USB;
@@ -36,22 +36,25 @@ public class CameraSwitcher{
 	private Joystick gamePad;
 	
 	public CameraSwitcher(){
+		//Allocate the camera objects
 		USB = new USBCamera(Params.CAMERA_USB);
 		Axis = new AxisCamera(Params.CAMERA_AXIS_IP);
 		
-		gamePad = new Joystick(Params.JOYSTICK_USB);
+		gamePad = new Joystick(Params.DRIVER_JOYSTICK_USB);
 		
-		toggleCamButton = new Debounce(gamePad, Params.CAMERA_TOGGLE_BUTTON);
+		//allocate debounce objects for the toggle buttons
+		toggleCamButton = new Debounce(gamePad, Params.OP_CAMERA_TOGGLE_BUTTON);
 		toggleExpButton = new Debounce(gamePad, Params.EXPOSURE_BUTTON);
 		
+		//define the image type that is being sent to the dashboard
 		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
+		//set camera settings (untested)
 		Axis.writeResolution(AxisCamera.Resolution.k320x240);
 		Axis.writeExposurePriority(50);
 		
-		server = CameraServer.getInstance();
-        server.setQuality(50);
-
+		dashboardImage = CameraServer.getInstance();
+		dashboardImage.setQuality(50);
 	}
 	
 	
@@ -64,10 +67,11 @@ public class CameraSwitcher{
 		sendCameraInfoToDashboard();
 		
 		runCam();
-		server.setImage(image); //This is the function that sends the picture to the Dashboard
+		dashboardImage.setImage(image); //This is the function that sends the picture to the Dashboard
 		
 	}
 	
+	//Depending on the state of the toggleCam boolean, switch which camera is sending the images
 	private void runCam(){
 		if(toggleCam){ 
 			USB.stopCapture();
@@ -95,6 +99,7 @@ public class CameraSwitcher{
 		USB.closeCamera();
 	}
 	
+	//if enabled, send camera settings to the dashboard
 	private void sendCameraInfoToDashboard(){
 		if(Params.DASHBOARD_CAMERA_SETTINGS){
 			// Axis Camera settings
@@ -106,7 +111,7 @@ public class CameraSwitcher{
 			
 			Dashboard.put("USBCAM Brightness", USB.getBrightness());
 			
-			Dashboard.put("CAMSERVER Quality", server.getQuality());
+			Dashboard.put("CAMSERVER Quality", dashboardImage.getQuality());
 		}
 	}
 }
