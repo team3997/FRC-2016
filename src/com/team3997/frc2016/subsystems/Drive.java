@@ -17,9 +17,9 @@ public class Drive{
 	RobotDrive driveTrain;
 	
 	//init
-	public Drive(int pin1, int pin2, int pin3, int pin4) {
+	public Drive() {
 		gamePad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
-		driveTrain = new RobotDrive(pin1, pin2, pin3, pin4);
+		driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
     }
 	
 	 public void stop(){

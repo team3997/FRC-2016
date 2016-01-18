@@ -31,22 +31,28 @@ public class Robot extends IterativeRobot {
         s_robot_state = state;
     }
 	
-    Drive drive = HardwareBase.kDrive;
-	Shooter shooter = HardwareBase.kShooter;
-	Intake intake = HardwareBase.kIntake;
-	Climber climber = HardwareBase.kClimber;
-	GripVision vision = HardwareBase.kVision;
-	
+    //Drive drive = HardwareBase.kDrive;
+    Drive drive;
+	Shooter shooter;
+	Intake intake;
+	Climber climber;
+	GripVision vision;
 	CameraSwitcher cameraSwitcher;
-	AutonSystem autonSystem;
 	
 	
 	@Override
 	public void robotInit() {
 		
 		// Init robot functions
+		drive = new Drive();
+    	shooter = new Shooter();
+    	intake = new Intake();
+    	climber = new Climber();
+    	vision = new GripVision();
+    	cameraSwitcher = new CameraSwitcher();
+		
 		cameraSwitcher = new CameraSwitcher();
-		autonSystem = new AutonSystem();
+		//autonSystem = new AutonSystem();
 		
 		// Update parameters from text file
 		UpdateParameters.update();
@@ -60,7 +66,7 @@ public class Robot extends IterativeRobot {
 		setState(RobotState.AUTONOMOUS);
 		UpdateParameters.update();
 	
-		autonSystem.go();
+		//autonSystem.go();
 	}
 
 	@Override

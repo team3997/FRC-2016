@@ -11,11 +11,17 @@ public class Intake{
 	private LogitechDualGamepad gamePad;
 	private double intakeMotorSpeed = Params.INTAKE_MOTOR_SPEED;
 	
+	private int leftIntakeMotorPin = Params.INTAKE_PINS[0];
+	private int rightIntakeMotorPin = Params.INTAKE_PINS[1];
+	
 	Talon leftIntakeMotor;
 	Talon rightIntakeMotor;
 	
-	public Intake(int pin1, int pin2){
+	public Intake(){
 		gamePad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
+		
+		leftIntakeMotor = new Talon(leftIntakeMotorPin);
+		rightIntakeMotor = new Talon(rightIntakeMotorPin);
 		// set motors to stop for safety
 		stopIntake();
 	}

@@ -1,8 +1,10 @@
 package com.team3997.frc2016.subsystems;
 
+import com.team3997.frc2016.HardwareBase;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.components.Dashboard;
+
 import edu.wpi.first.wpilibj.Talon;
 
 
@@ -12,9 +14,9 @@ public class Shooter{
 	
 	private Talon flyWheel;
 	
-	public Shooter(int motorPin){
+	public Shooter(){
 		gamePad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
-		flyWheel = new Talon(motorPin);
+		flyWheel = new Talon(Params.FLYWHEEL_PIN);
 		
 		// set fly wheel to stop for safety
 		flyWheel.set(0.0);

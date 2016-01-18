@@ -51,7 +51,7 @@ public class CameraSwitcher{
 		
 		//set camera settings (untested)
 		Axis.writeResolution(AxisCamera.Resolution.k320x240);
-		Axis.writeExposurePriority(50);
+		Axis.writeExposurePriority(100);
 		
 		dashboardImage = CameraServer.getInstance();
 		dashboardImage.setQuality(50);
