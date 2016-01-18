@@ -9,7 +9,6 @@ package com.team3997.frc2016;
 
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.CameraSwitcher;
-import com.team3997.frc2016.auton.AutonSystem;
 import com.team3997.frc2016.components.GripVision;
 import com.team3997.frc2016.components.UpdateParameters;
 
