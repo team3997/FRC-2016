@@ -17,20 +17,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
 	
-	public enum RobotState {
-        DISABLED, AUTONOMOUS, TELEOP
-    }
-	
-	public static RobotState s_robot_state = RobotState.DISABLED;
-
-    public static RobotState getState() {
-        return s_robot_state;
-    }
-
-    public static void setState(RobotState state) {
-        s_robot_state = state;
-    }
-	
     //Drive drive = HardwareBase.kDrive;
     Drive drive;
 	Shooter shooter;
@@ -63,7 +49,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		setState(RobotState.AUTONOMOUS);
 		UpdateParameters.update();
 	
 		//autonSystem.go();
@@ -75,7 +60,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		setState(RobotState.TELEOP);
 		UpdateParameters.update();
 		CameraSwitcher.init();
 	}
@@ -92,7 +76,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledInit() {
-		setState(RobotState.DISABLED);
 		CameraSwitcher.end();
 		UpdateParameters.update();
 
