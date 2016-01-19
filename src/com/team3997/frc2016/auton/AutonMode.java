@@ -1,26 +1,18 @@
 package com.team3997.frc2016.auton;
 
-import com.team3997.frc2016.HardwareBase;
-import com.team3997.frc2016.Params;
-import com.team3997.frc2016.auton.actions.*;
-import com.team3997.frc2016.subsystems.Drive;
-import com.team3997.frc2016.subsystems.Intake;
+import com.team3997.frc2016.Robot;
+import com.team3997.frc2016.components.GripVision;
+import com.team3997.frc2016.subsystems.*;
+import com.team3997.frc2016.util.LogitechDualGamepad;
 
-public abstract class AutonMode extends AutonModeBase {
-
-	 protected Drive drive = new Drive();
-	 //protected Intake intake = HardwareBase.kIntake;
-
-    public void waitTime(double seconds) throws AutonModeEndedException {
-        runAction(new TimeoutAction(seconds));
-    }
-    /*
-    public void waitForDrive(double timeout) throws AutonModeEndedException {
-        runAction(new WaitForDriveAction(timeout));
-    }
-
-    public void waitForGyroData(double timeout) throws AutonModeEndedException {
-        runAction(new WaitForGyroDataAction(timeout));
-    }
-    */
+public abstract class AutonMode extends AutonBase{
+	
+	LogitechDualGamepad gamePad = Robot.driverGamepad;
+	Drive drive = Robot.drive;
+	Shooter shooter = Robot.shooter;
+	Intake intake = Robot.intake;
+	Climber climber = Robot.climber;
+	GripVision vision = Robot.vision;
+	
+	
 }

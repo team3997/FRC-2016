@@ -7,9 +7,7 @@ import com.team3997.frc2016.components.Dashboard;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * 
@@ -21,87 +19,71 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
  */
 
 public class CameraSwitcher{
-	private static CameraServer dashboardImage;
 	
-	private static AxisCamera Axis;
-	private static USBCamera USB;
+	int currSession;
+	int axisCam;
+	int usbCam;
+	
+	Image frame;
 	
 	private Debounce toggleCamButton;
-	private Debounce toggleExpButton;
-	
-	private boolean toggleCam = false;
-	
-	public Image image;
+	//private Debounce toggleExpButton;
 	
 	private Joystick gamePad;
 	
+	protected AxisCamera Axis;
+	
 	public CameraSwitcher(){
-		//Allocate the camera objects
-		USB = new USBCamera(Params.CAMERA_USB);
-		Axis = new AxisCamera(Params.CAMERA_AXIS_IP);
+		Axis = new AxisCamera(Params.CAMERA_AXIS_IP); //debug purposes
 		
 		gamePad = new Joystick(Params.DRIVER_JOYSTICK_USB);
 		
 		//allocate debounce objects for the toggle buttons
 		toggleCamButton = new Debounce(gamePad, Params.OP_CAMERA_TOGGLE_BUTTON);
-		toggleExpButton = new Debounce(gamePad, Params.EXPOSURE_BUTTON);
+		//toggleExpButton = new Debounce(gamePad, Params.EXPOSURE_BUTTON);
 		
-		//define the image type that is being sent to the dashboard
-		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
-		//set camera settings (untested)
-		Axis.writeResolution(AxisCamera.Resolution.k320x240);
-		Axis.writeExposurePriority(100);
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
-		dashboardImage = CameraServer.getInstance();
-		dashboardImage.setQuality(50);
+		axisCam = NIVision.IMAQdxOpenCamera(Params.CAMERA_AXIS, NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		usbCam = NIVision.IMAQdxOpenCamera(Params.CAMERA_USB, NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		
+		currSession = axisCam;
+		NIVision.IMAQdxConfigureGrab(currSession); 
 	}
 	
 	
 	//This function runs during periodically during teleop 
-	public void runTeleOP(){
-		if(toggleCamButton.getFall()){ //if this doesn't work, try getRise
-			toggleCam = !toggleCam; //Change the state of the toggle boolean
+	public void run(){
+
+		if(toggleCamButton.getFall()){
+		    if(currSession == axisCam){
+		        NIVision.IMAQdxStopAcquisition(currSession);
+		        currSession = usbCam;
+		        NIVision.IMAQdxConfigureGrab(currSession);
+		    } else if(currSession == usbCam){
+		        NIVision.IMAQdxStopAcquisition(currSession);
+		        currSession = axisCam;
+		        NIVision.IMAQdxConfigureGrab(currSession);
+		    }
 		}
 		
 		sendCameraInfoToDashboard();
 		
-		runCam();
-		dashboardImage.setImage(image); //This is the function that sends the picture to the Dashboard
+		NIVision.IMAQdxGrab(currSession, frame, 1);
+		CameraServer.getInstance().setImage(frame); //This is the function that sends the picture to the Dashboard
 		
 	}
 	
-	//Depending on the state of the toggleCam boolean, switch which camera is sending the images
-	private void runCam(){
-		if(toggleCam){ 
-			USB.stopCapture();
-			Axis.getImage(image);
-		} 
-		else {
-			USB.startCapture();
-			USB.getImage(image);
-		}
+	public void stopAcquistion(){
+		NIVision.IMAQdxStopAcquisition(axisCam);
+		NIVision.IMAQdxStopAcquisition(usbCam);
 	}
 	
-	//This runs in teleop init
-	public static void init(){
-		USB.openCamera();
-		USB.setFPS(15);
-		USB.updateSettings();
-		
-		
-		//Set default camera to automatically send default camera to dashboard
-		USB.startCapture(); //start default camera (USB)*/
-	}
-	
-	//This runs in disabled init
-	public static void end(){
-		USB.closeCamera();
-	}
 	
 	//if enabled, send camera settings to the dashboard
 	private void sendCameraInfoToDashboard(){
-		if(Params.DASHBOARD_CAMERA_SETTINGS){
+		if(Params.DASHBOARD_CAMERA_DEBUG){
 			// Axis Camera settings
 			Dashboard.put("AXISCAM Brightness", Axis.getBrightness());
 			Dashboard.put("AXISCAM Compresssion", Axis.getCompression());
@@ -109,9 +91,9 @@ public class CameraSwitcher{
 			Dashboard.put("AXISCAM Color Level", Axis.getColorLevel());
 			Dashboard.put("AXISCAM Exposure Priority", Axis.getExposurePriority());
 			
-			Dashboard.put("USBCAM Brightness", USB.getBrightness());
+			//Dashboard.put("USBCAM Brightness", USB.getBrightness());
 			
-			Dashboard.put("CAMSERVER Quality", dashboardImage.getQuality());
+			Dashboard.put("CAMSERVER Quality", CameraServer.getInstance().getQuality());
 		}
 	}
 }
