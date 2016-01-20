@@ -1,8 +1,10 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.components.Dashboard;
+
 import edu.wpi.first.wpilibj.Talon;
 
 
@@ -18,7 +20,7 @@ public class Intake{
 	Talon rightIntakeMotor;
 	
 	public Intake(){
-		gamePad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
+		gamePad = Robot.driverGamepad;
 		
 		leftIntakeMotor = new Talon(leftIntakeMotorPin);
 		rightIntakeMotor = new Talon(rightIntakeMotorPin);
@@ -38,6 +40,12 @@ public class Intake{
     		else{
     			stopIntake();
     		}
+    		
+    	if(Params.DASHBOARD_INTAKE_DEBUG){
+    			Dashboard.put("INTAKE Left Motor: ", leftIntakeMotor.get());
+    			Dashboard.put("INTAKE Right Motor: ", rightIntakeMotor.get());
+    	}
+    		
     	}
     	
     	//if only outtake button is pressed, then outtake

@@ -20,60 +20,61 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
  *
  */
 
-public class CameraSwitcher{
-	private static CameraServer dashboardImage;
+public class CameraSwitcher extends Thread {
 	
-	private static AxisCamera Axis;
-	private static USBCamera USB;
+	public Image image;
+	
+	private CameraServer server;
+	
+	private USBCamera USB;
+	private AxisCamera Axis;
 	
 	private Debounce toggleCamButton;
 	private Debounce toggleExpButton;
-	
 	private boolean toggleCam = false;
+	private boolean toggleExp = false;
 	
-	public Image image;
+	private boolean toggleThread = true;
 	
 	private Joystick gamePad;
 	
 	public CameraSwitcher(){
-		//Allocate the camera objects
+		
+		gamePad = new Joystick(Params.DRIVER_JOYSTICK_USB);
+		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		
+		toggleCamButton = new Debounce(gamePad, Params.OP_CAMERA_TOGGLE_BUTTON);
+		toggleExpButton = new Debounce(gamePad, 4);
+		
 		USB = new USBCamera(Params.CAMERA_USB);
 		Axis = new AxisCamera(Params.CAMERA_AXIS_IP);
 		
-		gamePad = new Joystick(Params.DRIVER_JOYSTICK_USB);
+		server = CameraServer.getInstance();
+		server.setQuality(50);
 		
-		//allocate debounce objects for the toggle buttons
-		toggleCamButton = new Debounce(gamePad, Params.OP_CAMERA_TOGGLE_BUTTON);
-		toggleExpButton = new Debounce(gamePad, Params.EXPOSURE_BUTTON);
-		
-		//define the image type that is being sent to the dashboard
-		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		
-		//set camera settings (untested)
-		Axis.writeResolution(AxisCamera.Resolution.k320x240);
-		Axis.writeExposurePriority(100);
-		
-		dashboardImage = CameraServer.getInstance();
-		dashboardImage.setQuality(50);
+		//Axis.getImage(image);
 	}
 	
-	
-	//This function runs during periodically during teleop 
-	public void runTeleOP(){
-		if(toggleCamButton.getFall()){ //if this doesn't work, try getRise
-			toggleCam = !toggleCam; //Change the state of the toggle boolean
+	@Override
+	public void run(){
+		while(toggleThread){
+			if(toggleCamButton.getFall()){ //if this doesn't work, try getRise
+				toggleCam = !toggleCam; //Change the state of the toggle boolean
+			}
+			
+			if(toggleExpButton.getFall()){ //if this doesn't work, try getRise
+				toggleExp = !toggleExp;
+				runExp();
+			}
+			
+			sendCameraInfoToDashboard();
+			runCam();
+			server.setImage(image);
 		}
-		
-		sendCameraInfoToDashboard();
-		
-		runCam();
-		dashboardImage.setImage(image); //This is the function that sends the picture to the Dashboard
-		
 	}
 	
-	//Depending on the state of the toggleCam boolean, switch which camera is sending the images
 	private void runCam(){
-		if(toggleCam){ 
+		if(toggleCam){
 			USB.stopCapture();
 			Axis.getImage(image);
 		} 
@@ -83,25 +84,36 @@ public class CameraSwitcher{
 		}
 	}
 	
-	//This runs in teleop init
-	public static void init(){
+	private void runExp(){
+		if(toggleExp){
+			Axis.writeExposurePriority(0);
+		} 
+		else {
+			Axis.writeExposurePriority(50);
+		}
+	}
+	
+	
+	
+	public void init(){
+		
 		USB.openCamera();
 		USB.setFPS(15);
 		USB.updateSettings();
 		
 		
 		//Set default camera to automatically send default camera to dashboard
-		USB.startCapture(); //start default camera (USB)*/
+		USB.startCapture(); //start default camera (USB)
+		
+		toggleThread = true;
 	}
 	
-	//This runs in disabled init
-	public static void end(){
-		USB.closeCamera();
+	public void kill(){
+		toggleThread = false;
 	}
 	
-	//if enabled, send camera settings to the dashboard
 	private void sendCameraInfoToDashboard(){
-		if(Params.DASHBOARD_CAMERA_SETTINGS){
+		if(Params.DASHBOARD_CAMERA_DEBUG){
 			// Axis Camera settings
 			Dashboard.put("AXISCAM Brightness", Axis.getBrightness());
 			Dashboard.put("AXISCAM Compresssion", Axis.getCompression());
@@ -111,7 +123,8 @@ public class CameraSwitcher{
 			
 			Dashboard.put("USBCAM Brightness", USB.getBrightness());
 			
-			Dashboard.put("CAMSERVER Quality", dashboardImage.getQuality());
+			Dashboard.put("CAMSERVER Quality", server.getQuality());
 		}
 	}
+	
 }

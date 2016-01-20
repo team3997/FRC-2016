@@ -18,7 +18,7 @@ public class Params extends UpdateParameters {
 	public static final String CAMERA_USB = "cam1";
 	public static final String CAMERA_AXIS = "cam0";
 	public static final String CAMERA_AXIS_IP = "10.39.97.89";
-	public static final boolean DASHBOARD_CAMERA_SETTINGS = true;
+	public static final boolean DASHBOARD_CAMERA_DEBUG = true;
 
 	/*
 	 * 
@@ -41,7 +41,7 @@ public class Params extends UpdateParameters {
 	 */
 	public static final int DRIVE_PINS[] = { 8, 9, 7, 6 }; // front left pin,
 															// right pin
-	public static final boolean DASHBOARD_TELE_DRIVE = true;
+	public static final boolean DASHBOARD_DRIVE_DEBUG = true;
 	public static Constant DRIVE_MOTOR_SPEED = new Constant("MOTOR_SPEED", 0.5);
 	public static final boolean SQUARE_INPUTS = true;
 	/*
@@ -50,6 +50,7 @@ public class Params extends UpdateParameters {
 	 */
 	public static final int INTAKE_PINS[] = { 0, 1 }; // left, right
 	public static final double INTAKE_MOTOR_SPEED = 0.85;
+	public static final boolean DASHBOARD_INTAKE_DEBUG = true;
 
 	/*
 	 * 

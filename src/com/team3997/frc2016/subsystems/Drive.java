@@ -1,9 +1,11 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.components.Dashboard;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 
@@ -12,13 +14,19 @@ public class Drive{
 	double xValOP;
 	double yValOP;
 	
+	public Encoder leftMotorEnc;
+	// http://www.vexrobotics.com/vexpro/motion/gearboxes/wcp-ss.html
+	// gear ratio: 8inch wheels 54:20 + 14t
 	private LogitechDualGamepad gamePad;
 
 	RobotDrive driveTrain;
 	
 	//init
 	public Drive() {
-		gamePad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
+		leftMotorEnc = new Encoder(0,1);
+		//leftMotorEnc.start();
+		//rightMotorEnc.start();
+		gamePad = Robot.driverGamepad;
 		driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
     }
 	
@@ -42,9 +50,11 @@ public class Drive{
     	setDrive(xValOP, yValOP, Params.SQUARE_INPUTS);
     	
     	//Print drive magnitudes if wanted
-		if(Params.DASHBOARD_TELE_DRIVE){
+		if(Params.DASHBOARD_DRIVE_DEBUG){
 			Dashboard.put("joystick x: ", xValOP);
 			Dashboard.put("joystick y: ", yValOP);
+			
+			Dashboard.put("Left Encoder", leftMotorEnc.get());
 		}
     }
 }
