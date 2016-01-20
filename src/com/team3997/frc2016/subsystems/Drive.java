@@ -15,7 +15,8 @@ public class Drive{
 	double yValOP;
 	
 	public Encoder leftMotorEnc;
-	
+	// http://www.vexrobotics.com/vexpro/motion/gearboxes/wcp-ss.html
+	// gear ratio: 8inch wheels 54:20 + 14t
 	private LogitechDualGamepad gamePad;
 
 	RobotDrive driveTrain;
