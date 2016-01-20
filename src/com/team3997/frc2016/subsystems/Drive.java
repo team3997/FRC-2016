@@ -15,7 +15,6 @@ public class Drive{
 	double yValOP;
 	
 	public Encoder leftMotorEnc;
-	public Encoder rightMotorEnc;
 	
 	private LogitechDualGamepad gamePad;
 
@@ -24,8 +23,8 @@ public class Drive{
 	//init
 	public Drive() {
 		leftMotorEnc = new Encoder(0,1);
-		rightMotorEnc = new Encoder(2,3);
-		
+		//leftMotorEnc.start();
+		//rightMotorEnc.start();
 		gamePad = Robot.driverGamepad;
 		driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
     }
@@ -54,8 +53,7 @@ public class Drive{
 			Dashboard.put("joystick x: ", xValOP);
 			Dashboard.put("joystick y: ", yValOP);
 			
-			Dashboard.put("Left Encoder", leftMotorEnc.getRaw());
-			Dashboard.put("Right Encoder", rightMotorEnc.getRaw());
+			Dashboard.put("Left Encoder", leftMotorEnc.get());
 		}
     }
 }
