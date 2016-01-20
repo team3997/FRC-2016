@@ -11,7 +11,7 @@ import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.auton.SetAutonMode;
 import com.team3997.frc2016.components.*;
-//import com.team3997.frc2016.util.CameraSwitcher;
+import com.team3997.frc2016.util.CameraSwitcher;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Climber climber;
 	public static GripVision vision;
-	//public static CameraSwitcher cameraSwitcher;
+	public static CameraSwitcher cameraSwitcher;
 	public static Auton auton;
 	
 	@Override
@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
     	intake = new Intake();
     	climber = new Climber();
     	//vision = new GripVision();
-    	//cameraSwitcher = new CameraSwitcher();
+    	cameraSwitcher = new CameraSwitcher();
     	auton = new Auton();
     	
 		auton.listOptions();
@@ -50,7 +50,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		UpdateParameters.update();
-	
 		auton.start();
 	}
 
@@ -63,7 +62,11 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		auton.stop();
 		
+		
+		cameraSwitcher.init();
+		cameraSwitcher.start();
 		UpdateParameters.update();
+		
 	}
 
 	@Override
@@ -73,23 +76,25 @@ public class Robot extends IterativeRobot {
 		intake.runTeleOp();
 		climber.runTeleOp();
 		//vision.runTeleOp();
-		//cameraSwitcher.run();
+
 	}
 
 	@Override
 	public void disabledInit() {
 		
+		cameraSwitcher.kill();
+		
 		// Stop auto mode
         auton.stop();
         
-		//cameraSwitcher.stopAcquistion();
+		//cameraSwitcher.end();
 		UpdateParameters.update();
 
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		//cameraSwitcher.run(); //debug
+		//cameraSwitcher.runTeleOp(); //debug
 	}
 
 	@Override
