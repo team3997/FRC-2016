@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 
 public class GripVision {
-	
+	/*
 	NetworkTable grip;
 	double[] defaultValue = new double[0];
 	double[] areas;
@@ -36,7 +36,7 @@ public class GripVision {
 		}
 		for(i=0; i < ys.length; i++){
 			Dashboard.put("centerY", ys[i]);
-		}*/
+		}
 	}
 	
 	/*public void autoShooter(){ //not that this is a constructor
@@ -92,6 +92,6 @@ public class GripVision {
 				return 0;
 		}
 		
-	}*/
-	
-}	
+	}
+*/	
+}

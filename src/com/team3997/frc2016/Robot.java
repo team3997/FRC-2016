@@ -8,10 +8,10 @@
 package com.team3997.frc2016;
 
 import com.team3997.frc2016.subsystems.*;
-import com.team3997.frc2016.auton.Auton;
-import com.team3997.frc2016.auton.SetAutonMode;
+//import com.team3997.frc2016.auton.Auton;
+//import com.team3997.frc2016.auton.SetAutonMode;
 import com.team3997.frc2016.components.*;
-import com.team3997.frc2016.util.CameraSwitcher;
+//import com.team3997.frc2016.util.CameraSwitcher;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -25,8 +25,8 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Climber climber;
 	public static GripVision vision;
-	public static CameraSwitcher cameraSwitcher;
-	public static Auton auton;
+	//public static CameraSwitcher cameraSwitcher;
+	//public static Auton auton;
 	
 	@Override
 	public void robotInit() {
@@ -37,11 +37,11 @@ public class Robot extends IterativeRobot {
     	shooter = new Shooter();
     	intake = new Intake();
     	climber = new Climber();
-    	vision = new GripVision();
-    	cameraSwitcher = new CameraSwitcher();
-    	auton = new Auton();
+    	//vision = new GripVision();
+    	//cameraSwitcher = new CameraSwitcher();
+    	//auton = new Auton();
     	
-		auton.listOptions();
+		//auton.listOptions();
 		
 		// Update parameters from text file
 		UpdateParameters.update();
@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		UpdateParameters.update();
 	
-		auton.start();
+		//auton.start();
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		auton.stop();
+		//auton.stop();
 		
 		UpdateParameters.update();
 	}
@@ -71,17 +71,17 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		climber.runTeleOp();
-		vision.runTeleOp();
-		cameraSwitcher.run();
+		//vision.runTeleOp();
+		//cameraSwitcher.run();
 	}
 
 	@Override
 	public void disabledInit() {
 		
 		// Stop auto mode
-        auton.stop();
+        //auton.stop();
         
-		cameraSwitcher.stopAcquistion();
+		//cameraSwitcher.stopAcquistion();
 		UpdateParameters.update();
 
 	}
