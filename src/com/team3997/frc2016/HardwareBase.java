@@ -1,6 +1,5 @@
 package com.team3997.frc2016;
 
-import com.team3997.frc2016.components.GripVision;
 import com.team3997.frc2016.subsystems.Climber;
 import com.team3997.frc2016.subsystems.Drive;
 import com.team3997.frc2016.subsystems.Intake;

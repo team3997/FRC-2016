@@ -9,7 +9,6 @@ package com.team3997.frc2016;
 
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
-import com.team3997.frc2016.auton.SetAutonMode;
 import com.team3997.frc2016.components.*;
 import com.team3997.frc2016.util.CameraSwitcher;
 import com.team3997.frc2016.util.LogitechDualGamepad;
@@ -24,7 +23,7 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Intake intake;
 	public static Climber climber;
-	public static GripVision vision;
+	public static CVVision vision;
 	public static CameraSwitcher cameraSwitcher;
 	public static Auton auton;
 	
