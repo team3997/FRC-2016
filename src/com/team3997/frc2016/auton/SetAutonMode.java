@@ -3,11 +3,11 @@ package com.team3997.frc2016.auton;
 
 
 public class SetAutonMode{
-	private AutonBase m_auto_mode;
+	private AutonBase m_auton_mode;
 	private Thread m_thread = null;
 	
-	public void setAutoMode(AutonBase new_auto_mode) {
-        m_auto_mode = new_auto_mode;
+	public void setAutoMode(AutonBase new_auton_mode) {
+        m_auton_mode = new_auton_mode;
     }
 	
 	//Create a new thread and start the autonomous mode
@@ -16,8 +16,8 @@ public class SetAutonMode{
             m_thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (m_auto_mode != null) {
-                        m_auto_mode.run();
+                    if (m_auton_mode != null) {
+                        m_auton_mode.run();
                     }
                 }
             });
@@ -27,8 +27,8 @@ public class SetAutonMode{
     }
 	
     public void stop() {
-        if (m_auto_mode != null) {
-            m_auto_mode.stop();
+        if (m_auton_mode != null) {
+            m_auton_mode.stop();
         }
         m_thread = null;
     }

@@ -2,7 +2,7 @@
  * FRC TEAM 3997. 2016 
  * 
  * Thanks to the following teams for sharing their code!: 
- * 	1477, 1899, 254
+ * 	1477, 254
  *
  */
 package com.team3997.frc2016;
@@ -11,7 +11,9 @@ import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
 import com.team3997.frc2016.util.CameraSwitcher;
+import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
+import com.team3997.frc2016.util.UpdateParameters;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 

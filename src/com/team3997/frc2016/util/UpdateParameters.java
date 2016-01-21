@@ -1,7 +1,6 @@
-package com.team3997.frc2016.components;
+package com.team3997.frc2016.util;
 
 import com.team3997.frc2016.Params;
-import com.team3997.frc2016.components.Dashboard;
 
 import java.io.BufferedReader;
 import java.io.File;

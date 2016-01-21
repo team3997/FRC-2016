@@ -1,7 +1,7 @@
 package com.team3997.frc2016.auton.modes;
 
 
-import com.team3997.frc2016.auton.AutoModeEndedException;
+import com.team3997.frc2016.auton.AutonModeEndedException;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.auton.AutonMode;
 
@@ -9,7 +9,7 @@ import com.team3997.frc2016.auton.AutonMode;
 public class DoNothing extends AutonMode{
 	
     @Override
-    protected void routine() throws AutoModeEndedException {
+    protected void routine() throws AutonModeEndedException {
 
     }
 

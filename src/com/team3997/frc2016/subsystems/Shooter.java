@@ -2,8 +2,8 @@ package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
+import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
-import com.team3997.frc2016.components.Dashboard;
 
 import edu.wpi.first.wpilibj.Talon;
 
@@ -31,7 +31,6 @@ public class Shooter{
     		runShooter();
     	else
     		stopShooter();
-    	
     }
     
     // Run the fly wheel at default motor speed

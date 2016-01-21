@@ -1,6 +1,6 @@
 package com.team3997.frc2016;
 
-import com.team3997.frc2016.components.UpdateParameters;
+import com.team3997.frc2016.util.UpdateParameters;
 
 /**
  * 
@@ -20,6 +20,12 @@ public class Params extends UpdateParameters {
 	public static final String CAMERA_AXIS_IP = "10.39.97.89";
 	public static final boolean DASHBOARD_CAMERA_DEBUG = true;
 
+	/*
+	 * 
+	 * Gyro
+	 */
+	public static final int GYRO_PIN = 0;
+	
 	/*
 	 * 
 	 * Driver Joystick
