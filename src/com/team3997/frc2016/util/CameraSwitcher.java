@@ -92,8 +92,6 @@ public class CameraSwitcher extends Thread {
 		}
 	}
 	
-	
-	
 	public void init(){
 		
 		USB.openCamera();

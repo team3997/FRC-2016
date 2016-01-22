@@ -41,11 +41,10 @@ public class Intake{
     			stopIntake();
     		}
     		
-    	if(Params.DASHBOARD_INTAKE_DEBUG){
+    		if(Params.DASHBOARD_INTAKE_DEBUG){
     			Dashboard.put("INTAKE Left Motor: ", leftIntakeMotor.get());
     			Dashboard.put("INTAKE Right Motor: ", rightIntakeMotor.get());
-    	}
-    		
+    		}	
     	}
     	
     	//if only outtake button is pressed, then outtake

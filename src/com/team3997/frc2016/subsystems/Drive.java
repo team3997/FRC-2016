@@ -5,6 +5,7 @@ import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -14,8 +15,7 @@ public class Drive{
 	
 	double xValOP;
 	double yValOP;
-	
-	//public AnalogGyro gyro;
+	public AnalogGyro gyro;
 	public Encoder leftMotorEnc;
 	public Encoder rightMotorEnc;
 	
@@ -42,7 +42,7 @@ public class Drive{
 	
 	//easy to use drive function
     public void setDrive(double y, double x, boolean squareInputs){
-    	driveTrain.arcadeDrive(y, x, squareInputs); 
+    	driveTrain.arcadeDrive(y, -x, squareInputs); 
     }
     
     // Function that runs during teleop periodically

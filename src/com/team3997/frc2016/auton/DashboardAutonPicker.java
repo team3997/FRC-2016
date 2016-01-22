@@ -17,6 +17,7 @@ public class DashboardAutonPicker {
 	public DashboardAutonPicker() {
 		registerAutonomous(new DoNothing()); //default
 		registerAutonomous(new DriveForward());
+		registerAutonomous(new DriveMulti());
 	}
 	
 	//Function that sends options to the dashboard
@@ -26,7 +27,8 @@ public class DashboardAutonPicker {
 		// This puts up a bunch of radio buttons to the smart dashboard to allow
 		// the user to choose which auto program will run
 		autonChooser.addDefault("Do nuthin (Default)", 0);
-		autonChooser.addObject("Drive Forward (3s)", 1); 
+		autonChooser.addObject("Drive Forward (3s)", 1);
+		autonChooser.addObject("Drive Multi", 2); 
 		
 		// Put all these radio buttons in the smart dashboard
 		SmartDashboard.putData("Autonomous Selector", autonChooser);

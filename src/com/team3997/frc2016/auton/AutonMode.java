@@ -18,5 +18,4 @@ public abstract class AutonMode extends AutonBase{
 	public void waitForDrive(double seconds, double y, double x) throws AutonModeEndedException {
         runAction(new WaitForDriveTimeAction(seconds, y, x));
     }
-	
 }
