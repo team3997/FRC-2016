@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.*;
  ******************************************************************************/
 
 public class Debounce {
-	private Joystick joystick;	//Joystick object
+	private LogitechDualGamepad joystick;	//Joystick object
 	private int button;			//Button number on the joystick
 	private boolean lastState;	//Records the button's previous state
 	
@@ -31,11 +31,11 @@ public class Debounce {
 	 * 		parameters of the same name, which normally override precedence in
 	 * 		the local scope. 
 	 **************************************************************************/
-	public Debounce(Joystick joystick, int button) {
+	public Debounce(LogitechDualGamepad joystick, int button) {
 		this.joystick = joystick;	//Scope is important, y'all. 
 		this.button = button;
 		
-		lastState = joystick.getRawButton(button);
+		lastState = joystick.getButton(button);
 	}
 	
 	/*******************************getRise()***********************************
@@ -49,12 +49,12 @@ public class Debounce {
 	 * Notes: 
 	 **************************************************************************/
 	public boolean getRise() {
-		if(joystick.getRawButton(button) && !lastState) {
+		if(joystick.getButton(button) && !lastState) {
 			lastState = true;
 			return true;
 		}
 		
-		lastState = joystick.getRawButton(button);
+		lastState = joystick.getButton(button);
 		return false;
 	}
 	
@@ -71,12 +71,12 @@ public class Debounce {
 	 * 		current value when you care about it.
 	 **************************************************************************/
 	public boolean getFall() {
-		if(!joystick.getRawButton(button) && lastState) {
+		if(!joystick.getButton(button) && lastState) {
 			lastState = false;
 			return true;
 		}
 		
-		lastState = joystick.getRawButton(button);
+		lastState = joystick.getButton(button);
 		return false;
 	}
 	
@@ -110,9 +110,9 @@ public class Debounce {
 	 * 		case you need to use debouncing again.
 	 **************************************************************************/
 	public boolean getValue() {
-		lastState = joystick.getRawButton(button);
+		lastState = joystick.getButton(button);
 		
-		return joystick.getRawButton(button);
+		return joystick.getButton(button);
 	}
 	
 	/********************************update()***********************************
@@ -126,6 +126,6 @@ public class Debounce {
 	 * Note:
 	 **************************************************************************/
 	public void update() {
-		lastState = joystick.getRawButton(button);
+		lastState = joystick.getButton(button);
 	}
 }

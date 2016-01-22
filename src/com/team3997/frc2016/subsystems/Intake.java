@@ -1,7 +1,7 @@
 package com.team3997.frc2016.subsystems;
 
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
-import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 
@@ -11,19 +11,20 @@ import edu.wpi.first.wpilibj.Talon;
 public class Intake{
 	
 	private LogitechDualGamepad gamePad;
-	private double intakeMotorSpeed = Params.INTAKE_MOTOR_SPEED;
-	
-	private int leftIntakeMotorPin = Params.INTAKE_PINS[0];
-	private int rightIntakeMotorPin = Params.INTAKE_PINS[1];
-	
+	double intakeMotorPower;
 	Talon leftIntakeMotor;
 	Talon rightIntakeMotor;
 	
-	public Intake(){
-		gamePad = Robot.driverGamepad;
+	public Intake(Talon leftMotor, Talon rightMotor,
+			double intakeMotorPower){
 		
-		leftIntakeMotor = new Talon(leftIntakeMotorPin);
-		rightIntakeMotor = new Talon(rightIntakeMotorPin);
+		gamePad = Hardware.kDriverGamepad;
+		
+		leftIntakeMotor = leftMotor;
+		rightIntakeMotor = rightMotor;
+		
+		this.intakeMotorPower = intakeMotorPower;
+		
 		// set motors to stop for safety
 		stopIntake();
 	}
@@ -50,7 +51,7 @@ public class Intake{
     	//if only outtake button is pressed, then outtake
     	else if(gamePad.getButton(Params.OUTTAKE_BUTTON)){
     		if(!gamePad.getButton(Params.INTAKE_BUTTON)){
-    			runIntake(intakeMotorSpeed, -1);
+    			runIntake(intakeMotorPower, -1);
     		}
     		else{
     			stopIntake();
@@ -65,8 +66,8 @@ public class Intake{
     
     // Run the intake at default motor speed
     public void runIntake(){
-    	leftIntakeMotor.set(intakeMotorSpeed);
-		rightIntakeMotor.set(intakeMotorSpeed);
+    	leftIntakeMotor.set(intakeMotorPower);
+		rightIntakeMotor.set(intakeMotorPower);
     }
     
     // Run intake at custom direction and speed

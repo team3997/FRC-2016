@@ -1,16 +1,16 @@
 package com.team3997.frc2016.auton.actions;
 
-import com.team3997.frc2016.Robot;
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.subsystems.Climber;
 import com.team3997.frc2016.subsystems.Drive;
 import com.team3997.frc2016.subsystems.Intake;
 import com.team3997.frc2016.subsystems.Shooter;
 
 public abstract	class Action {
-	protected Drive drive = Robot.drive;
-	protected Shooter shooter = Robot.shooter;
-	protected Intake intake = Robot.intake;
-	protected Climber climber = Robot.climber;
+	protected Drive drive = Hardware.kDrive;
+	protected Shooter shooter = Hardware.kShooter;
+	protected Intake intake = Hardware.kIntake;
+	protected Climber climber = Hardware.kClimber;
 
     public abstract boolean isFinished();
 

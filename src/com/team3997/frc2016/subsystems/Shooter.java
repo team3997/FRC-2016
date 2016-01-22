@@ -1,7 +1,7 @@
 package com.team3997.frc2016.subsystems;
 
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
-import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 
@@ -12,22 +12,21 @@ public class Shooter{
 	
 	private LogitechDualGamepad gamePad;
 	
-	private Talon flyWheel;
+	private Talon flyWheelMotor;
 	
-	public Shooter(){
-		gamePad = Robot.driverGamepad;
-		flyWheel = new Talon(Params.FLYWHEEL_PIN);
+	public Shooter(Talon flyWheelMotor){
+		gamePad = Hardware.kDriverGamepad;
+		this.flyWheelMotor = flyWheelMotor;
 		
 		// set fly wheel to stop for safety
-		flyWheel.set(0.0);
+		stopShooter();
 	}
 	
 	
     // Function that runs during teleop periodically
     public void runTeleOp(){
-    	
     	//if right bumper is pressed, then fly wheel runs
-    	if(gamePad.getRightBumper())
+    	if(gamePad.getRightBumper()) //manual control
     		runShooter();
     	else
     		stopShooter();
@@ -35,17 +34,17 @@ public class Shooter{
     
     // Run the fly wheel at default motor speed
     public void runShooter(){
-    	flyWheel.set(Params.FLYWHEEL_MOTOR_SPEED);
+    	flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
     }
     
     // Run fly wheel at custom direction and speed
     public void runShooter(double speed, int direction){
-    	flyWheel.set(direction * speed);
+    	flyWheelMotor.set(direction * speed);
     }
     
     // Stop fly wheel motor
     public void stopShooter(){
-    	flyWheel.set(0.0);
+    	flyWheelMotor.set(0.0);
     }
 
     

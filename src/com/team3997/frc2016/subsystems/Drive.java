@@ -1,5 +1,6 @@
 package com.team3997.frc2016.subsystems;
 
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
@@ -10,58 +11,58 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 
+public class Drive {
 
-public class Drive{
-	
 	double xValOP;
 	double yValOP;
 	public AnalogGyro gyro;
-	public Encoder leftMotorEnc;
-	public Encoder rightMotorEnc;
-	
+	public Encoder leftEncoder;
+	public Encoder rightEncoder;
+
 	// http://www.vexrobotics.com/vexpro/motion/gearboxes/wcp-ss.html
 	// gear ratio: 8inch wheels 54:20 + 14t
-	
-	
-	private LogitechDualGamepad gamePad;
+
+	private LogitechDualGamepad gamePad = Hardware.kDriverGamepad;
 
 	RobotDrive driveTrain;
-	
-	//init
-	public Drive() {
-		leftMotorEnc = new Encoder(0,1);
-		//rightMotorEnc = new Encoder(1,2);
-		//gyro = new AnalogGyro(Params.GYRO_PIN);
-		gamePad = Robot.driverGamepad;
-		driveTrain = new RobotDrive(Params.DRIVE_PINS[0],Params.DRIVE_PINS[1],Params.DRIVE_PINS[2],Params.DRIVE_PINS[3]);
-    }
-	
-	 public void stop(){
-	    	driveTrain.arcadeDrive(0, 0, false);
-	 }
-	
-	//easy to use drive function
-    public void setDrive(double y, double x, boolean squareInputs){
-    	driveTrain.arcadeDrive(y, -x, squareInputs); 
-    }
-    
-    // Function that runs during teleop periodically
-    public void runTeleOp(){
-    	
-    	//Get Joystick input from gamepad
-    	xValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+
+	// init
+	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4,
+			Encoder leftEncoder, Encoder rightEncoder, AnalogGyro gyro) {
+
+		this.leftEncoder = leftEncoder;
+		//this.rightMotorEnc = rightEncoder;
+		this.gyro = gyro;
+		
+		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
+	}
+
+	public void stop() {
+		driveTrain.arcadeDrive(0, 0, false);
+	}
+
+	// easy to use drive function
+	public void setDrive(double y, double x, boolean squareInputs) {
+		driveTrain.arcadeDrive(y, -x, squareInputs);
+	}
+
+	// Function that runs during teleop periodically
+	public void runTeleOp() {
+
+		// Get Joystick input from gamepad
+		xValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
 		yValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
-    	
-		//Drive at the given input magnitude
-    	setDrive(yValOP, xValOP, Params.SQUARE_INPUTS);
-    	
-    	//Print drive magnitudes if wanted
-		if(Params.DASHBOARD_DRIVE_DEBUG){
+
+		// Drive at the given input magnitude
+		setDrive(yValOP, xValOP, Params.SQUARE_INPUTS);
+
+		// Print drive magnitudes if wanted
+		if (Params.DASHBOARD_DRIVE_DEBUG) {
 			Dashboard.put("joystick x: ", xValOP);
 			Dashboard.put("joystick y: ", yValOP);
-			
-			Dashboard.put("Left Encoder", leftMotorEnc.get());
-			//Dashboard.put("Right Encoder", rightMotorEnc.get());
+
+			Dashboard.put("Left Encoder", leftEncoder.get());
+			// Dashboard.put("Right Encoder", rightEncoder.get());
 		}
-    }
+	}
 }

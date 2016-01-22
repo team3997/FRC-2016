@@ -1,8 +1,14 @@
 /*
  * FRC TEAM 3997. 2016 
  * 
- * Thanks to the following teams for sharing their code!: 
- * 	1477, 254
+ * Programming Team: 
+ * -Damir Gluhak
+ * -Lucy Zhao
+ * -Michael Chacko
+ * 
+ * 
+ * Thanks to the following teams for sharing their code: 
+ * 	1477, 254!
  *
  */
 package com.team3997.frc2016;
@@ -18,38 +24,32 @@ import com.team3997.frc2016.util.UpdateParameters;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
-	
-    //Drive drive = HardwareBase.kDrive;
-	public static LogitechDualGamepad driverGamepad;
-	public static Drive drive;
-	public static Shooter shooter;
-	public static Intake intake;
-	public static Climber climber;
-	public static CVVision vision;
-	public static CameraSwitcher cameraSwitcher;
+
+	LogitechDualGamepad driverGamepad = Hardware.kDriverGamepad;
+	Drive drive = Hardware.kDrive;
+	Shooter shooter = Hardware.kShooter;
+	Intake intake = Hardware.kIntake;
+	Climber climber = Hardware.kClimber;
+	CVVision vision = Hardware.kVision;
+	CameraSwitcher cameraSwitcher = Hardware.kCameraSwitcher;
+
 	public static Auton auton;
-	
+
 	@Override
 	public void robotInit() {
-		
-		// Init robot functions
-		driverGamepad = new LogitechDualGamepad(Params.DRIVER_JOYSTICK_USB);
-		drive = new Drive();
-    	shooter = new Shooter();
-    	intake = new Intake();
-    	climber = new Climber();
-    	//vision = new GripVision();
-    	cameraSwitcher = new CameraSwitcher();
-    	auton = new Auton();
-    	
+		System.out.println("Start robotInit()");
+
+		auton = new Auton();
 		auton.listOptions();
-		
+
 		// Update parameters from text file
 		UpdateParameters.update();
 	}
 
 	@Override
 	public void autonomousInit() {
+		System.out.println("Start autonomousInit()");
+
 		UpdateParameters.update();
 		auton.start();
 	}
@@ -61,13 +61,14 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		System.out.println("Start teleopInit()");
+
 		auton.stop();
-		
-		
+
 		cameraSwitcher.init();
-		cameraSwitcher.start();
+		cameraSwitcher.start(); // Start camerSwitcher Thread
+
 		UpdateParameters.update();
-		
 	}
 
 	@Override
@@ -76,30 +77,31 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		climber.runTeleOp();
-		//vision.runTeleOp();
-
+		// vision.runTeleOp();
 	}
 
 	@Override
 	public void disabledInit() {
-		
-		cameraSwitcher.kill();
-		
-		// Stop auto mode
-        auton.stop();
-        
-		//cameraSwitcher.end();
-		UpdateParameters.update();
+		System.out.println("Start disabledInit()");
 
+		cameraSwitcher.kill(); // fix thread stuff
+
+		// Stop auto mode
+		auton.stop();
+
+		// cameraSwitcher.end();
+		UpdateParameters.update();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		//cameraSwitcher.runTeleOp(); //debug
+		// cameraSwitcher.runTeleOp(); //debug
 	}
 
 	@Override
 	public void testInit() {
+		System.out.println("Start testInit()");
+
 		UpdateParameters.update();
 	}
 

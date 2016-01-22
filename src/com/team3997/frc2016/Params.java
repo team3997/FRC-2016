@@ -23,8 +23,28 @@ public class Params extends UpdateParameters {
 	/*
 	 * 
 	 * Gyro
+	 * 
 	 */
 	public static final int GYRO_PIN = 0;
+	
+	/*
+	 * 
+	 * Feeder
+	 * 
+	 */
+	public static final int FEEDER_MOTOR_PIN = 0;
+	public static final double FEEDER_MOTOR_POWER = 0.85;
+	public static final int FEEDER_INDEX_SWITCH_PIN = 2;
+	public static final int FEEDER_BREAKBEAM_PIN = 4;
+	
+	
+	/*
+	 * 
+	 * Encoders
+	 * 
+	 */
+	public static final int LEFT_DRIVE_ENCODER[] = {0, 1};
+	public static final int RIGHT_DRIVE_ENCODER[] = {2, 3};
 	
 	/*
 	 * 
@@ -45,7 +65,7 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Drive Parameters
 	 */
-	public static final int DRIVE_PINS[] = { 8, 9, 7, 6 }; // front left pin,
+	public static final int DRIVE_MOTOR_PINS[] = { 8, 9, 7, 6 }; // front left pin,
 															// right pin
 	public static final boolean DASHBOARD_DRIVE_DEBUG = true;
 	public static Constant DRIVE_MOTOR_SPEED = new Constant("MOTOR_SPEED", 0.5);
@@ -54,16 +74,16 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Intake Parameters
 	 */
-	public static final int INTAKE_PINS[] = { 0, 1 }; // left, right
-	public static final double INTAKE_MOTOR_SPEED = 0.85;
+	public static final int INTAKE_MOTOR_PINS[] = { 0, 1 }; // left, right
+	public static final double INTAKE_MOTOR_POWER = 0.85;
 	public static final boolean DASHBOARD_INTAKE_DEBUG = true;
 
 	/*
 	 * 
 	 * Shooter Parameters
 	 */
-	public static final int FLYWHEEL_PIN = 2;
-	public static final double FLYWHEEL_MOTOR_SPEED = 0.85;
+	public static final int FLYWHEEL_MOTOR_PIN = 2;
+	public static final double FLYWHEEL_MOTOR_POWER = 0.85;
 	/*
 	 * 
 	 * Climber Parameters

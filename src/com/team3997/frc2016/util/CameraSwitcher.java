@@ -2,6 +2,7 @@ package com.team3997.frc2016.util;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -35,11 +36,11 @@ public class CameraSwitcher extends Thread {
 	
 	private boolean toggleThread = true;
 	
-	private Joystick gamePad;
+	private LogitechDualGamepad gamePad;
 	
 	public CameraSwitcher(){
 		
-		gamePad = new Joystick(Params.DRIVER_JOYSTICK_USB);
+		gamePad = Hardware.kDriverGamepad;
 		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
 		toggleCamButton = new Debounce(gamePad, Params.OP_CAMERA_TOGGLE_BUTTON);
