@@ -28,7 +28,7 @@ public class Auton {
 		//Run the set autonmode
 		autonTimer.start();
 		autonModeRunner.start();
-		stop();
+		stop(); //!! Check if this is necessary!!
 	}
 	
 	public void stop(){

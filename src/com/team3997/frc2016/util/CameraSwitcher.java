@@ -6,8 +6,6 @@ import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
@@ -36,7 +34,7 @@ public class CameraSwitcher extends Thread {
 	
 	private boolean toggleThread = true;
 	
-	private LogitechDualGamepad gamePad;
+	private LogitechF310Gamepad gamePad;
 	
 	public CameraSwitcher(){
 		

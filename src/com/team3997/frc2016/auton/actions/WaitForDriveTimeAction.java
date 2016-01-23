@@ -21,7 +21,6 @@ public class WaitForDriveTimeAction extends Action {
 
     @Override
     public void update() {
-    	System.out.println("updating");
         drive.setDrive(y_drive, x_drive, false);
     	
     }

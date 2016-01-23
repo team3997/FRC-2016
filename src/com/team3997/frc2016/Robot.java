@@ -17,15 +17,14 @@ import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
 import com.team3997.frc2016.util.CameraSwitcher;
-import com.team3997.frc2016.util.Dashboard;
-import com.team3997.frc2016.util.LogitechDualGamepad;
+import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.UpdateParameters;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
 
-	LogitechDualGamepad driverGamepad = Hardware.kDriverGamepad;
+	LogitechF310Gamepad driverGamepad = Hardware.kDriverGamepad;
 	Drive drive = Hardware.kDrive;
 	Shooter shooter = Hardware.kShooter;
 	Intake intake = Hardware.kIntake;
@@ -56,7 +55,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		Dashboard.put("Auto mode running", auton.autonMode.m_active);
+		
 	}
 
 	@Override

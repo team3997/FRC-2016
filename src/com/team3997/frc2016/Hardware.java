@@ -3,7 +3,8 @@ package com.team3997.frc2016;
 import com.team3997.frc2016.components.CVVision;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.CameraSwitcher;
-import com.team3997.frc2016.util.LogitechDualGamepad;
+//import com.team3997.frc2016.util.LogitechDualGamepad;
+import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -17,8 +18,10 @@ public class Hardware {
 	 * 
 	 * Interfaces
 	 */
-	public static LogitechDualGamepad kDriverGamepad = new LogitechDualGamepad(
+	public static LogitechF310Gamepad kDriverGamepad = new LogitechF310Gamepad(
 			Params.DRIVER_JOYSTICK_USB);
+	public static LogitechF310Gamepad kOpGamepad = new LogitechF310Gamepad(
+			Params.OP_JOYSTICK_USB);
 
 	/*
 	 * 

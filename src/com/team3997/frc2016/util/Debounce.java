@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.*;
  ******************************************************************************/
 
 public class Debounce {
-	private LogitechDualGamepad joystick;	//Joystick object
+	private LogitechF310Gamepad joystick;	//Joystick object
 	private int button;			//Button number on the joystick
 	private boolean lastState;	//Records the button's previous state
 	
@@ -31,7 +31,7 @@ public class Debounce {
 	 * 		parameters of the same name, which normally override precedence in
 	 * 		the local scope. 
 	 **************************************************************************/
-	public Debounce(LogitechDualGamepad joystick, int button) {
+	public Debounce(LogitechF310Gamepad joystick, int button) {
 		this.joystick = joystick;	//Scope is important, y'all. 
 		this.button = button;
 		

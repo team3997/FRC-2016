@@ -5,6 +5,7 @@ import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
+import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -22,7 +23,7 @@ public class Drive {
 	// http://www.vexrobotics.com/vexpro/motion/gearboxes/wcp-ss.html
 	// gear ratio: 8inch wheels 54:20 + 14t
 
-	private LogitechDualGamepad gamePad = Hardware.kDriverGamepad;
+	private LogitechF310Gamepad gamePad = Hardware.kDriverGamepad;
 
 	RobotDrive driveTrain;
 
