@@ -68,7 +68,7 @@ public class Drive {
 		}
 		
 		// Drive at the given input magnitude
-		//setDrive(yValOP, xValOP, Params.SQUARE_INPUTS);
+		setDrive(yValOP, xValOP, Params.SQUARE_INPUTS);
 		
 		// Print drive magnitudes if wanted
 		if (Params.DASHBOARD_DRIVE_DEBUG) {

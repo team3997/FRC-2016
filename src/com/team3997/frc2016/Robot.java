@@ -1,5 +1,5 @@
 /*
- * FRC TEAM 3997. 2016 
+ * FRC TEAM 3997. 2016 Robot Code
  * 
  * Programming Team: 
  * -Damir Gluhak
@@ -81,11 +81,11 @@ public class Robot extends IterativeRobot {
 		climber.runTeleOp();
 		// vision.runTeleOp();
 		
-		 if(drive.getGyroAngle() > 90){
+		 /*if(drive.getGyroAngle() > 90){
 			 drive.setDrive(0.2, 0);
 		 }else{
 			 drive.stop();
-		 }
+		 }*/
 		
 		Dashboard.put("GYRO Angle", drive.getGyroAngle());
 		//Dashboard.put("GYRO Rate", gyro.getRate());
