@@ -60,7 +60,7 @@ public class Params extends UpdateParameters {
 	 * Operator Joystick
 	 */
 	public static final int OP_JOYSTICK_USB = 1;
-	public static final int OP_CAMERA_TOGGLE_BUTTON = 9;
+	public static final int OP_CAMERA_TOGGLE_BUTTON = 2;
 	/*
 	 * 
 	 * Drive Parameters

@@ -27,14 +27,11 @@ public class WaitForDriveTimeAction extends Action {
 
     @Override
     public void done(){
-    	System.out.println("multi done");
-    	if(isFinished()) System.out.println("multi isfinished"); 
-    	//drive.stop();
+    	drive.stop();
     }
 
     @Override
     public void start() {
-    	System.out.println("multi started");
         start_time = Timer.getFPGATimestamp();
     }
 

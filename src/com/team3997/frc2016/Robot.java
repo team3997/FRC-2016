@@ -16,10 +16,13 @@ package com.team3997.frc2016;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
-import com.team3997.frc2016.util.CameraSwitcher;
+import com.team3997.frc2016.util.cameraswitcher.CameraSwitcher;
+import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.UpdateParameters;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
@@ -30,14 +33,14 @@ public class Robot extends IterativeRobot {
 	Intake intake = Hardware.kIntake;
 	Climber climber = Hardware.kClimber;
 	CVVision vision = Hardware.kVision;
-	CameraSwitcher cameraSwitcher = Hardware.kCameraSwitcher;
+	CameraSwitcher cameraSwitcher = new CameraSwitcher();
 
 	public static Auton auton;
 
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
-
+		
 		auton = new Auton();
 		auton.listOptions();
 
@@ -77,6 +80,15 @@ public class Robot extends IterativeRobot {
 		intake.runTeleOp();
 		climber.runTeleOp();
 		// vision.runTeleOp();
+		
+		 if(drive.getGyroAngle() > 90){
+			 drive.setDrive(0.2, 0);
+		 }else{
+			 drive.stop();
+		 }
+		
+		Dashboard.put("GYRO Angle", drive.getGyroAngle());
+		//Dashboard.put("GYRO Rate", gyro.getRate());
 	}
 
 	@Override

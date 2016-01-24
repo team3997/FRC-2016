@@ -1,11 +1,16 @@
-package com.team3997.frc2016.util;
+package com.team3997.frc2016.util.cameraswitcher;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.util.Dashboard;
+import com.team3997.frc2016.util.Debounce;
+import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
@@ -18,9 +23,11 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
  *
  */
 
-public class CameraSwitcher extends Thread {
+public class CameraSwitcher extends Thread{
+	private Thread m_thread = null;
 	
-	public Image image;
+	public Image imagergb;
+	public Image imagehsl;
 	
 	private CameraServer server;
 	
@@ -39,7 +46,8 @@ public class CameraSwitcher extends Thread {
 	public CameraSwitcher(){
 		
 		gamePad = Hardware.kDriverGamepad;
-		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		imagergb = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		imagehsl = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_HSL, 0);
 		
 		toggleCamButton = new Debounce(gamePad, Params.OP_CAMERA_TOGGLE_BUTTON);
 		toggleExpButton = new Debounce(gamePad, 4);
@@ -53,7 +61,6 @@ public class CameraSwitcher extends Thread {
 		//Axis.getImage(image);
 	}
 	
-	@Override
 	public void run(){
 		while(toggleThread){
 			if(toggleCamButton.getFall()){ //if this doesn't work, try getRise
@@ -67,18 +74,19 @@ public class CameraSwitcher extends Thread {
 			
 			sendCameraInfoToDashboard();
 			runCam();
-			server.setImage(image);
+			if(toggleCam) server.setImage(imagehsl);
+			else server.setImage(imagergb);
 		}
 	}
 	
 	private void runCam(){
 		if(toggleCam){
 			USB.stopCapture();
-			Axis.getImage(image);
+			Axis.getImage(imagehsl);
 		} 
 		else {
 			USB.startCapture();
-			USB.getImage(image);
+			USB.getImage(imagergb);
 		}
 	}
 	
@@ -90,6 +98,8 @@ public class CameraSwitcher extends Thread {
 			Axis.writeExposurePriority(50);
 		}
 	}
+	
+	
 	
 	public void init(){
 		

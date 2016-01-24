@@ -10,6 +10,7 @@ public class DriveMulti extends AutonMode{
 	 @Override
 	    protected void routine() throws AutonModeEndedException{
 		 	waitForDrive(2.0, 0.3, 0);
+		 	waitTime(2);
 		 	waitForDrive(2.0, -0.3, 0);
 	    }
 

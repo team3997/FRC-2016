@@ -2,7 +2,7 @@ package com.team3997.frc2016;
 
 import com.team3997.frc2016.components.CVVision;
 import com.team3997.frc2016.subsystems.*;
-import com.team3997.frc2016.util.CameraSwitcher;
+import com.team3997.frc2016.util.cameraswitcher.CameraSwitcher;
 //import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
@@ -32,7 +32,7 @@ public class Hardware {
 
 	public static Talon kFlyWheelMotor = new Talon(Params.FLYWHEEL_MOTOR_PIN);
 	
-	public static Talon kFeederMotor = new Talon(Params.FEEDER_MOTOR_PIN);
+	//public static Talon kFeederMotor = new Talon(Params.FEEDER_MOTOR_PIN);
 
 	/*
 	 * 
@@ -45,10 +45,10 @@ public class Hardware {
 	
 	
 	// as a team decide if we want to use a limitswitch to index the ball
-	public static DigitalInput kFeederIndexSwitch = new DigitalInput(Params.FEEDER_INDEX_SWITCH_PIN);
+	//public static DigitalInput kFeederIndexSwitch = new DigitalInput(Params.FEEDER_INDEX_SWITCH_PIN);
 	
 	// as a team decide if we want to use a beam breaker https://www.adafruit.com/products/2168 to index the ball
-	public static DigitalInput kBreakbeamTopCarriage = new DigitalInput(Params.FEEDER_BREAKBEAM_PIN);
+	//public static DigitalInput kBreakbeamTopCarriage = new DigitalInput(Params.FEEDER_BREAKBEAM_PIN);
 	
 	public static AnalogGyro kGyro = new AnalogGyro(Params.GYRO_PIN);
 
@@ -57,7 +57,7 @@ public class Hardware {
 	 * Subsystems
 	 */
 	public static Drive kDrive = new Drive(Params.DRIVE_MOTOR_PINS[0],
-			Params.DRIVE_MOTOR_PINS[1], Params.DRIVE_MOTOR_PINS[2], Params.DRIVE_MOTOR_PINS[3],
+			Params.DRIVE_MOTOR_PINS[1], Params.DRIVE_MOTOR_PINS[2], Params.DRIVE_MOTOR_PINS[3], 
 			kLeftEncoder, kRightEncoder, kGyro);
 	
 	public static Shooter kShooter = new Shooter(kFlyWheelMotor);
@@ -76,5 +76,5 @@ public class Hardware {
 	 * 
 	 * Utilities
 	 */
-	public static CameraSwitcher kCameraSwitcher = new CameraSwitcher();
+	//public static CameraSwitcher kCameraSwitcher = new CameraSwitcher();
 }

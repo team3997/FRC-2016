@@ -34,6 +34,10 @@ public class Drive {
 		this.leftEncoder = leftEncoder;
 		//this.rightMotorEnc = rightEncoder;
 		this.gyro = gyro;
+		this.gyro.initGyro();
+		this.gyro.calibrate();
+		
+		resetGyro();
 		
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
 	}
@@ -46,6 +50,10 @@ public class Drive {
 	public void setDrive(double y, double x, boolean squareInputs) {
 		driveTrain.arcadeDrive(y, -x, squareInputs);
 	}
+	
+	public void setDrive(double y, double x) {
+		driveTrain.arcadeDrive(y, -x, false);
+	}
 
 	// Function that runs during teleop periodically
 	public void runTeleOp() {
@@ -54,9 +62,14 @@ public class Drive {
 		xValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
 		yValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
 
+		//Button to reset gyro
+		if(gamePad.getBlueButton()){
+			resetGyro();
+		}
+		
 		// Drive at the given input magnitude
-		setDrive(yValOP, xValOP, Params.SQUARE_INPUTS);
-
+		//setDrive(yValOP, xValOP, Params.SQUARE_INPUTS);
+		
 		// Print drive magnitudes if wanted
 		if (Params.DASHBOARD_DRIVE_DEBUG) {
 			Dashboard.put("joystick x: ", xValOP);
@@ -66,4 +79,13 @@ public class Drive {
 			// Dashboard.put("Right Encoder", rightEncoder.get());
 		}
 	}
+	
+	public double getGyroAngle(){
+		return -gyro.getAngle();
+	}
+	
+	public void resetGyro(){
+		gyro.reset();
+	}
+	
 }

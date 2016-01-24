@@ -19,7 +19,7 @@ public abstract class AutonBase {
             System.out.println("Auton mode done, ended early");
             return;
         }
-        
+        System.out.println("Auto mode done");
         
     }
     
