@@ -18,12 +18,20 @@ public class LogitechF310Gamepad {
         return -this.joystick.getRawAxis(1);
     }
     
-    public double getTriggerLeft() {
+    public double getTriggerAxisLeft() {
     	return this.joystick.getRawAxis(2);
     }
     
-    public double getTriggerRight(){
+    public double getTriggerAxisRight(){
     	return this.joystick.getRawAxis(3);
+    }
+    
+    public boolean getTriggerLeft() {
+    	return this.joystick.getRawAxis(2) >= 0.7;
+    }
+    
+    public boolean getTriggerRight(){
+    	return this.joystick.getRawAxis(3) >= 0.7;
     }
     
     public double getRightX() {

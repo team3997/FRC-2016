@@ -2,21 +2,22 @@ package com.team3997.frc2016.auton.actions;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class WaitForDriveTimeAction extends Action {
+public class WaitForDriveTimeAction extends TimeoutAction {
 	double goal_time;
     double start_time;
     
     double x_drive;
     double y_drive;
     
-	public WaitForDriveTimeAction(double seconds, double y, double x) {
+	public WaitForDriveTimeAction(double seconds, double y, double x, double timeout) {
+		super(timeout);
 		goal_time = seconds;
 		x_drive = x;
 		y_drive = y;
 	}
     @Override
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() >= start_time + goal_time;
+        return (Timer.getFPGATimestamp() >= start_time + goal_time) || super.isFinished();
     }
 
     @Override

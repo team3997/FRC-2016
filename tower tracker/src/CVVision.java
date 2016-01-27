@@ -34,7 +34,7 @@ public class CVVision {
 	GREEN = new Scalar(0, 255, 0),
 	BLACK = new Scalar(0,0,0),
 	YELLOW = new Scalar(0, 255, 255),
-//	these are the threshold values in order 
+//	these are the thresholds values in order 
 	LOWER_BOUNDS = new Scalar(50,85,44),
 	UPPER_BOUNDS = new Scalar(97,255,255);
 	public static final Size resize = new Size(320,240);

@@ -29,13 +29,13 @@ public class Params extends UpdateParameters {
 	
 	/*
 	 * 
-	 * Feeder
+	 * ChickenRun
 	 * 
 	 */
-	public static final int FEEDER_MOTOR_PIN = 0;
-	public static final double FEEDER_MOTOR_POWER = 0.85;
-	public static final int FEEDER_INDEX_SWITCH_PIN = 2;
-	public static final int FEEDER_BREAKBEAM_PIN = 4;
+	public static final int CRUN_MOTOR_PIN = 0;
+	public static final double CRUN_MOTOR_POWER = 0.85;
+	public static final int CRUN_INDEX_SWITCH_PIN = 2;
+	public static final int CRUN_BREAKBEAM_PIN = 4;
 	
 	
 	/*

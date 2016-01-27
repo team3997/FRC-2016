@@ -9,18 +9,18 @@ import com.team3997.frc2016.util.LogitechF310Gamepad;
 import edu.wpi.first.wpilibj.Talon;
 
 
-public class Feeder {
+public class ChickenRun {
 	
 	private LogitechF310Gamepad gamePad;
-	double feederMotorPower;
-	Talon feederMotor;
+	double cRunMotorPower;
+	Talon cRunMotor;
 	
-	public Feeder(Talon feederMotor, double feederMotorPower){
+	public ChickenRun(Talon cRunMotor, double cRunMotorPower){
 		
 		gamePad = Hardware.kDriverGamepad;
 		
-		this.feederMotor = feederMotor;
-		this.feederMotorPower = feederMotorPower;
+		this.cRunMotor = cRunMotor;
+		this.cRunMotorPower = cRunMotorPower;
 	}
 	
 	

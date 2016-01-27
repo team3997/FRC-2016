@@ -42,6 +42,8 @@ public class Hardware {
 			Params.LEFT_DRIVE_ENCODER[0], Params.LEFT_DRIVE_ENCODER[1]);
 	public static Encoder kRightEncoder = new Encoder(
 			Params.RIGHT_DRIVE_ENCODER[0], Params.RIGHT_DRIVE_ENCODER[1]);
+	public static Encoder kFlyWheelEncoder = new Encoder(
+			Params.RIGHT_DRIVE_ENCODER[0], Params.RIGHT_DRIVE_ENCODER[1]);
 	
 	
 	// as a team decide if we want to use a limitswitch to index the ball
@@ -60,7 +62,7 @@ public class Hardware {
 			Params.DRIVE_MOTOR_PINS[1], Params.DRIVE_MOTOR_PINS[2], Params.DRIVE_MOTOR_PINS[3], 
 			kLeftEncoder, kRightEncoder, kGyro);
 	
-	public static Shooter kShooter = new Shooter(kFlyWheelMotor);
+	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder);
 	public static Intake kIntake = new Intake(kLeftIntakeMotor,
 			kRightIntakeMotor, Params.INTAKE_MOTOR_POWER);
 	

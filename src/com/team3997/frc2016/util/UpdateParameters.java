@@ -86,7 +86,7 @@ public class UpdateParameters {
         public Constant(String key, double value) {
             this.key = key;
             this.value = value;
-
+            
             constants.add(this);
         }
 
