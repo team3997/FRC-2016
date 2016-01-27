@@ -3,10 +3,11 @@ package com.team3997.frc2016.subsystems;
 import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
-import com.team3997.frc2016.util.ShooterPID;
+import com.team3997.frc2016.util.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
@@ -15,18 +16,18 @@ import edu.wpi.first.wpilibj.Talon;
 public class Shooter {
 	
 	private LogitechF310Gamepad gamePad;
-	private ShooterPID shooterPID;
+	private PID shooterPID;
 	private Talon flyWheelMotor;
 	private Encoder flyWheelEncoder;
 	public double goalRPM = 0;
 	
-	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder){
+	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad){
 		
-		gamePad = Hardware.kDriverGamepad;
+		gamePad = kGamePad;
 		flyWheelMotor = kFlyWheelMotor;
 		flyWheelEncoder = kFlyWheelEncoder;
 		
-		shooterPID = new ShooterPID(flyWheelEncoder, flyWheelMotor,
+		shooterPID = new PID(flyWheelEncoder, flyWheelMotor,
 				PIDParams.sP.getDouble(), PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), 
 				PIDParams.sTolerance, PIDParams.sOutMin, PIDParams.sOutMax,  PIDParams.sEncoderRotationScale, 
 				 PIDParams.sSamplesToAverage, PIDParams.sType);
@@ -39,11 +40,18 @@ public class Shooter {
 	
     // Function that runs during teleop periodically
     public void runTeleOp(){
-    	//if right bumper is pressed, then fly wheel runs
-    	if(gamePad.getTriggerRight()) //manual control
-    		shooterPID.enablePID();
-    	else
-    		shooterPID.disablePID();
+    	//Automatic mode code:
+    	if(!Robot.manualMode){
+    		//if right bumper is pressed, then fly wheel PID runs
+    		if(gamePad.getTriggerRight()) //manual control
+    			shooterPID.enablePID();
+    		else
+    			shooterPID.disablePID();
+    	}
+    	//manual mode code:
+    	else {
+    		
+    	}
     }
     
     public boolean onTarget(){

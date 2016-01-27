@@ -18,9 +18,9 @@ public class Hardware {
 	 * 
 	 * Interfaces
 	 */
-	public static LogitechF310Gamepad kDriverGamepad = new LogitechF310Gamepad(
+	public static LogitechF310Gamepad kDriverGamePad = new LogitechF310Gamepad(
 			Params.DRIVER_JOYSTICK_USB);
-	public static LogitechF310Gamepad kOpGamepad = new LogitechF310Gamepad(
+	public static LogitechF310Gamepad kOpGamePad = new LogitechF310Gamepad(
 			Params.OP_JOYSTICK_USB);
 
 	/*
@@ -32,25 +32,23 @@ public class Hardware {
 
 	public static Talon kFlyWheelMotor = new Talon(Params.FLYWHEEL_MOTOR_PIN);
 	
+	public static Talon kCRunMotor = new Talon(Params.CRUN_MOTOR_PIN);
+	
 	//public static Talon kFeederMotor = new Talon(Params.FEEDER_MOTOR_PIN);
 
 	/*
 	 * 
 	 * Sensors (Encoders, gyro, breakbeam, switches)
 	 */
-	public static Encoder kLeftEncoder = new Encoder(
+	public static Encoder kDriveLeftEncoder = new Encoder(
 			Params.LEFT_DRIVE_ENCODER[0], Params.LEFT_DRIVE_ENCODER[1]);
-	public static Encoder kRightEncoder = new Encoder(
+	public static Encoder kDriveRightEncoder = new Encoder(
 			Params.RIGHT_DRIVE_ENCODER[0], Params.RIGHT_DRIVE_ENCODER[1]);
 	public static Encoder kFlyWheelEncoder = new Encoder(
 			Params.RIGHT_DRIVE_ENCODER[0], Params.RIGHT_DRIVE_ENCODER[1]);
 	
-	
-	// as a team decide if we want to use a limitswitch to index the ball
-	//public static DigitalInput kFeederIndexSwitch = new DigitalInput(Params.FEEDER_INDEX_SWITCH_PIN);
-	
 	// as a team decide if we want to use a beam breaker https://www.adafruit.com/products/2168 to index the ball
-	//public static DigitalInput kBreakbeamTopCarriage = new DigitalInput(Params.FEEDER_BREAKBEAM_PIN);
+	public static DigitalInput kCRunBreakbeam = new DigitalInput(Params.CRUN_BREAKBEAM_PIN);
 	
 	public static AnalogGyro kGyro = new AnalogGyro(Params.GYRO_PIN);
 
@@ -60,13 +58,15 @@ public class Hardware {
 	 */
 	public static Drive kDrive = new Drive(Params.DRIVE_MOTOR_PINS[0],
 			Params.DRIVE_MOTOR_PINS[1], Params.DRIVE_MOTOR_PINS[2], Params.DRIVE_MOTOR_PINS[3], 
-			kLeftEncoder, kRightEncoder, kGyro);
+			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
 	
-	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder);
+	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder, kOpGamePad);
 	public static Intake kIntake = new Intake(kLeftIntakeMotor,
-			kRightIntakeMotor, Params.INTAKE_MOTOR_POWER);
+			kRightIntakeMotor, Params.INTAKE_MOTOR_POWER, kOpGamePad);
 	
 	public static Climber kClimber = new Climber();
+	
+	public static ChickenRun kChickenRun = new ChickenRun(kCRunMotor, kCRunBreakbeam, Params.CRUN_MOTOR_POWER, kOpGamePad);
 
 	/*
 	 * 

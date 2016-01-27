@@ -2,11 +2,10 @@ package com.team3997.frc2016.util;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Talon;
 
-public class ShooterPID extends CustomPIDOutput{
+public class PID extends CustomPIDOutput{
 	
 	private double P;
 	private double I;
@@ -33,7 +32,7 @@ public class ShooterPID extends CustomPIDOutput{
 	
 	
 	//Shooter PID constructor
-	public ShooterPID(Encoder kSensor, Talon kOutputMotor, double kP, double kI, double kD,
+	public PID(Encoder kSensor, Talon kOutputMotor, double kP, double kI, double kD,
 			double kTolerance, double kOutMin, double kOutMax, 
 			double kRotationScale, int kSamplesToAverage, PIDSourceType kType){
 		

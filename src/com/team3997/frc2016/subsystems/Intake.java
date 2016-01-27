@@ -17,9 +17,9 @@ public class Intake{
 	Talon rightIntakeMotor;
 	
 	public Intake(Talon leftMotor, Talon rightMotor,
-			double intakeMotorPower){
+			double intakeMotorPower, LogitechF310Gamepad kGamePad){
 		
-		gamePad = Hardware.kDriverGamepad;
+		gamePad = kGamePad;
 		
 		leftIntakeMotor = leftMotor;
 		rightIntakeMotor = rightMotor;

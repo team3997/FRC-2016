@@ -18,6 +18,7 @@ import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
 import com.team3997.frc2016.util.cameraswitcher.CameraSwitcher;
 import com.team3997.frc2016.util.Dashboard;
+import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.UpdateParameters;
 
@@ -26,24 +27,28 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
+	
+	public static boolean manualMode = true;
 
-	LogitechF310Gamepad driverGamepad = Hardware.kDriverGamepad;
+	LogitechF310Gamepad driverGamePad = Hardware.kDriverGamePad;
+	LogitechF310Gamepad opGamePad = Hardware.kOpGamePad;
 	Drive drive = Hardware.kDrive;
 	Shooter shooter = Hardware.kShooter;
 	Intake intake = Hardware.kIntake;
 	Climber climber = Hardware.kClimber;
+	ChickenRun chickenRun = Hardware.kChickenRun;
 	CVVision vision = Hardware.kVision;
-	CameraSwitcher cameraSwitcher = new CameraSwitcher();
-
-	public static Auton auton;
+	CameraSwitcher cameraSwitcher = new CameraSwitcher(Hardware.kOpGamePad);
+	
+	Debounce manualToggle = new Debounce(opGamePad, Params.MANUALCONTROL_BUTTON);
+	public static Auton auton = new Auton();
 
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
-		
-		auton = new Auton();
+	
 		auton.listOptions();
-
+		
 		// Update parameters from text file
 		UpdateParameters.update();
 	}
@@ -79,16 +84,12 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		climber.runTeleOp();
-		// vision.runTeleOp();
+		chickenRun.runTeleOp();
 		
-		 /*if(drive.getGyroAngle() > 90){
-			 drive.setDrive(0.2, 0);
-		 }else{
-			 drive.stop();
-		 }*/
-		
-		Dashboard.put("GYRO Angle", drive.getGyroAngle());
-		//Dashboard.put("GYRO Rate", gyro.getRate());
+		//Change between manual and automatic mode
+		if(manualToggle.getFall()){
+			manualMode = !manualMode;
+		}
 	}
 
 	@Override

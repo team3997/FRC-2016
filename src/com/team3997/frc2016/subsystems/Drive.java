@@ -23,14 +23,16 @@ public class Drive {
 	// http://www.vexrobotics.com/vexpro/motion/gearboxes/wcp-ss.html
 	// gear ratio: 8inch wheels 54:20 + 14t
 
-	private LogitechF310Gamepad gamePad = Hardware.kDriverGamepad;
+	private LogitechF310Gamepad gamePad;
 
 	RobotDrive driveTrain;
 
 	// init
 	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4,
-			Encoder leftEncoder, Encoder rightEncoder, AnalogGyro gyro) {
+			Encoder leftEncoder, Encoder rightEncoder, AnalogGyro gyro, LogitechF310Gamepad kGamePad) {
 
+		gamePad = kGamePad;
+		
 		this.leftEncoder = leftEncoder;
 		//this.rightMotorEnc = rightEncoder;
 		this.gyro = gyro;

@@ -6,6 +6,7 @@ import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 
 
@@ -14,13 +15,16 @@ public class ChickenRun {
 	private LogitechF310Gamepad gamePad;
 	double cRunMotorPower;
 	Talon cRunMotor;
+	DigitalInput indexSignal;
 	
-	public ChickenRun(Talon cRunMotor, double cRunMotorPower){
+	public ChickenRun(Talon kMotor, DigitalInput kIndexSensor, double kMotorPower, LogitechF310Gamepad kGamePad){
 		
-		gamePad = Hardware.kDriverGamepad;
+		gamePad = kGamePad;
 		
-		this.cRunMotor = cRunMotor;
-		this.cRunMotorPower = cRunMotorPower;
+		indexSignal = kIndexSensor;
+		
+		cRunMotor = kMotor;
+		cRunMotorPower = kMotorPower;
 	}
 	
 	

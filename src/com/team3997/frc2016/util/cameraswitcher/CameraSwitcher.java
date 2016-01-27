@@ -43,9 +43,9 @@ public class CameraSwitcher extends Thread{
 	
 	private LogitechF310Gamepad gamePad;
 	
-	public CameraSwitcher(){
+	public CameraSwitcher(LogitechF310Gamepad kGamePad){
 		
-		gamePad = Hardware.kDriverGamepad;
+		gamePad = kGamePad;
 		imagergb = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		imagehsl = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_HSL, 0);
 		
