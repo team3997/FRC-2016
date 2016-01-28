@@ -1,11 +1,15 @@
 package com.team3997.frc2016.subsystems;
 
+import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 
 
@@ -15,11 +19,14 @@ public class Intake{
 	double intakeMotorPower;
 	Talon leftIntakeMotor;
 	Talon rightIntakeMotor;
+	private Extender extender;
 	
-	public Intake(Talon leftMotor, Talon rightMotor,
+	public Intake(Talon leftMotor, Talon rightMotor, DoubleSolenoid kIntakeExtenderSolenoid,
 			double intakeMotorPower, LogitechF310Gamepad kGamePad){
 		
 		gamePad = kGamePad;
+		
+		extender = new Extender(kIntakeExtenderSolenoid);
 		
 		leftIntakeMotor = leftMotor;
 		rightIntakeMotor = rightMotor;
@@ -35,35 +42,24 @@ public class Intake{
     public void runTeleOp(){
     	
     	//if only intake button is pressed, then intake
-    	if(gamePad.getButton(Params.INTAKE_BUTTON)){
-    		if(!gamePad.getButton(Params.OUTTAKE_BUTTON)){
-    			runIntake();
-    		}
-    		else{
-    			stopIntake();
-    		}
-    		
-    		if(Params.DASHBOARD_INTAKE_DEBUG){
-    			Dashboard.put("INTAKE Left Motor: ", leftIntakeMotor.get());
-    			Dashboard.put("INTAKE Right Motor: ", rightIntakeMotor.get());
-    		}	
+    	if(gamePad.getButton(Controls.INTAKE_BUTTON) && !gamePad.getButton(Controls.OUTTAKE_BUTTON)){
+    		runIntake();
     	}
-    	
     	//if only outtake button is pressed, then outtake
-    	else if(gamePad.getButton(Params.OUTTAKE_BUTTON)){
-    		if(!gamePad.getButton(Params.INTAKE_BUTTON)){
-    			runIntake(intakeMotorPower, -1);
-    		}
-    		else{
-    			stopIntake();
-    		}
+    	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
+    		runIntake(intakeMotorPower, -1);
     	}
-    	
-    	// else stop
     	else{
     		stopIntake();
-    	} 	
+    	}
+    	
+		if(Params.DASHBOARD_INTAKE_DEBUG){
+			Dashboard.put("INTAKE Left Motor: ", leftIntakeMotor.get());
+			Dashboard.put("INTAKE Right Motor: ", rightIntakeMotor.get());
+		}	
     }
+    	
+    	
     
     // Run the intake at default motor speed
     public void runIntake(){
@@ -84,4 +80,34 @@ public class Intake{
     }
 
     
+}
+
+//Class for the intake extender
+class Extender {
+	DoubleSolenoid extenderSolenoid;
+	
+	Extender(DoubleSolenoid kExtenderSolenoid){
+		extenderSolenoid = kExtenderSolenoid;
+	}
+	
+	
+	public void out(){
+		extenderSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	public void in(){
+		extenderSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	public void set(Value value){
+		extenderSolenoid.set(value);
+	}
+	
+	public Value get(){
+		return extenderSolenoid.get();
+	}
+	
+	public void off(){
+		extenderSolenoid.set(DoubleSolenoid.Value.kOff);
+	}
 }

@@ -36,6 +36,7 @@ public class Debounce {
 		this.button = button;
 		
 		lastState = joystick.getButton(button);
+
 	}
 	
 	/*******************************getRise()***********************************
@@ -49,13 +50,13 @@ public class Debounce {
 	 * Notes: 
 	 **************************************************************************/
 	public boolean getRise() {
-		if(joystick.getButton(button) && !lastState) {
-			lastState = true;
-			return true;
-		}
+			if(joystick.getButton(button) && !lastState) {
+				lastState = true;
+				return true;
+			}
 		
-		lastState = joystick.getButton(button);
-		return false;
+			lastState = joystick.getButton(button);
+			return false;
 	}
 	
 	/*******************************getFall()***********************************
@@ -71,13 +72,13 @@ public class Debounce {
 	 * 		current value when you care about it.
 	 **************************************************************************/
 	public boolean getFall() {
-		if(!joystick.getButton(button) && lastState) {
-			lastState = false;
-			return true;
-		}
+			if(!joystick.getButton(button) && lastState) {
+				lastState = false;
+				return true;
+			}
 		
-		lastState = joystick.getButton(button);
-		return false;
+			lastState = joystick.getButton(button);
+			return false;
 	}
 	
 	/*****************************getChange()***********************************

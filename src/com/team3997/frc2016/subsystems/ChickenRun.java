@@ -1,9 +1,5 @@
 package com.team3997.frc2016.subsystems;
 
-import com.team3997.frc2016.Hardware;
-import com.team3997.frc2016.Params;
-import com.team3997.frc2016.util.Dashboard;
-import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.DigitalInput;

@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 	CVVision vision = Hardware.kVision;
 	CameraSwitcher cameraSwitcher = new CameraSwitcher(Hardware.kOpGamePad);
 	
-	Debounce manualToggle = new Debounce(opGamePad, Params.MANUALCONTROL_BUTTON);
+	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
 
 	@Override

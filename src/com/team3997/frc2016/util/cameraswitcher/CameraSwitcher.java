@@ -2,6 +2,7 @@ package com.team3997.frc2016.util.cameraswitcher;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
+import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.Dashboard;
@@ -37,7 +38,6 @@ public class CameraSwitcher extends Thread{
 	private Debounce toggleCamButton;
 	private Debounce toggleExpButton;
 	private boolean toggleCam = false;
-	private boolean toggleExp = false;
 	
 	private boolean toggleThread = true;
 	
@@ -49,8 +49,7 @@ public class CameraSwitcher extends Thread{
 		imagergb = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		imagehsl = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_HSL, 0);
 		
-		toggleCamButton = new Debounce(gamePad, Params.OP_CAMERA_TOGGLE_BUTTON);
-		toggleExpButton = new Debounce(gamePad, 4);
+		toggleCamButton = new Debounce(gamePad, Controls.CAMERAFEED_TOGGLE_BUTTON);
 		
 		USB = new USBCamera(Params.CAMERA_USB);
 		Axis = new AxisCamera(Params.CAMERA_AXIS_IP);
@@ -63,44 +62,29 @@ public class CameraSwitcher extends Thread{
 	
 	public void run(){
 		while(toggleThread){
-			if(toggleCamButton.getFall()){ //if this doesn't work, try getRise
-				toggleCam = !toggleCam; //Change the state of the toggle boolean
-			}
 			
-			if(toggleExpButton.getFall()){ //if this doesn't work, try getRise
-				toggleExp = !toggleExp;
-				runExp();
+			if(toggleCamButton.getFall()) //if this doesn't work, try getRise
+				toggleCam = !toggleCam; //Change the state of the toggle boolean
+			
+			
+			if(toggleCam){
+				USB.stopCapture();
+				Axis.getImage(imagehsl);
+			} 
+			else {
+				USB.startCapture();
+				USB.getImage(imagergb);
 			}
 			
 			sendCameraInfoToDashboard();
-			runCam();
-			if(toggleCam) server.setImage(imagehsl);
-			else server.setImage(imagergb);
+			
+			if(toggleCam) 
+				server.setImage(imagehsl);
+			else 
+				server.setImage(imagergb);
 		}
 	}
-	
-	private void runCam(){
-		if(toggleCam){
-			USB.stopCapture();
-			Axis.getImage(imagehsl);
-		} 
-		else {
-			USB.startCapture();
-			USB.getImage(imagergb);
-		}
-	}
-	
-	private void runExp(){
-		if(toggleExp){
-			Axis.writeExposurePriority(0);
-		} 
-		else {
-			Axis.writeExposurePriority(50);
-		}
-	}
-	
-	
-	
+
 	public void init(){
 		
 		USB.openCamera();

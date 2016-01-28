@@ -1,13 +1,9 @@
 package com.team3997.frc2016.subsystems;
 
-import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
-import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
-import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -61,8 +57,8 @@ public class Drive {
 	public void runTeleOp() {
 
 		// Get Joystick input from gamepad
-		xValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
-		yValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+		xValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+		yValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
 
 		//Button to reset gyro
 		if(gamePad.getBlueButton()){

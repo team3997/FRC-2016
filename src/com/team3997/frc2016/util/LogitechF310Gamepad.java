@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class LogitechF310Gamepad {
     private Joystick joystick;
+    private final double triggerEnableThreshold = 0.7;
     
     public LogitechF310Gamepad(int portNum) {
         this.joystick = new Joystick(portNum);
@@ -18,20 +19,20 @@ public class LogitechF310Gamepad {
         return -this.joystick.getRawAxis(1);
     }
     
-    public double getTriggerAxisLeft() {
+    public double getLeftTriggerAxis() {
     	return this.joystick.getRawAxis(2);
     }
     
-    public double getTriggerAxisRight(){
+    public double getRightTriggerAxis(){
     	return this.joystick.getRawAxis(3);
     }
     
-    public boolean getTriggerLeft() {
-    	return this.joystick.getRawAxis(2) >= 0.7;
+    public boolean getLeftTrigger() {
+    	return this.joystick.getRawAxis(2) >= triggerEnableThreshold;
     }
     
-    public boolean getTriggerRight(){
-    	return this.joystick.getRawAxis(3) >= 0.7;
+    public boolean getRightTrigger(){
+    	return this.joystick.getRawAxis(3) >= triggerEnableThreshold;
     }
     
     public double getRightX() {
