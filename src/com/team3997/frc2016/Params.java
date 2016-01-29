@@ -26,7 +26,7 @@ public class Params extends UpdateParameters {
 	 * Drive Parameters
 	 */
 	public static final boolean DASHBOARD_DRIVE_DEBUG = true;
-	public static Constant DRIVE_MOTOR_SPEED = new Constant("MOTOR_SPEED", 0.5);
+	public static final double DRIVE_MOTOR_SPEED = 1.0;
 	public static final boolean SQUARE_INPUTS = true;
 	
 	/*

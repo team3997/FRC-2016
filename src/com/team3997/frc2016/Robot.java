@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
 	
-	public static boolean manualMode = true;
+	public static boolean manualMode = false;
 
 	LogitechF310Gamepad driverGamePad = Hardware.kDriverGamePad;
 	LogitechF310Gamepad opGamePad = Hardware.kOpGamePad;

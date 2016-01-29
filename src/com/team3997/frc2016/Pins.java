@@ -13,11 +13,13 @@ import com.team3997.frc2016.util.UpdateParameters;
 /*
  *	PWM: 0 1 2 3 4 5 6 7 8 9
  *					 x x x x 
+ *					 m m m m
  */
 
 /*
  *	DIO: 0 1 2 3 4 5 6 7 8 9
  *		 x x x x x x x     x
+ *		 e e e e e e b     a
  */
 
 public class Pins {

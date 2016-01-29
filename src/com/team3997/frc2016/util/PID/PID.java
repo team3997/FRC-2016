@@ -1,11 +1,11 @@
-package com.team3997.frc2016.util;
+package com.team3997.frc2016.util.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Talon;
 
-public class PID extends CustomPIDOutput{
+public class PID {
 	
 	private double P;
 	private double I;
@@ -26,7 +26,7 @@ public class PID extends CustomPIDOutput{
 	
 	private double setpoint = 0;
 	
-	private CustomPIDOutput pidOutput;
+	private MotorPIDOutput pidOutput;
 	
 	protected PIDController pidController;
 	
@@ -52,7 +52,7 @@ public class PID extends CustomPIDOutput{
     	encoder.setDistancePerPulse(rotationScale);
     	encoder.setSamplesToAverage(samplesToAverage);
     	
-    	pidOutput = new CustomPIDOutput(outputMotor);
+    	pidOutput = new MotorPIDOutput(outputMotor);
     	
 		pidController = new PIDController(P, I, D, encoder, pidOutput);
 		

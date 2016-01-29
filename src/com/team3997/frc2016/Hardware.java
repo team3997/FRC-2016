@@ -8,11 +8,13 @@ import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 public class Hardware {
 
@@ -47,7 +49,7 @@ public class Hardware {
 	
 	/*
 	 * 
-	 * Sensors (Encoders, gyro, breakbeam, switches)
+	 * Sensors (Encoders, gyro, breakbeam, switches etc..)
 	 */
 	public static Encoder kDriveLeftEncoder = new Encoder(
 			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1]);
@@ -56,7 +58,6 @@ public class Hardware {
 	public static Encoder kFlyWheelEncoder = new Encoder(
 			Pins.SHOOTER_ENCODER_PINS[0], Pins.SHOOTER_ENCODER_PINS[1]);
 	
-	// as a team decide if we want to use a beam breaker https://www.adafruit.com/products/2168 to index the ball
 	public static DigitalInput kCRunBreakbeam = new DigitalInput(Pins.CRUN_BREAKBEAM_PIN);
 	
 	public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
