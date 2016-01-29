@@ -17,13 +17,9 @@ import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
 import com.team3997.frc2016.util.cameraswitcher.CameraSwitcher;
-import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.UpdateParameters;
-
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
