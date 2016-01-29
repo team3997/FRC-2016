@@ -21,18 +21,12 @@ public class Shooter {
 	private Encoder flyWheelEncoder;
 	public double goalRPM = 0;
 	private boolean toggleEnableMotor = false;
-	private boolean toggleAdjuster = Params.ADJUSTER_DEFAULT_POSITION;
 	private Debounce shooterToggleButton;
-	private Debounce adjusterToggleButton;
-	private Adjuster adjuster;
 	
-	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, Solenoid kAdjusterSolenoid, LogitechF310Gamepad kGamePad){
+	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad){
 		
 		gamePad = kGamePad;
 		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_ENABLE_TOGGLE_BUTTON);
-		adjusterToggleButton = new Debounce(gamePad, Controls.SHOOTER_ADJUSTER_TOGGLE_BUTTON);
-		
-		adjuster = new Adjuster(kAdjusterSolenoid);
 		
 		flyWheelMotor = kFlyWheelMotor;
 		flyWheelEncoder = kFlyWheelEncoder;
@@ -55,17 +49,7 @@ public class Shooter {
     	//if shooter button is pressed, toggle motor enable
     	if(shooterToggleButton.getFall())
     		toggleEnableMotor = !toggleEnableMotor;
-    	
-    	//if adjuster button is pressed, toggle adjuster boolean
-    	if(adjusterToggleButton.getFall())
-    		toggleAdjuster = !toggleAdjuster;
-    	
-    	//Adjuster:
-    	if(toggleAdjuster)
-    		adjuster.up();
-    	else
-    		adjuster.down();
-
+  
     	
     	//Shooting:
         if(!Robot.manualMode){ //Automatic mode code:
@@ -84,9 +68,7 @@ public class Shooter {
     	
     	
 }
-    
-    
-    
+
     public boolean onTarget(){
     	return shooterPID.onTarget();
     }
@@ -114,29 +96,4 @@ public class Shooter {
     }
 
     
-}
-
-class Adjuster {
-	Solenoid adjusterSolenoid;
-	
-	Adjuster(Solenoid kAdjusterSolenoid){
-		adjusterSolenoid = kAdjusterSolenoid;
-	}
-	
-	
-	public void up(){
-		adjusterSolenoid.set(true);
-	}
-	
-	public void down(){
-		adjusterSolenoid.set(false);
-	}
-	
-	public void set(boolean value){
-		adjusterSolenoid.set(value);
-	}
-	
-	public boolean get(){
-		return adjusterSolenoid.get();
-	}
 }

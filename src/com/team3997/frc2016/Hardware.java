@@ -36,17 +36,15 @@ public class Hardware {
 	
 	public static Talon kCRunMotor = new Talon(Pins.CRUN_MOTOR_PIN);
 	
-	//public static Talon kFeederMotor = new Talon(Pins.FEEDER_MOTOR_PIN);
-	
 	/*
 	 * 
 	 * Pneumatics
 	 * 
 	 */
 	
-	private static Solenoid kShooterAdjusterSolenoid = new Solenoid(Pins.SHOOTER_ADJUSTER_SOLE_PIN);
 	private static DoubleSolenoid kIntakeExtenderSolenoid = new DoubleSolenoid(Pins.INTAKE_EXTENDER_SOLE_PINS[0], Pins.INTAKE_EXTENDER_SOLE_PINS[1]);
-
+	 
+	
 	/*
 	 * 
 	 * Sensors (Encoders, gyro, breakbeam, switches)
@@ -56,7 +54,7 @@ public class Hardware {
 	public static Encoder kDriveRightEncoder = new Encoder(
 			Pins.RIGHT_DRIVE_ENCODER_PINS[0], Pins.RIGHT_DRIVE_ENCODER_PINS[1]);
 	public static Encoder kFlyWheelEncoder = new Encoder(
-			Pins.RIGHT_DRIVE_ENCODER_PINS[0], Pins.RIGHT_DRIVE_ENCODER_PINS[1]);
+			Pins.SHOOTER_ENCODER_PINS[0], Pins.SHOOTER_ENCODER_PINS[1]);
 	
 	// as a team decide if we want to use a beam breaker https://www.adafruit.com/products/2168 to index the ball
 	public static DigitalInput kCRunBreakbeam = new DigitalInput(Pins.CRUN_BREAKBEAM_PIN);
@@ -71,9 +69,9 @@ public class Hardware {
 			Pins.DRIVE_MOTOR_PINS[1], Pins.DRIVE_MOTOR_PINS[2], Pins.DRIVE_MOTOR_PINS[3], 
 			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
 	
-	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder, kShooterAdjusterSolenoid, kOpGamePad);
+	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder, kOpGamePad);
 	public static Intake kIntake = new Intake(kLeftIntakeMotor,
-			kRightIntakeMotor, kIntakeExtenderSolenoid, Params.INTAKE_MOTOR_POWER, kOpGamePad);
+			kRightIntakeMotor, Params.INTAKE_MOTOR_POWER, kIntakeExtenderSolenoid, kOpGamePad);
 	
 	public static Climber kClimber = new Climber();
 	

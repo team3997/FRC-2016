@@ -21,8 +21,8 @@ public class Intake{
 	Talon rightIntakeMotor;
 	private Extender extender;
 	
-	public Intake(Talon leftMotor, Talon rightMotor, DoubleSolenoid kIntakeExtenderSolenoid,
-			double intakeMotorPower, LogitechF310Gamepad kGamePad){
+	public Intake(Talon leftMotor, Talon rightMotor,
+			double intakeMotorPower, DoubleSolenoid kIntakeExtenderSolenoid, LogitechF310Gamepad kGamePad){
 		
 		gamePad = kGamePad;
 		

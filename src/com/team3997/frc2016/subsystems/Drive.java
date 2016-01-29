@@ -57,8 +57,8 @@ public class Drive {
 	public void runTeleOp() {
 
 		// Get Joystick input from gamepad
-		xValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
-		yValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+		xValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
+		yValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED.getDouble());
 
 		//Button to reset gyro
 		if(gamePad.getBlueButton()){

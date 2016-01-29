@@ -27,7 +27,6 @@ public class Controls {
 	public static int INTAKE_EXTEND_BUTTON = 3;
 	
 	public static int SHOOTER_ENABLE_TOGGLE_BUTTON = 4;
-	public static int SHOOTER_ADJUSTER_TOGGLE_BUTTON = 1;
 	
 	
 	

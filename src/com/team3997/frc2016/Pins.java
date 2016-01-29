@@ -9,6 +9,17 @@ import com.team3997.frc2016.util.UpdateParameters;
  *
  */
 
+//PORTS TAKEN:
+/*
+ *	PWM: 0 1 2 3 4 5 6 7 8 9
+ *					 x x x x 
+ */
+
+/*
+ *	DIO: 0 1 2 3 4 5 6 7 8 9
+ *		 x x x x x x x     x
+ */
+
 public class Pins {
 	
 	/*
@@ -33,6 +44,7 @@ public class Pins {
 	public static final int LEFT_DRIVE_ENCODER_PINS[] = {0, 1};
 	public static final int RIGHT_DRIVE_ENCODER_PINS[] = {2, 3};
 	
+	public static final int SHOOTER_ENCODER_PINS[] = {4, 5};
 
 	
 	/*
@@ -48,7 +60,7 @@ public class Pins {
 	 * 
 	 */
 	public static final int CRUN_MOTOR_PIN = 3;
-	public static final int CRUN_BREAKBEAM_PIN = 4;
+	public static final int CRUN_BREAKBEAM_PIN = 6;
 	
 	/*
 	 * 
@@ -62,7 +74,6 @@ public class Pins {
 	 * Shooter
 	 */
 	public static final int FLYWHEEL_MOTOR_PIN = 2;
-	public static final int SHOOTER_ADJUSTER_SOLE_PIN = 3;
 	
 	/*
 	 * 
