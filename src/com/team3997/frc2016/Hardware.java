@@ -34,7 +34,8 @@ public class Hardware {
 
 	public static Talon kFlyWheelMotor = new Talon(Pins.FLYWHEEL_MOTOR_PIN);
 	
-	public static Talon kCRunMotor = new Talon(Pins.CRUN_MOTOR_PIN);
+	public static Talon kCRunFrontMotor = new Talon(Pins.CRUN_MOTOR_PINS[0]);
+	public static Talon kCRunBackMotor = new Talon(Pins.CRUN_MOTOR_PINS[1]);
 	
 	/*
 	 * 

@@ -44,14 +44,14 @@ public class Pins {
 	public static final int LEFT_DRIVE_ENCODER_PINS[] = {0, 1};
 	public static final int RIGHT_DRIVE_ENCODER_PINS[] = {2, 3};
 	
-	public static final int SHOOTER_ENCODER_PINS[] = {4, 5};
+	public static final int SHOOTER_ENCODER_PINS[] = {5, 6};
 
 	
 	/*
 	 * 
 	 * Drive
 	 */
-	public static final int DRIVE_MOTOR_PINS[] = { 8, 9, 7, 6 }; // front left pin,
+	public static final int DRIVE_MOTOR_PINS[] = { 10, 11, 9, 8 }; // front left pin,
 															// right pin
 	
 	/*
@@ -59,8 +59,8 @@ public class Pins {
 	 * ChickenRun
 	 * 
 	 */
-	public static final int CRUN_MOTOR_PIN = 3;
-	public static final int CRUN_BREAKBEAM_PIN = 6;
+	public static final int CRUN_MOTOR_PINS[] = { 3 , 4 };
+	public static final int CRUN_BREAKBEAM_PIN = 7;
 	
 	/*
 	 * 
