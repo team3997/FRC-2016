@@ -9,7 +9,6 @@ import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 
 

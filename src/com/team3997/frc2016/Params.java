@@ -1,6 +1,5 @@
 package com.team3997.frc2016;
 
-import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.UpdateParameters;
 
 /**

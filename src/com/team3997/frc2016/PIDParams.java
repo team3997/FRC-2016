@@ -1,8 +1,6 @@
 package com.team3997.frc2016;
 
 import com.team3997.frc2016.util.UpdateParameters;
-import com.team3997.frc2016.util.UpdateParameters.Constant;
-
 import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class PIDParams extends UpdateParameters {

@@ -2,19 +2,14 @@ package com.team3997.frc2016;
 
 import com.team3997.frc2016.components.CVVision;
 import com.team3997.frc2016.subsystems.*;
-import com.team3997.frc2016.util.cameraswitcher.CameraSwitcher;
 //import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 public class Hardware {
 

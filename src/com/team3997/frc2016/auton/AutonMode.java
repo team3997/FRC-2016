@@ -1,7 +1,6 @@
 package com.team3997.frc2016.auton;
 
 import com.team3997.frc2016.Hardware;
-import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.auton.actions.*;
 import com.team3997.frc2016.subsystems.*;
 

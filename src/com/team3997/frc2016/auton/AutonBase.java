@@ -1,7 +1,6 @@
 package com.team3997.frc2016.auton;
 
 import com.team3997.frc2016.auton.actions.Action;
-import com.team3997.frc2016.util.Dashboard;
 
 
 public abstract class AutonBase {

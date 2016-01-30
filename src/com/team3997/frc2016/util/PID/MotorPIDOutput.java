@@ -2,7 +2,6 @@ package com.team3997.frc2016.util.PID;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
 
 public class MotorPIDOutput implements PIDOutput{
 

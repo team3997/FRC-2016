@@ -1,8 +1,5 @@
 package com.team3997.frc2016.components;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /*import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -13,7 +10,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;*/
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 
 
 public class CVVision {

@@ -3,15 +3,12 @@ package com.team3997.frc2016.util.cameraswitcher;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.team3997.frc2016.Controls;
-import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
@@ -25,7 +22,6 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
  */
 
 public class CameraSwitcher extends Thread{
-	private Thread m_thread = null;
 	
 	public Image imagergb;
 	public Image imagehsl;
@@ -36,7 +32,6 @@ public class CameraSwitcher extends Thread{
 	private AxisCamera Axis;
 	
 	private Debounce toggleCamButton;
-	private Debounce toggleExpButton;
 	private boolean toggleCam = false;
 	
 	private boolean toggleThread = true;
