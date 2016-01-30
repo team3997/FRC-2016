@@ -22,7 +22,7 @@ public class WaitForDriveTimeAction extends TimeoutAction {
 
     @Override
     public void update() {
-        drive.setDrive(y_drive, x_drive, false);
+        drive.setArcadeDrive(y_drive, x_drive, false);
     	
     }
 

@@ -17,10 +17,18 @@ import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
 import com.team3997.frc2016.util.cameraswitcher.CameraSwitcher;
+import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.UpdateParameters;
+
+import edu.wpi.first.wpilibj.ADXL362;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 
 public class Robot extends IterativeRobot {
 	
@@ -35,14 +43,14 @@ public class Robot extends IterativeRobot {
 	ChickenRun chickenRun = Hardware.kChickenRun;
 	CVVision vision = Hardware.kVision;
 	CameraSwitcher cameraSwitcher = new CameraSwitcher(Hardware.kOpGamePad);
-	
+	DigitalOutput switcher = new DigitalOutput(8);
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
+	//AHRS accel = new AHRS();
 
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
-	
 		auton.listOptions();
 		
 		// Update parameters from text file
@@ -56,7 +64,7 @@ public class Robot extends IterativeRobot {
 		UpdateParameters.update();
 		auton.start();
 	}
-
+	
 	@Override
 	public void autonomousPeriodic() {
 		
@@ -72,6 +80,7 @@ public class Robot extends IterativeRobot {
 		cameraSwitcher.start(); // Start camerSwitcher Thread
 
 		UpdateParameters.update();
+		//accel.reset();
 	}
 
 	@Override
@@ -86,6 +95,8 @@ public class Robot extends IterativeRobot {
 		if(manualToggle.getFall()){
 			manualMode = !manualMode;
 		}
+		switcher.enablePWM(0.5);
+		switcher.set(true);
 	}
 
 	@Override

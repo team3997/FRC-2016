@@ -14,7 +14,6 @@ public class ChickenRun {
 	DigitalInput indexSignal;
 	
 	public ChickenRun(Talon kMotor, DigitalInput kIndexSensor, double kMotorPower, LogitechF310Gamepad kGamePad){
-		
 		gamePad = kGamePad;
 		
 		indexSignal = kIndexSensor;

@@ -13,7 +13,7 @@ public class Controls {
 	public static LogitechF310Gamepad opGamePad = Hardware.kOpGamePad;
 	
 	// Driver:
-	
+	public static int INVERT_DRIVE = F310.rightBumper;
 	
 	// Operator:
 	

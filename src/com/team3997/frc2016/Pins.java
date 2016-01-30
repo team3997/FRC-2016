@@ -33,7 +33,7 @@ public class Pins {
 	 * Gyro
 	 * 
 	 */
-	public static final int GYRO_PIN = 0;
+	public static final int GYRO_PIN = 1;
 	
 	/*
 	 * 

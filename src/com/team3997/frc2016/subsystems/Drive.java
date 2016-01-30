@@ -1,5 +1,6 @@
 package com.team3997.frc2016.subsystems;
 
+import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
@@ -10,8 +11,10 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class Drive {
 
-	double xValOP;
-	double yValOP;
+	double rightXVal;
+	double leftXVal;
+	double rightYVal;
+	double leftYVal;
 	public AnalogGyro gyro;
 	public Encoder leftEncoder;
 	public Encoder rightEncoder;
@@ -45,36 +48,58 @@ public class Drive {
 	}
 
 	// easy to use drive function
-	public void setDrive(double y, double x, boolean squareInputs) {
+	public void setArcadeDrive(double y, double x, boolean squareInputs) {
 		driveTrain.arcadeDrive(y, -x, squareInputs);
 	}
 	
-	public void setDrive(double y, double x) {
+	public void setArcadeDrive(double y, double x) {
 		driveTrain.arcadeDrive(y, -x, false);
+	}
+	
+	public void setTankDrive(double lefty, double righty, boolean squareInputs) {
+		driveTrain.tankDrive(lefty, righty, squareInputs);
+	}
+	
+	public void setTankDrive(double lefty, double righty) {
+		driveTrain.tankDrive(lefty, righty, false);
 	}
 
 	// Function that runs during teleop periodically
 	public void runTeleOp() {
 
 		// Get Joystick input from gamepad
-		xValOP = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED);
-		yValOP = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED);
+		rightXVal = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED);
+		leftXVal = (gamePad.getLeftX()) * (Params.DRIVE_MOTOR_SPEED);
+		rightYVal = (gamePad.getRightY()) * (Params.DRIVE_MOTOR_SPEED);
+		leftYVal = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED);
 
 		//Button to reset gyro
 		if(gamePad.getBlueButton()){
 			resetGyro();
 		}
 		
+		//If invert drive button is pressed, invert the drive values
+		if(gamePad.getButton(Controls.INVERT_DRIVE)){
+			rightXVal = -rightXVal;
+			leftXVal = -leftXVal;
+			rightYVal = -rightYVal;
+			leftYVal = -leftYVal;
+		}
+		
+		
 		// Drive at the given input magnitude
-		setDrive(yValOP, xValOP, Params.SQUARE_INPUTS);
+		if(Params.ARCADE_DRIVE){
+			setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
+		}
+		else{
+			setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
+		}
 		
 		// Print drive magnitudes if wanted
 		if (Params.DASHBOARD_DRIVE_DEBUG) {
-			Dashboard.put("joystick x: ", xValOP);
-			Dashboard.put("joystick y: ", yValOP);
 
 			Dashboard.put("Left Encoder", leftEncoder.get());
-			// Dashboard.put("Right Encoder", rightEncoder.get());
+			//Dashboard.put("Right Encoder", rightEncoder.get());
 		}
 	}
 	

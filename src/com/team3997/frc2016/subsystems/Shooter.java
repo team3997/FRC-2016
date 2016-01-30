@@ -43,22 +43,25 @@ public class Shooter {
 	
     // Function that runs during teleop periodically
     public void runTeleOp(){
-    	
     		
     	//if shooter button is pressed, toggle motor enable
-    	if(shooterToggleButton.getFall())
+    	if(shooterToggleButton.getRise()){
     		toggleEnableMotor = !toggleEnableMotor;
-  
-    	
+    		System.out.println("switch");
+    	}
     	//Shooting:
         if(!Robot.manualMode){ //Automatic mode code:
-        	if(toggleEnableMotor)
+        	if(toggleEnableMotor){
         		shooterPID.enablePID();
-        	else
+        		System.out.println("enable pid");
+        	} 
+        	else {
         		shooterPID.disablePID();
-    	}
-    	
-    	else { //manual mode code:
+        		System.out.println("disable pid");
+        	}
+        	
+        } 
+        else { //manual mode code:
     		if(toggleEnableMotor) //manual control
     			flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
     		else

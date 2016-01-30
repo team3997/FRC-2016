@@ -28,7 +28,7 @@ public class CameraSwitcher extends Thread{
 	
 	private CameraServer server;
 	
-	private USBCamera USB;
+	//private USBCamera USB;
 	private AxisCamera Axis;
 	
 	private Debounce toggleCamButton;
@@ -46,7 +46,7 @@ public class CameraSwitcher extends Thread{
 		
 		toggleCamButton = new Debounce(gamePad, Controls.CAMERAFEED_TOGGLE_BUTTON);
 		
-		USB = new USBCamera(Params.CAMERA_USB);
+		//USB = new USBCamera(Params.CAMERA_USB);
 		Axis = new AxisCamera(Params.CAMERA_AXIS_IP);
 		
 		server = CameraServer.getInstance();
@@ -63,12 +63,12 @@ public class CameraSwitcher extends Thread{
 			
 			
 			if(toggleCam){
-				USB.stopCapture();
+			//	USB.stopCapture();
 				Axis.getImage(imagehsl);
 			} 
 			else {
-				USB.startCapture();
-				USB.getImage(imagergb);
+				//USB.startCapture();
+				//USB.getImage(imagergb);
 			}
 			
 			sendCameraInfoToDashboard();
@@ -82,14 +82,14 @@ public class CameraSwitcher extends Thread{
 
 	public void init(){
 		
-		USB.openCamera();
+		/*USB.openCamera();
 		USB.setFPS(15);
 		USB.updateSettings();
 		
 		
 		//Set default camera to automatically send default camera to dashboard
 		USB.startCapture(); //start default camera (USB)
-		
+		*/
 		toggleThread = true;
 	}
 	
@@ -106,7 +106,7 @@ public class CameraSwitcher extends Thread{
 			Dashboard.put("AXISCAM Color Level", Axis.getColorLevel());
 			Dashboard.put("AXISCAM Exposure Priority", Axis.getExposurePriority());
 			
-			Dashboard.put("USBCAM Brightness", USB.getBrightness());
+//			/Dashboard.put("USBCAM Brightness", USB.getBrightness());
 			
 			Dashboard.put("CAMSERVER Quality", server.getQuality());
 		}
