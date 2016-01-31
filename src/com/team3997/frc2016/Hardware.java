@@ -34,8 +34,8 @@ public class Hardware {
 
 	public static Talon kFlyWheelMotor = new Talon(Pins.FLYWHEEL_MOTOR_PIN);
 	
-	public static Talon kCRunFrontMotor = new Talon(Pins.CRUN_MOTOR_PINS[0]);
-	public static Talon kCRunBackMotor = new Talon(Pins.CRUN_MOTOR_PINS[1]);
+	public static Talon kCRunIntakeMotor = new Talon(Pins.CRUN_MOTOR_PINS[0]);
+	public static Talon kCRunTransferMotor = new Talon(Pins.CRUN_MOTOR_PINS[1]);
 	
 	/*
 	 * 
@@ -70,14 +70,14 @@ public class Hardware {
 			Pins.DRIVE_MOTOR_PINS[1], Pins.DRIVE_MOTOR_PINS[2], Pins.DRIVE_MOTOR_PINS[3], 
 			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
 	
-	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder, kOpGamePad);
+	public static ChickenRun kChickenRun = new ChickenRun(kCRunIntakeMotor, kCRunTransferMotor, kCRunBreakbeam, Params.CRUN_MOTOR_POWER, kOpGamePad);
+	
+	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder, kOpGamePad, kChickenRun);
 	public static Intake kIntake = new Intake(kLeftIntakeMotor,
-			kRightIntakeMotor, Params.INTAKE_MOTOR_POWER, kIntakeExtenderSolenoid, kOpGamePad);
+			kRightIntakeMotor, Params.INTAKE_MOTOR_POWER, kIntakeExtenderSolenoid, kOpGamePad, kChickenRun);
 	
 	public static Climber kClimber = new Climber();
 	
-	public static ChickenRun kChickenRun = new ChickenRun(kCRunMotor, kCRunBreakbeam, Params.CRUN_MOTOR_POWER, kOpGamePad);
-
 	/*
 	 * 
 	 * Vision

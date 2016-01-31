@@ -20,9 +20,10 @@ public class Intake{
 	Talon leftIntakeMotor;
 	Talon rightIntakeMotor;
 	private Extender extender;
+	private ChickenRun cRun;
 	
 	public Intake(Talon leftMotor, Talon rightMotor,
-			double intakeMotorPower, DoubleSolenoid kIntakeExtenderSolenoid, LogitechF310Gamepad kGamePad){
+			double intakeMotorPower, DoubleSolenoid kIntakeExtenderSolenoid, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
 		
@@ -32,6 +33,8 @@ public class Intake{
 		rightIntakeMotor = rightMotor;
 		
 		this.intakeMotorPower = intakeMotorPower;
+		
+		cRun = kCRun;
 		
 		// set motors to stop for safety
 		stopIntake();
@@ -44,10 +47,14 @@ public class Intake{
     	//if only intake button is pressed, then intake
     	if(gamePad.getButton(Controls.INTAKE_BUTTON) && !gamePad.getButton(Controls.OUTTAKE_BUTTON)){
     		runIntake();
+    		if(!cRun.indexSignal.get())
+    			cRun.runCRunIntake();
     	}
     	//if only outtake button is pressed, then outtake
     	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
     		runIntake(intakeMotorPower, -1);
+    		cRun.runCRunIntake(-1);
+    		cRun.runCRunTransfer(-1);
     	}
     	else{
     		stopIntake();
@@ -77,6 +84,8 @@ public class Intake{
     public void stopIntake(){
     	leftIntakeMotor.set(0.0);
 		rightIntakeMotor.set(0.0);
+		cRun.stopIntake();
+		cRun.stopTransfer();
     }
 
     

@@ -22,8 +22,9 @@ public class Shooter {
 	public double goalRPM = 0;
 	private boolean toggleEnableMotor = false;
 	private Debounce shooterToggleButton;
+	private ChickenRun cRun;
 	
-	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad){
+	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
 		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_ENABLE_TOGGLE_BUTTON);
@@ -36,6 +37,7 @@ public class Shooter {
 				PIDParams.sTolerance, PIDParams.sOutMin, PIDParams.sOutMax,  PIDParams.sEncoderRotationScale, 
 				 PIDParams.sSamplesToAverage, PIDParams.sType);
 		
+		cRun = kCRun;
 		
 		shooterPID.setSetpoint(100);
 		stopShooter();
@@ -57,6 +59,11 @@ public class Shooter {
         		shooterPID.enablePID();
         	else
         		shooterPID.disablePID();
+        	
+        	if(toggleEnableMotor && onTarget())
+        		cRun.runCRunTransfer();
+        	else
+        		cRun.stopTransfer(); 
     	}
     	
     	else { //manual mode code:
@@ -64,10 +71,9 @@ public class Shooter {
     			flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
     		else
     			stopShooter();
-    	}
+    	}  	
     	
-    	
-}
+    }
 
     public boolean onTarget(){
     	return shooterPID.onTarget();

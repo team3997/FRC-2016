@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		climber.runTeleOp();
-		chickenRun.runTeleOp();
+//		chickenRun.runTeleOp();
 		
 		//Change between manual and automatic mode
 		if(manualToggle.getFall()){
