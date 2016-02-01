@@ -10,6 +10,7 @@ import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
+import com.team3997.frc2016.Controls;
 
 
 public class Shooter {
@@ -21,8 +22,9 @@ public class Shooter {
 	public double goalRPM = 0;
 	private boolean toggleEnableMotor = false;
 	private Debounce shooterToggleButton;
+	private ChickenRun cRun;
 	
-	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad){
+	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
 		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_ENABLE_TOGGLE_BUTTON);
@@ -35,6 +37,7 @@ public class Shooter {
 				PIDParams.sTolerance, PIDParams.sOutMin, PIDParams.sOutMax,  PIDParams.sEncoderRotationScale, 
 				 PIDParams.sSamplesToAverage, PIDParams.sType);
 		
+		cRun = kCRun;
 		
 		shooterPID.setSetpoint(100);
 		stopShooter();
@@ -57,19 +60,20 @@ public class Shooter {
         	} 
         	else {
         		shooterPID.disablePID();
-        		System.out.println("disable pid");
-        	}
-        	
-        } 
-        else { //manual mode code:
+        	//if the flywheels are up to speed and motors are enabled, transfer the ball from the Chicken Run to the shooter
+        	if(toggleEnableMotor && onTarget())
+        		cRun.runCRunTransfer();
+        	else
+        		cRun.stopTransfer(); 
+    	}
+
     		if(toggleEnableMotor) //manual control
     			flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
     		else
     			stopShooter();
-    	}
+    	}  	
     	
-    	
-}
+    }
 
     public boolean onTarget(){
     	return shooterPID.onTarget();
