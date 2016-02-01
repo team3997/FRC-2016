@@ -11,6 +11,7 @@ import com.team3997.frc2016.util.PID;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
+import com.team3997.frc2016.Controls;
 
 
 public class Shooter {
@@ -65,7 +66,11 @@ public class Shooter {
         	else
         		cRun.stopTransfer(); 
     	}
-    	
+        
+    	/*
+    	 * TODO: In manual mode, call cRun.runCRunTransfer() after a short delay to allow the
+    	 * flywheel motors to get up to speed
+    	 */
     	else { //manual mode code:
     		if(toggleEnableMotor) //manual control
     			flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
