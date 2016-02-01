@@ -59,7 +59,7 @@ public class Shooter {
         		shooterPID.enablePID();
         	else
         		shooterPID.disablePID();
-        	
+        	//if the flywheels are up to speed and motors are enabled, transfer the ball from the Chicken Run to the shooter
         	if(toggleEnableMotor && onTarget())
         		cRun.runCRunTransfer();
         	else
