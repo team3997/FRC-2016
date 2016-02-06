@@ -87,7 +87,7 @@ public class Intake{
     	leftIntakeMotor.set(0.0);
 		rightIntakeMotor.set(0.0);
 		cRun.stopIntake();
-		cRun.stopTransfer();
+//		cRun.stopTransfer();
     }
 
     
