@@ -8,11 +8,13 @@ import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 public class Hardware {
 
@@ -61,6 +63,10 @@ public class Hardware {
 	public static DigitalInput kCRunBreakbeam = new DigitalInput(Pins.CRUN_BREAKBEAM_PIN);
 	
 	public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
+	
+	//to access values, use getX(), getY(), and getZ()
+	public static Accelerometer accel = new BuiltInAccelerometer(Accelerometer.Range.k4G); 
+	
 
 	/*
 	 * 
@@ -77,7 +83,6 @@ public class Hardware {
 			kRightIntakeMotor, Params.INTAKE_MOTOR_POWER, kIntakeExtenderSolenoid, kOpGamePad, kChickenRun);
 	
 	public static Climber kClimber = new Climber();
-	
 	/*
 	 * 
 	 * Vision
