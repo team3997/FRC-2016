@@ -51,14 +51,14 @@ public class Intake{
     		if(!cRun.indexSignal.get())
     			cRun.runCRunIntake();
     	}
-    	//if only outtake button is pressed, then outtake using intake wheels, and BOTH SETS OF ChickenRun WHEELS
+    	//if only outtake button is pressed, then outtake using intake wheels, and BOTH SETS OF ChickenRun wheels
     	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
     		runIntake(intakeMotorPower, -1);
     		cRun.runCRunIntake(-1);
     		cRun.runCRunTransfer(-1);
     	}
     	else{
-    		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS
+    		//stops the intake wheels, and the intake cRun wheels
     		stopIntake();
     	}
     	

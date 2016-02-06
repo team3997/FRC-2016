@@ -64,7 +64,8 @@ public class Shooter {
         	if(toggleEnableMotor && onTarget())
         		cRun.runCRunTransfer();
         	else
-        		cRun.stopTransfer(); 
+    			if(!gamePad.getButton(Controls.OUTTAKE_BUTTON))
+    				cRun.stopTransfer(); 
     	}
         
     	/*
