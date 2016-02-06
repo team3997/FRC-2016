@@ -41,29 +41,7 @@ public class Drive {
 		resetGyro();
 		
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
-	}
-
-	public void stop() {
-		driveTrain.arcadeDrive(0, 0, false);
-	}
-
-	// easy to use drive function
-	public void setArcadeDrive(double y, double x, boolean squareInputs) {
-		driveTrain.arcadeDrive(y, -x, squareInputs);
-	}
-	
-	public void setArcadeDrive(double y, double x) {
-		driveTrain.arcadeDrive(y, -x, false);
-	}
-	
-	public void setTankDrive(double lefty, double righty, boolean squareInputs) {
-		driveTrain.tankDrive(lefty, righty, squareInputs);
-	}
-	
-	public void setTankDrive(double lefty, double righty) {
-		driveTrain.tankDrive(lefty, righty, false);
-	}
-
+	}	
 	// Function that runs during teleop periodically
 	public void runTeleOp() {
 
@@ -97,10 +75,34 @@ public class Drive {
 		
 		// Print drive magnitudes if wanted
 		if (Params.DASHBOARD_DRIVE_DEBUG) {
-
+			
+			Dashboard.put("lefyYval", leftYVal);
+			Dashboard.put("rightxval", rightXVal);
 			Dashboard.put("Left Encoder", leftEncoder.get());
 			//Dashboard.put("Right Encoder", rightEncoder.get());
 		}
+	}
+	
+
+	public void stop() {
+		driveTrain.arcadeDrive(0, 0, false);
+	}
+
+	// easy to use drive function
+	public void setArcadeDrive(double y, double x, boolean squareInputs) {
+		driveTrain.arcadeDrive(y, -x, squareInputs);
+	}
+	
+	public void setArcadeDrive(double y, double x) {
+		driveTrain.arcadeDrive(y, -x, false);
+	}
+	
+	public void setTankDrive(double lefty, double righty, boolean squareInputs) {
+		driveTrain.tankDrive(lefty, righty, squareInputs);
+	}
+	
+	public void setTankDrive(double lefty, double righty) {
+		driveTrain.tankDrive(lefty, righty, false);
 	}
 	
 	public double getGyroAngle(){

@@ -1,6 +1,7 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Controls;
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
@@ -34,7 +35,7 @@ public class Intake{
 		cRun = kCRun;
 		
 		// set motors to stop for safety
-		stopIntake();
+		stopIntakeAndCRun();
 	}
 	
 	
@@ -44,9 +45,12 @@ public class Intake{
     	//if only intake button is pressed, then run intake
     	if(gamePad.getButton(Controls.INTAKE_BUTTON) && !gamePad.getButton(Controls.OUTTAKE_BUTTON)){
     		runIntake();
-    		//if the ball has not triggered the intake, run ChickenRun intake wheels also
-    		if(!cRun.indexSignal.get())
+    		//if the ball has not been indexed, run ChickenRun intake wheels also
+    		if(!cRun.isIndexed())
     			cRun.runCRunIntake();
+    		else {
+    			cRun.stopCRunIntake();
+    		}
     	}
     	//if only outtake button is pressed, then outtake using intake wheels, and BOTH SETS OF ChickenRun WHEELS
     	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
@@ -54,9 +58,9 @@ public class Intake{
     		cRun.runCRunIntake(-1);
     		cRun.runCRunTransfer(-1);
     	}
+		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS
     	else{
-    		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS
-    		stopIntake();
+    		stopIntakeAndCRun();
     	}
     	
 		if(Params.DASHBOARD_INTAKE_DEBUG){
@@ -80,11 +84,10 @@ public class Intake{
     }
     
     // Stop intake motors AND ChickenRun motors;
-    public void stopIntake(){
+    public void stopIntakeAndCRun(){
     	leftIntakeMotor.set(0.0);
 		rightIntakeMotor.set(0.0);
-		cRun.stopIntake();
-		cRun.stopTransfer();
+		cRun.stopCRunMotors();
     }
 
     

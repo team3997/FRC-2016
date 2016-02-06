@@ -44,6 +44,9 @@ public class LogitechF310Gamepad {
     }
     
     public boolean getButton(int btnNum) {
+    	//special trigger stuff
+    	if((btnNum == 11) || (btnNum == 12))
+    		return getTrigger(btnNum);
         return this.joystick.getRawButton(btnNum);
     }
     
@@ -85,6 +88,13 @@ public class LogitechF310Gamepad {
     
     public boolean getRightStickClick() {
         return this.joystick.getRawButton(10);
+    }
+    
+    public boolean getTrigger(int num){
+    	if(num == 11)
+    		return getLeftTrigger();
+    	else
+    		return getRightTrigger();
     }
     
     public int getPOVVal(){

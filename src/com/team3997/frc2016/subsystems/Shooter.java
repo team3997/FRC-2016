@@ -27,7 +27,7 @@ public class Shooter {
 	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
-		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_ENABLE_TOGGLE_BUTTON);
+		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_FLYWHEEL_TOGGLE_BUTTON);
 		
 		flyWheelMotor = kFlyWheelMotor;
 		flyWheelEncoder = kFlyWheelEncoder;
@@ -52,6 +52,7 @@ public class Shooter {
     		toggleEnableMotor = !toggleEnableMotor;
     		System.out.println("switch");
     	}
+    	
     	//Shooting:
         if(!Robot.manualMode){ //Automatic mode code:
         	if(toggleEnableMotor){
@@ -60,19 +61,20 @@ public class Shooter {
         	} 
         	else {
         		shooterPID.disablePID();
+        		
         	//if the flywheels are up to speed and motors are enabled, transfer the ball from the Chicken Run to the shooter
-        	if(toggleEnableMotor && onTarget())
+        	if(gamePad.getButton(Controls.RUN_CRUN_TRANSFER_MOTOR) && toggleEnableMotor && onTarget())
         		cRun.runCRunTransfer();
         	else
-        		cRun.stopTransfer(); 
+        		cRun.stopCRunTransfer(); 
     	}
+ 
 
-    		if(toggleEnableMotor) //manual control
-    			flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
-    		else
-    			stopShooter();
-    	}  	
-    	
+    	if(toggleEnableMotor) //manual control
+    		flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
+   		else
+   			stopShooter();
+        }  	
     }
 
     public boolean onTarget(){

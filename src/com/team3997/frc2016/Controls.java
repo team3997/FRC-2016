@@ -26,7 +26,9 @@ public class Controls {
 	
 	public static int INTAKE_EXTEND_BUTTON = F310.blueButton;
 	
-	public static int SHOOTER_ENABLE_TOGGLE_BUTTON = F310.yellowButton;
+	public static int SHOOTER_RUN_FLYWHEEL_TOGGLE_BUTTON = F310.yellowButton;
+	
+	public static int RUN_CRUN_TRANSFER_MOTOR = F310.rightTrigger;
 	
 	
 	
@@ -43,4 +45,6 @@ class F310 {
 	public static final int rightBumper = 6;
 	public static final int leftStickClick = 9;
 	public static final int rightStickClick = 10;
+	public static final int leftTrigger = 11;
+	public static final int rightTrigger = 12;
 }

@@ -50,7 +50,7 @@ public class Pins {
 	 * 
 	 * Drive
 	 */
-	public static final int DRIVE_MOTOR_PINS[] = { 10, 11, 9, 8 }; // front left pin,
+	public static final int DRIVE_MOTOR_PINS[] = { 8, 9, 7, 6 }; // front left pin,
 															// right pin
 	
 	/*

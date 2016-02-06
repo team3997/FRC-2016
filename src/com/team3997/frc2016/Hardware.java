@@ -1,14 +1,16 @@
 package com.team3997.frc2016;
 
-import com.team3997.frc2016.components.CVVision;
+import com.team3997.frc2016.components.Vision;
 import com.team3997.frc2016.subsystems.*;
 //import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Hardware {
@@ -21,7 +23,22 @@ public class Hardware {
 			Pins.DRIVER_GAMEPAD_USB);
 	public static LogitechF310Gamepad kOpGamePad = new LogitechF310Gamepad(
 			Pins.OP_GAMEPAD_USB);
-
+	/*
+	 * 
+	 * Target LED
+	 * 
+	 */
+	public static DigitalOutput kTargetLED = new DigitalOutput(9);
+	
+	
+	/*
+	 * 
+	 * Arduino
+	 * 
+	 */
+	public static I2C kArduino = new I2C(I2C.Port.kOnboard, 168);
+	
+	
 	/*
 	 * 
 	 * Motors
@@ -33,7 +50,6 @@ public class Hardware {
 	
 	public static Talon kCRunIntakeMotor = new Talon(Pins.CRUN_MOTOR_PINS[0]);
 	public static Talon kCRunTransferMotor = new Talon(Pins.CRUN_MOTOR_PINS[1]);
-	
 	/*
 	 * 
 	 * Pneumatics
@@ -66,7 +82,8 @@ public class Hardware {
 			Pins.DRIVE_MOTOR_PINS[1], Pins.DRIVE_MOTOR_PINS[2], Pins.DRIVE_MOTOR_PINS[3], 
 			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
 	
-	public static ChickenRun kChickenRun = new ChickenRun(kCRunIntakeMotor, kCRunTransferMotor, kCRunBreakbeam, Params.CRUN_MOTOR_POWER, kOpGamePad);
+	public static ChickenRun kChickenRun = new ChickenRun(kCRunIntakeMotor, kCRunTransferMotor, 
+			kCRunBreakbeam, Params.CRUN_INTAKE_MOTOR_POWER, Params.CRUN_TRANSFER_MOTOR_POWER, kOpGamePad);
 	
 	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder, kOpGamePad, kChickenRun);
 	public static Intake kIntake = new Intake(kLeftIntakeMotor,
@@ -78,7 +95,7 @@ public class Hardware {
 	 * 
 	 * Vision
 	 */
-	public static CVVision kVision = new CVVision();
+	public static Vision kVision = new Vision(kTargetLED);
 
 	/*
 	 * 

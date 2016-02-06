@@ -27,15 +27,15 @@ public class Params extends UpdateParameters {
 	public static final boolean DASHBOARD_DRIVE_DEBUG = true;
 	public static final double DRIVE_MOTOR_SPEED = 0.75;
 	public static final boolean SQUARE_INPUTS = true;
-	public static final boolean ARCADE_DRIVE = false; // arcade drive is true, tank is false
+	public static final boolean ARCADE_DRIVE = true; // arcade drive is true, tank is false
 	
 	/*
 	 * 
 	 * ChickenRun
 	 * 
 	 */
-	public static final double CRUN_MOTOR_POWER = 0.85;
-	
+	public static final double CRUN_INTAKE_MOTOR_POWER = 0.85;
+	public static final double CRUN_TRANSFER_MOTOR_POWER = 0.85;
 	/*
 	 * 
 	 * Intake Parameters
