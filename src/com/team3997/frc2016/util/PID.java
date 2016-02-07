@@ -64,6 +64,10 @@ public class PID extends CustomPIDOutput{
 		pidController.enable();
 	}
 	
+	public void setPID(int p, int i, int d){
+		pidController.setPID(p, i, d);
+	}
+	
 	public void disablePID(){
 		pidController.disable(); //this also sets output to zero
 	}

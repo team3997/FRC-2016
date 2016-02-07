@@ -24,9 +24,10 @@ public class Shooter {
 	private boolean toggleEnableMotor = false;
 	private Debounce shooterToggleButton;
 	private ChickenRun cRun;
+	private int PIDMode;
 	
 	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
-		
+		PIDMode = 0;
 		gamePad = kGamePad;
 		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_ENABLE_TOGGLE_BUTTON);
 		
@@ -34,9 +35,9 @@ public class Shooter {
 		flyWheelEncoder = kFlyWheelEncoder;
 		
 		shooterPID = new PID(flyWheelEncoder, flyWheelMotor,
-				PIDParams.sP.getDouble(), PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), 
-				PIDParams.sTolerance, PIDParams.sOutMin, PIDParams.sOutMax,  PIDParams.sEncoderRotationScale, 
-				 PIDParams.sSamplesToAverage, PIDParams.sType);
+				PIDParams.sP[PIDMode].getDouble(), PIDParams.sI[PIDMode].getDouble(), PIDParams.sI[PIDMode].getDouble(), 
+				PIDParams.sTolerance, PIDParams.sOutMin[PIDMode], PIDParams.sOutMax[PIDMode],  PIDParams.sEncoderRotationScale, 
+				 PIDParams.sSamplesToAverage[PIDMode], PIDParams.sType);
 		
 		cRun = kCRun;
 		
@@ -56,6 +57,14 @@ public class Shooter {
     	
     	//Shooting:
         if(!Robot.manualMode){ //Automatic mode code:
+        	int POVVal = gamePad.getPOVVal();
+        	if(POVVal != -1){
+        		PIDMode = POVVal/90;
+        		shooterPID = new PID(flyWheelEncoder, flyWheelMotor,
+        				PIDParams.sP[PIDMode].getDouble(), PIDParams.sI[PIDMode].getDouble(), PIDParams.sI[PIDMode].getDouble(), 
+        				PIDParams.sTolerance, PIDParams.sOutMin[PIDMode], PIDParams.sOutMax[PIDMode],  PIDParams.sEncoderRotationScale, 
+        				 PIDParams.sSamplesToAverage[PIDMode], PIDParams.sType);
+        	}
         	if(toggleEnableMotor)
         		shooterPID.enablePID();
         	else
