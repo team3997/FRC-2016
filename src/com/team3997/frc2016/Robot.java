@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 	Climber climber = Hardware.kClimber;
 	ChickenRun chickenRun = Hardware.kChickenRun;
 	Vision vision = Hardware.kVision;
-	I2C arduino = Hardware.kArduino;
+	I2C lights = Hardware.kLights;
 	
 	//CameraSwitcher cameraSwitcher = new CameraSwitcher(Hardware.kOpGamePad);
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
@@ -56,15 +56,17 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		
-		auton.listOptions();
-		
-		if(arduino.addressOnly())
+		if(lights.addressOnly()){
         	System.out.println("I2C IS ON");
-        else
+		}
+        else {
         	System.out.println("I2C IS OFF");
+		}
 		
 		toSend = new byte[1];
 		toSend[0] = 6;
+		
+		auton.listOptions();
 		
 		Hardware.kAxisCamera.writeBrightness(0);
 		Hardware.kAxisCamera.writeWhiteBalance(AxisCamera.WhiteBalance.kFixedIndoor);
@@ -72,6 +74,7 @@ public class Robot extends IterativeRobot {
 		Hardware.kAxisCamera.writeCompression(50);
 		Hardware.kAxisCamera.writeMaxFPS(15);
 		
+		//Turn camrea light on
 		Hardware.kTargetLED.set(true);
 		
 		// Update parameters from text file
@@ -107,7 +110,7 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		climber.runTeleOp();
-		//vision.getContours();
+		
 		//Change between manual and automatic mode
 		if(manualToggle.getFall()){
 			Hardware.kAxisCamera.writeExposureControl(AxisCamera.ExposureControl.kHold);
@@ -127,7 +130,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		arduino.transaction(toSend, 1, null, 0);
+		lights.transaction(toSend, 1, null, 0);
 		//Vision.getContours();
 	}
 

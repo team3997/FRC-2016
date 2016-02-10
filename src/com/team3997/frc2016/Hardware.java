@@ -37,7 +37,7 @@ public class Hardware {
 	 * Arduino
 	 * 
 	 */
-	public static I2C kArduino = new I2C(I2C.Port.kOnboard, 168);
+	public static I2C kLights = new I2C(I2C.Port.kOnboard, 168);
 	
 	
 	/*
