@@ -1,0 +1,36 @@
+package org.usfirst.frc.team3997.robot;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
+public class Robot extends IterativeRobot {
+	
+	NetworkTable table;
+	
+	private double[] area;
+	private double[] centerx;
+	private double[] centery;
+	private double[] height;
+	private double[] width;
+	
+	double[] defaultValue = {0.0};
+	
+    public void robotInit() {
+    	table = NetworkTable.getTable("GRIP/myContoursReport");
+    }
+    
+    public void teleopInit(){
+
+    }
+    
+    
+    public void teleopPeriodic() {
+		width = table.getNumberArray("width", defaultValue);
+		
+		if(width.length>0){
+			System.out.println("width:" + width[0]);
+		}
+		else{
+			
+		}
+    }
+}
