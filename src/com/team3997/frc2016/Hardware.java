@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.vision.AxisCamera;
 
 public class Hardware {
 
@@ -95,7 +96,8 @@ public class Hardware {
 	 * 
 	 * Vision
 	 */
-	public static Vision kVision = new Vision(kTargetLED);
+	public static AxisCamera kAxisCamera = new AxisCamera(Params.CAMERA_AXIS_IP);
+	public static Vision kVision = new Vision();
 
 	/*
 	 * 

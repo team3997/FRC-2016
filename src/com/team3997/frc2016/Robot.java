@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
+import edu.wpi.first.wpilibj.vision.AxisCamera;
 import edu.wpi.first.wpilibj.vision.AxisCamera.ExposureControl;
 
 public class Robot extends IterativeRobot {
@@ -45,16 +46,16 @@ public class Robot extends IterativeRobot {
 	ChickenRun chickenRun = Hardware.kChickenRun;
 	Vision vision = Hardware.kVision;
 	I2C arduino = Hardware.kArduino;
+	
 	//CameraSwitcher cameraSwitcher = new CameraSwitcher(Hardware.kOpGamePad);
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
 	byte[] toSend;
-	
-	//AHRS accel = new AHRS();
 
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
+		
 		auton.listOptions();
 		
 		if(arduino.addressOnly())
@@ -64,6 +65,14 @@ public class Robot extends IterativeRobot {
 		
 		toSend = new byte[1];
 		toSend[0] = 6;
+		
+		Hardware.kAxisCamera.writeBrightness(0);
+		Hardware.kAxisCamera.writeWhiteBalance(AxisCamera.WhiteBalance.kFixedIndoor);
+		Hardware.kAxisCamera.writeResolution(AxisCamera.Resolution.k480x360);
+		Hardware.kAxisCamera.writeCompression(50);
+		Hardware.kAxisCamera.writeMaxFPS(15);
+		
+		Hardware.kTargetLED.set(true);
 		
 		// Update parameters from text file
 		UpdateParameters.update();
@@ -87,10 +96,8 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start teleopInit()");
 
 		auton.stop();
-		vision.Axis.writeExposureControl(ExposureControl.kHold);
 
 		UpdateParameters.update();
-		Hardware.kTargetLED.set(true);
 		//accel.reset();
 	}
 
@@ -100,11 +107,10 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		climber.runTeleOp();
-		vision.runTeleOp();
-		
-
+		//vision.getContours();
 		//Change between manual and automatic mode
 		if(manualToggle.getFall()){
+			Hardware.kAxisCamera.writeExposureControl(AxisCamera.ExposureControl.kHold);
 			manualMode = !manualMode;
 		}
 	}
@@ -112,8 +118,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 		System.out.println("Start disabledInit()");
-
-		// Stop auto mode
+		
 		auton.stop();
 
 		// cameraSwitcher.end();
@@ -122,8 +127,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		// cameraSwitcher.runTeleOp(); //debug
 		arduino.transaction(toSend, 1, null, 0);
+		//Vision.getContours();
 	}
 
 	@Override
