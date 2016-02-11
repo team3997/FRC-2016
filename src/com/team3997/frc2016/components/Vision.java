@@ -20,6 +20,11 @@ public class Vision extends IterativeRobot {
 	public Vision() {
 		table = NetworkTable.getTable("GRIP/myContoursReport");
     }
+	
+	public void runTeleOp(){
+		updateValues();
+		printValues();
+	}
 
 	/**
 	 *  Grab all grip contour variables
@@ -57,11 +62,13 @@ public class Vision extends IterativeRobot {
     public double getLargestArrayValue(double[] valueArray){
     	int max = 0;
     	for(int i = 0; i < valueArray.length; i++){
-    		max = valueArray[i] > valueArray[max] ? i : max;
+    		max = valueArray[i] > max ? i : max;
     	}
     	
-    	if(valueArray.length > 0)
+    	if(valueArray.length > 0){
+    		System.out.println("return" + valueArray[max]);
     		return valueArray[max];
+    	}
     	else
     		return 0.0;
     }

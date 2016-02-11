@@ -110,6 +110,7 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		climber.runTeleOp();
+		vision.runTeleOp();
 		
 		//Change between manual and automatic mode
 		if(manualToggle.getFall()){
