@@ -15,20 +15,18 @@ public class Intake{
 	
 	private LogitechF310Gamepad gamePad;
 	double intakeMotorPower;
-	Talon leftIntakeMotor;
-	Talon rightIntakeMotor;
+	Talon intakeMotor;
 	private Extender extender;
 	private ChickenRun cRun;
 	
-	public Intake(Talon leftMotor, Talon rightMotor,
+	public Intake(Talon kIntakeMotor,
 			double intakeMotorPower, DoubleSolenoid kIntakeExtenderSolenoid, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
 		
 		extender = new Extender(kIntakeExtenderSolenoid);
 		
-		leftIntakeMotor = leftMotor;
-		rightIntakeMotor = rightMotor;
+		intakeMotor = kIntakeMotor;
 		
 		this.intakeMotorPower = intakeMotorPower;
 		
@@ -45,18 +43,16 @@ public class Intake{
     	//if only intake button is pressed, then run intake
     	if(gamePad.getButton(Controls.INTAKE_BUTTON) && !gamePad.getButton(Controls.OUTTAKE_BUTTON)){
     		runIntake();
-    		//if the ball has not been indexed, run ChickenRun intake wheels also
     		if(!cRun.isIndexed())
-    			cRun.runCRunIntake();
+    			cRun.intakeCRun();
     		else {
-    			cRun.stopCRunIntake();
+    			cRun.stopCRun();
     		}
     	}
-    	//if only outtake button is pressed, then outtake using intake wheels, and BOTH SETS OF ChickenRun WHEELS
+    	//if only outtake button is pressed, then outtake using intake wheels and crun
     	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
     		runIntake(intakeMotorPower, -1);
-    		cRun.runCRunIntake(-1);
-    		cRun.runCRunTransfer(-1);
+    		cRun.outakeCRun(-1);
     	}
 		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS
     	else{
@@ -64,8 +60,7 @@ public class Intake{
     	}
     	
 		if(Params.DASHBOARD_INTAKE_DEBUG){
-			Dashboard.put("INTAKE Left Motor: ", leftIntakeMotor.get());
-			Dashboard.put("INTAKE Right Motor: ", rightIntakeMotor.get());
+			Dashboard.put("INTAKE Left Motor: ", intakeMotor.get());
 		}	
     }
     	
@@ -73,20 +68,17 @@ public class Intake{
     
     // Run the intake at default motor speed
     public void runIntake(){
-    	leftIntakeMotor.set(intakeMotorPower);
-		rightIntakeMotor.set(intakeMotorPower);
+    	intakeMotor.set(intakeMotorPower);
     }
     
     // Run intake at custom direction and speed
     public void runIntake(double speed, int direction){
-    	leftIntakeMotor.set(direction * speed);
-		rightIntakeMotor.set(direction * speed);
+    	intakeMotor.set(direction * speed);
     }
     
     // Stop intake motors AND ChickenRun motors;
     public void stopIntakeAndCRun(){
-    	leftIntakeMotor.set(0.0);
-		rightIntakeMotor.set(0.0);
+    	intakeMotor.set(0.0);
 		cRun.stopCRunMotors();
     }
 
