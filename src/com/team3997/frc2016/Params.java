@@ -25,7 +25,7 @@ public class Params extends UpdateParameters {
 	 * Drive Parameters
 	 */
 	public static final boolean DASHBOARD_DRIVE_DEBUG = true;
-	public static final double DRIVE_MOTOR_SPEED = 0.75;
+	public static final double DRIVE_MOTOR_SPEED = 1.0;
 	public static final boolean SQUARE_INPUTS = true;
 	public static final boolean ARCADE_DRIVE = true; // arcade drive is true, tank is false
 	
@@ -48,7 +48,6 @@ public class Params extends UpdateParameters {
 	 * Shooter Parameters
 	 */
 	public static final double FLYWHEEL_MOTOR_POWER = 0.85;
-	public static final boolean ADJUSTER_DEFAULT_POSITION = false; //true is up, false is down
 	
 	/*
 	 * 

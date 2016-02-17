@@ -63,7 +63,7 @@ public class Shooter {
         		shooterPID.disablePID();
         		
         	//if the flywheels are up to speed and motors are enabled, transfer the ball from the Chicken Run to the shooter
-        	if(gamePad.getButton(Controls.RUN_CRUN_TRANSFER_MOTOR) && toggleEnableMotor && onTarget())
+        	if(gamePad.getButton(Controls.RUN_CRUN_TRANSFER_MOTOR) && toggleEnableMotor && onTargetRPM())
         		cRun.startCRun();
         	else
         		cRun.stopCRun(); 
@@ -77,28 +77,55 @@ public class Shooter {
         }  	
     }
 
-    public boolean onTarget(){
-    	return shooterPID.onTarget();
+    /**
+     * onTargetRPM
+     * @return true if the shooter's RPM is within the tolerance of it's goal RPM.
+     */
+    public boolean onTargetRPM(){
+    	if(isPIDEnabled())
+    		return shooterPID.onTarget();
+    	else
+    		return false;
     }
     
+    /**
+     * isPIDEnabled
+     * @return true if a PID loop to achieve a certain RPM is running
+     */
     public boolean isPIDEnabled(){
     	return shooterPID.isPIDEnabled();
     }
     
-    public void setSetpoint(int newSetpoint){
+    /**
+     * setRPMSetpoint
+     * sets the goal RPM of the PID loop
+     */
+    public void setRPMSetpoint(int newSetpoint){
     	shooterPID.setSetpoint(newSetpoint);
     }
     
-    public double getSetpoint(){
+    /**
+     * getRPMSetpoint
+     * @return the goal RPM of the current PID loop
+     */
+    public double getRPMSetpoint(){
     	return shooterPID.getSetpoint();
     }
     
-    // Run the fly wheel at default motor speed
-    public void runShooterAtDefaultMotorSpeed(){
+    /**
+     * runShooterAtDefaultSpeed
+     * 
+     * sets the shooter to run at a set motor speed
+     */
+    public void runShooterAtDefaultSpeed(){
     	flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
     }
     
-    // Stop fly wheel motor
+    /**
+     * stopShooter
+     * 
+     * sets the shooter motor to 0.0
+     */
     public void stopShooter(){
     	flyWheelMotor.set(0.0);
     }
