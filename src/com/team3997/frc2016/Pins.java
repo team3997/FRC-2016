@@ -58,15 +58,15 @@ public class Pins {
 	 * ChickenRun
 	 * 
 	 */
-	public static final int CRUN_MOTOR_PIN = 9;
+	public static final int CRUN_MOTOR_PIN = 8;
 	public static final int CRUN_BREAKBEAM_PIN = 7;
 	
 	/*
 	 * 
 	 * Intake
 	 */
-	public static final int INTAKE_MOTOR_PIN = 8; // left, right
-	public static final int INTAKE_EXTENDER_SOLE_PINS[] = { 0, 1 };
+	public static final int INTAKE_MOTOR_PIN = 9; // left, right
+	public static final int INTAKE_EXTENDER_SOLE_PINS[] = {2, 3};
 
 	/*
 	 * 

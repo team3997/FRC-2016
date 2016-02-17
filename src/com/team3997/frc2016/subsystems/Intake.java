@@ -25,14 +25,12 @@ public class Intake{
 		gamePad = kGamePad;
 		
 		extender = new Extender(kIntakeExtenderSolenoid);
-		
 		intakeMotor = kIntakeMotor;
-		
 		this.intakeMotorPower = intakeMotorPower;
-		
 		cRun = kCRun;
 		
 		// set motors to stop for safety
+		extender.off();
 		stopIntakeAndCRun();
 	}
 	
@@ -42,44 +40,55 @@ public class Intake{
     	
     	//if only intake button is pressed, then run intake
     	if(gamePad.getButton(Controls.INTAKE_BUTTON) && !gamePad.getButton(Controls.OUTTAKE_BUTTON)){
-    		runIntake();
+    		startIntake();
     		if(!cRun.isIndexed())
-    			cRun.intakeCRun();
+    			cRun.startCRun();
     		else {
     			cRun.stopCRun();
     		}
     	}
     	//if only outtake button is pressed, then outtake using intake wheels and crun
     	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
-    		runIntake(intakeMotorPower, -1);
-    		cRun.outakeCRun(-1);
+    		startOuttake();
+    		cRun.startCRunReverse();
     	}
 		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS
     	else{
     		stopIntakeAndCRun();
     	}
     	
+    	//Extender stuff:
+    	if(gamePad.getButton(Controls.INTAKE_EXTEND_BUTTON)){
+    		extender.out();
+    	}
+    	else {
+    		extender.in();
+    	}
+    	
 		if(Params.DASHBOARD_INTAKE_DEBUG){
 			Dashboard.put("INTAKE Left Motor: ", intakeMotor.get());
 		}	
     }
-    	
-    	
+
     
     // Run the intake at default motor speed
-    public void runIntake(){
+    public void startIntake(){
     	intakeMotor.set(intakeMotorPower);
     }
     
     // Run intake at custom direction and speed
-    public void runIntake(double speed, int direction){
+    public void startIntake(double speed, int direction){
     	intakeMotor.set(direction * speed);
+    }
+    
+    public void startOuttake(){
+    	intakeMotor.set(-intakeMotorPower);
     }
     
     // Stop intake motors AND ChickenRun motors;
     public void stopIntakeAndCRun(){
     	intakeMotor.set(0.0);
-		cRun.stopCRunMotors();
+		cRun.stopCRun();
     }
 
     

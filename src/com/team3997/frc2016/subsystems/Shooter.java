@@ -64,9 +64,9 @@ public class Shooter {
         		
         	//if the flywheels are up to speed and motors are enabled, transfer the ball from the Chicken Run to the shooter
         	if(gamePad.getButton(Controls.RUN_CRUN_TRANSFER_MOTOR) && toggleEnableMotor && onTarget())
-        		cRun.runCRunTransfer();
+        		cRun.startCRun();
         	else
-        		cRun.stopCRunTransfer(); 
+        		cRun.stopCRun(); 
     	}
  
 

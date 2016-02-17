@@ -36,7 +36,15 @@ public class ChickenRun {
 		cRunMotor.set(0.0);
 	}
 	
-	protected void runCRunIntake(int direction) {
-		cRunMotor.set(cRunMotorPower * direction);
+	protected void startCRun() {
+		cRunMotor.set(cRunMotorPower);
+	}
+	
+	protected void startCRunReverse() {
+		cRunMotor.set(-cRunMotorPower);
+	}
+	
+	protected void runCRun(double speed) {
+		cRunMotor.set(speed);
 	}
 }
