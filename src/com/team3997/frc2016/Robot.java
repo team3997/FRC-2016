@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
 	Drive drive = Hardware.kDrive;
 	Shooter shooter = Hardware.kShooter;
 	Intake intake = Hardware.kIntake;
-	Climber climber = Hardware.kClimber;
+	Hanger hanger = Hardware.kHanger;
 	ChickenRun chickenRun = Hardware.kChickenRun;
 	Vision vision = Hardware.kVision;
 	I2C lights = Hardware.kLights;
@@ -109,13 +109,14 @@ public class Robot extends IterativeRobot {
 		drive.runTeleOp();
 		shooter.runTeleOp();
 		intake.runTeleOp();
-		climber.runTeleOp();
+		hanger.runTeleOp();
 		vision.runTeleOp();
 		
 		//Change between manual and automatic mode
 		if(manualToggle.getFall()){
-			Hardware.kAxisCamera.writeExposureControl(AxisCamera.ExposureControl.kHold);
 			manualMode = !manualMode;
+			shooter.shooterPID.disablePID();
+			Hardware.kAxisCamera.writeExposureControl(AxisCamera.ExposureControl.kHold);
 		}
 	}
 

@@ -34,8 +34,7 @@ public class Params extends UpdateParameters {
 	 * ChickenRun
 	 * 
 	 */
-	public static final double CRUN_INTAKE_MOTOR_POWER = 0.85;
-	public static final double CRUN_TRANSFER_MOTOR_POWER = 0.85;
+	public static final double CRUN_MOTOR_POWER = 0.85;
 	/*
 	 * 
 	 * Intake Parameters
@@ -47,7 +46,7 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Shooter Parameters
 	 */
-	public static final double FLYWHEEL_MOTOR_POWER = 0.85;
+	public static final double SHOOTER_MOTOR_POWER = 0.85;
 	
 	/*
 	 * 

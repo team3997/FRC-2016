@@ -9,14 +9,14 @@ package com.team3997.frc2016;
 //PORTS TAKEN:
 /*
  *	PWM: 0 1 2 3 4 5 6 7 8 9
- *					 x x x x 
- *					 m m m m
+ *		 x x x x     x x x x
+ *				
  */
 
 /*
  *	DIO: 0 1 2 3 4 5 6 7 8 9
- *		 x x x x x x x     x
- *		 e e e e e e b     a
+ *		 x x x x x x x x
+ *		
  */
 
 public class Pins {
@@ -59,7 +59,7 @@ public class Pins {
 	 * 
 	 */
 	public static final int CRUN_MOTOR_PIN = 9;
-	public static final int CRUN_BREAKBEAM_PIN = 7;
+	public static final int CRUN_INDEXER_PIN = 7;
 	
 	/*
 	 * 
@@ -72,7 +72,7 @@ public class Pins {
 	 * 
 	 * Shooter
 	 */
-	public static final int FLYWHEEL_MOTOR_PIN = 2;
+	public static final int SHOOTER_MOTOR_PINS[] = {2, 3};
 	
 	/*
 	 * 

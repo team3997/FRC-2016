@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class LogitechF310Gamepad {
     private Joystick joystick;
-    private final double triggerEnableThreshold = 0.7;
+    private final double triggerEnableThreshold = 0.8;
     
     public LogitechF310Gamepad(int portNum) {
         this.joystick = new Joystick(portNum);
@@ -44,9 +44,11 @@ public class LogitechF310Gamepad {
     }
     
     public boolean getButton(int btnNum) {
+    	
     	//special trigger stuff
     	if((btnNum == 11) || (btnNum == 12))
     		return getTrigger(btnNum);
+    	
         return this.joystick.getRawButton(btnNum);
     }
     

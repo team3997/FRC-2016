@@ -26,9 +26,9 @@ public class Controls {
 	
 	public static int INTAKE_EXTEND_BUTTON = F310.blueButton;
 	
-	public static int SHOOTER_RUN_FLYWHEEL_TOGGLE_BUTTON = F310.yellowButton;
+	public static int SHOOTER_RUN_MOTORS_TOGGLE_BUTTON = F310.yellowButton;
 	
-	public static int RUN_CRUN_TRANSFER_MOTOR = F310.rightTrigger;
+	public static int RUN_CRUN_TO_SHOOTER = F310.rightTrigger;
 	
 	
 	

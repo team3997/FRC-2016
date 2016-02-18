@@ -16,30 +16,32 @@ import com.team3997.frc2016.Controls;
 public class Shooter {
 	
 	private LogitechF310Gamepad gamePad;
-	private PID shooterPID;
-	private Talon flyWheelMotor;
-	private Encoder flyWheelEncoder;
+	public PID shooterPID;
+	private Talon shooterMotor1;
+	private Talon shooterMotor2;
+	private Encoder shooterEncoder;
 	public double goalRPM = 0;
-	private boolean toggleEnableMotor = false;
+	private boolean toggleEnableShooterMotor = false;
 	private Debounce shooterToggleButton;
 	private ChickenRun cRun;
 	
-	public Shooter(Talon kFlyWheelMotor, Encoder kFlyWheelEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
+	public Shooter(Talon kshooterMotor1, Talon kshooterMotor2, Encoder kshooterEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
-		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_FLYWHEEL_TOGGLE_BUTTON);
+		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_TOGGLE_BUTTON);
 		
-		flyWheelMotor = kFlyWheelMotor;
-		flyWheelEncoder = kFlyWheelEncoder;
+		shooterMotor1 = kshooterMotor1;
+		shooterMotor2 = kshooterMotor2;
+		shooterEncoder = kshooterEncoder;
 		
-		shooterPID = new PID(flyWheelEncoder, flyWheelMotor,
+		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2,
 				PIDParams.sP.getDouble(), PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), 
 				PIDParams.sTolerance, PIDParams.sOutMin, PIDParams.sOutMax,  PIDParams.sEncoderRotationScale, 
 				 PIDParams.sSamplesToAverage, PIDParams.sType);
 		
 		cRun = kCRun;
 		
-		shooterPID.setSetpoint(100);
+		shooterPID.setSetpoint(PIDParams.sGoalRPM.getInt());
 		stopShooter();
 	}
 	
@@ -49,33 +51,54 @@ public class Shooter {
     		
     	//if shooter button is pressed, toggle motor enable
     	if(shooterToggleButton.getRise()){
-    		toggleEnableMotor = !toggleEnableMotor;
-    		System.out.println("switch");
+    		toggleEnableShooterMotor = !toggleEnableShooterMotor;
     	}
     	
-    	//Shooting:
-        if(!Robot.manualMode){ //Automatic mode code:
-        	if(toggleEnableMotor){
-        		shooterPID.enablePID();
-        		System.out.println("enable pid");
-        	} 
+        if(!Robot.manualMode){ 
+        	runAuto();
+        }
+        else { 
+        	runManual();
+        }
+    }
+    
+    public void runAuto(){
+    	if(toggleEnableShooterMotor){
+    		shooterPID.enablePID();
+    		
+        	//if the shooter button is pressed and shooter motors are up to speed, transfer the ball from the Chicken Run to the shooter
+        	if(gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && onTargetRPM()){ //!!Check if onTarget is correct
+        		cRun.setSendingToShooter(true);
+        		cRun.intake();
+        	}
         	else {
-        		shooterPID.disablePID();
-        		
-        	//if the flywheels are up to speed and motors are enabled, transfer the ball from the Chicken Run to the shooter
-        	if(gamePad.getButton(Controls.RUN_CRUN_TRANSFER_MOTOR) && toggleEnableMotor && onTargetRPM())
-        		cRun.startCRun();
-        	else
-        		cRun.stopCRun(); 
+        		cRun.setSendingToShooter(false);
+        		cRun.stop();
+        	}
+    		
+    	} 
+    	else {
+    		shooterPID.disablePID();
     	}
- 
-
-    	if(toggleEnableMotor) //manual control
-    		flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
+    }
+    
+    public void runManual(){
+    	if(toggleEnableShooterMotor){
+    		runShooterAtDefaultSpeed();
+    		
+        	if(gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER)){
+        		cRun.setSendingToShooter(true);
+        		cRun.intake();
+        	}
+        	else {
+        		cRun.setSendingToShooter(false);
+        		cRun.stop();
+        	}
+    	}
    		else
    			stopShooter();
-        }  	
     }
+
 
     /**
      * onTargetRPM
@@ -118,7 +141,8 @@ public class Shooter {
      * sets the shooter to run at a set motor speed
      */
     public void runShooterAtDefaultSpeed(){
-    	flyWheelMotor.set(Params.FLYWHEEL_MOTOR_POWER);
+    	shooterMotor1.set(Params.SHOOTER_MOTOR_POWER);
+    	shooterMotor2.set(Params.SHOOTER_MOTOR_POWER);
     }
     
     /**
@@ -127,7 +151,8 @@ public class Shooter {
      * sets the shooter motor to 0.0
      */
     public void stopShooter(){
-    	flyWheelMotor.set(0.0);
+    	shooterMotor1.set(0.0);
+    	shooterMotor2.set(0.0);
     }
 
     

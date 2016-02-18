@@ -38,23 +38,30 @@ public class Intake{
     // Function that runs during teleop periodically
     public void runTeleOp(){
     	
-    	//if only intake button is pressed, then run intake
+    	//if only intake button is pressed, then run intake and crun
     	if(gamePad.getButton(Controls.INTAKE_BUTTON) && !gamePad.getButton(Controls.OUTTAKE_BUTTON)){
-    		startIntake();
-    		if(!cRun.isIndexed())
-    			cRun.startCRun();
-    		else {
-    			cRun.stopCRun();
+    		this.intake();
+    		
+    		if(!cRun.isSendingToShooter()){
+    			
+    			if(!cRun.isIndexed())
+    				cRun.intake();
+    			else
+    				cRun.stop();
     		}
     	}
     	//if only outtake button is pressed, then outtake using intake wheels and crun
     	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
-    		startOuttake();
-    		cRun.startCRunReverse();
+    		this.outtake();
+    		
+    		if(!cRun.isSendingToShooter())
+    			cRun.outtake();
     	}
-		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS
-    	else{
-    		stopIntakeAndCRun();
+    	
+		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS if the robot is not currently shooting
+    	else {
+    		if(!cRun.isSendingToShooter())
+    			stopIntakeAndCRun();
     	}
     	
     	//Extender stuff:
@@ -72,23 +79,23 @@ public class Intake{
 
     
     // Run the intake at default motor speed
-    public void startIntake(){
+    public void intake(){
     	intakeMotor.set(intakeMotorPower);
     }
     
     // Run intake at custom direction and speed
-    public void startIntake(double speed, int direction){
+    public void intake(double speed, int direction){
     	intakeMotor.set(direction * speed);
     }
     
-    public void startOuttake(){
+    public void outtake(){
     	intakeMotor.set(-intakeMotorPower);
     }
     
     // Stop intake motors AND ChickenRun motors;
     public void stopIntakeAndCRun(){
     	intakeMotor.set(0.0);
-		cRun.stopCRun();
+		cRun.stop();
     }
 
     

@@ -20,19 +20,20 @@ public class PID {
 	private double rotationScale;
 	
 	private Encoder encoder;
-	private Talon outputMotor;
+	private Talon outputMotor1;
+	private Talon outputMotor2;
 	
 	private PIDSourceType sensingType;
 	
 	private double setpoint = 0;
 	
-	private MotorPIDOutput pidOutput;
+	private ShooterMotorsPIDOutput pidOutput;
 	
 	protected PIDController pidController;
 	
 	
 	//Shooter PID constructor
-	public PID(Encoder kSensor, Talon kOutputMotor, double kP, double kI, double kD,
+	public PID(Encoder kSensor, Talon kOutputMotor1, Talon kOutputMotor2, double kP, double kI, double kD,
 			double kTolerance, double kOutMin, double kOutMax, 
 			double kRotationScale, int kSamplesToAverage, PIDSourceType kType){
 		
@@ -45,14 +46,15 @@ public class PID {
 		outMax = kOutMax;
 		rotationScale = kRotationScale;
 		encoder = kSensor;
-		outputMotor = kOutputMotor;
+		outputMotor1 = kOutputMotor1;
+		outputMotor2 = kOutputMotor2;
 		sensingType = kType;
 		
 		encoder.setPIDSourceType(sensingType);
     	encoder.setDistancePerPulse(rotationScale);
     	encoder.setSamplesToAverage(samplesToAverage);
     	
-    	pidOutput = new MotorPIDOutput(outputMotor);
+    	pidOutput = new ShooterMotorsPIDOutput(outputMotor1, outputMotor2);
     	
 		pidController = new PIDController(P, I, D, encoder, pidOutput);
 		
@@ -71,13 +73,12 @@ public class PID {
 	public void setSetpoint(int newSetpoint){
 		setpoint = newSetpoint;
 		
-		if(isPIDEnabled())
-			pidController.setSetpoint(setpoint);
+		pidController.setSetpoint(setpoint);
 	}
 	
 	
 	public double getLoopOutput(){
-		return pidOutput.getLoopOutput();
+		return pidOutput.getPIDLoopOutput();
 	}
 	
 	public boolean onTarget(){
@@ -96,4 +97,9 @@ public class PID {
 	public double getSetpoint(){
 		return setpoint;
 	}
+	
+    public void changePID(int goalRPM, double P, double I, double D){
+    	pidController.setPID(P, I, D);
+    	setSetpoint(goalRPM);
+    }
 }

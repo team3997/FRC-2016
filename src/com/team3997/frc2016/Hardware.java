@@ -46,7 +46,8 @@ public class Hardware {
 	 */
 	public static Talon kIntakeMotor = new Talon(Pins.INTAKE_MOTOR_PIN);
 
-	public static Talon kFlyWheelMotor = new Talon(Pins.FLYWHEEL_MOTOR_PIN);
+	public static Talon kShooterMotor1 = new Talon(Pins.SHOOTER_MOTOR_PINS[0]);
+	public static Talon kShooterMotor2 = new Talon(Pins.SHOOTER_MOTOR_PINS[1]);
 	
 	public static Talon kCRunMotor = new Talon(Pins.CRUN_MOTOR_PIN);
 	/*
@@ -60,7 +61,7 @@ public class Hardware {
 	
 	/*
 	 * 
-	 * Sensors (Encoders, gyro, breakbeam, switches etc..)
+	 * Sensors (Encoders, gyro, index sensor, switches etc..)
 	 */
 	public static Encoder kDriveLeftEncoder = new Encoder(
 			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1]);
@@ -69,7 +70,7 @@ public class Hardware {
 	public static Encoder kFlyWheelEncoder = new Encoder(
 			Pins.SHOOTER_ENCODER_PINS[0], Pins.SHOOTER_ENCODER_PINS[1]);
 	
-	public static DigitalInput kCRunBreakbeam = new DigitalInput(Pins.CRUN_BREAKBEAM_PIN);
+	public static DigitalInput kCRunIndexSensor = new DigitalInput(Pins.CRUN_INDEXER_PIN);
 	
 	public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
 
@@ -82,12 +83,12 @@ public class Hardware {
 			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
 	
 	public static ChickenRun kChickenRun = new ChickenRun(kCRunMotor, 
-			kCRunBreakbeam, Params.CRUN_INTAKE_MOTOR_POWER, Params.CRUN_TRANSFER_MOTOR_POWER, kOpGamePad);
+			kCRunIndexSensor, kOpGamePad);
 	
-	public static Shooter kShooter = new Shooter(kFlyWheelMotor, kFlyWheelEncoder, kOpGamePad, kChickenRun);
+	public static Shooter kShooter = new Shooter(kShooterMotor1, kShooterMotor2, kFlyWheelEncoder, kOpGamePad, kChickenRun);
 	public static Intake kIntake = new Intake(kIntakeMotor, Params.INTAKE_MOTOR_POWER, kIntakeExtenderSolenoid, kOpGamePad, kChickenRun);
 	
-	public static Climber kClimber = new Climber();
+	public static Hanger kHanger = new Hanger();
 	
 	/*
 	 * 
