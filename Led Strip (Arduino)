@@ -34,7 +34,7 @@ Hardware Required:
 #include <Wire.h>
 #include <PololuLedStrip.h>
 
-PololuLedStrip<12> ledStrip;
+PololuLedStrip<A0> ledStrip;
 
 //Defines how many LEDs the code will be handeling. One strip is 60 LEDs.
 #define LED_COUNT 56
