@@ -9,7 +9,19 @@ import com.team3997.frc2016.util.UpdateParameters;
  */
 
 public class Params extends UpdateParameters {
-
+	/*
+	 * 
+	 * Arduino Params
+	 * 
+	 * 
+	 */
+	public static final int INDIGO = 1;
+	public static final int ORANGE = 2;
+	public static final int HALFYELLOW = 3;
+	public static final int FULLYELLOW = 4;
+	public static final int RAINBOW = 5;
+	public static final int PRIDE = 6;
+	public static final int BULLET = 7;
 	/*
 	 * 
 	 * Other Params
@@ -52,7 +64,4 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Climber Parameters
 	 */
-	
-
-
 }
