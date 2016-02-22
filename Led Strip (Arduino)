@@ -1,0 +1,263 @@
+/*
+LED LIGHTS
+FRC Team 3997 ("Screaming Chickens")
+Damir Gluhak
+
+LED program for use with WS2812B LED strips and an I2C connection, 
+specifically a RoboRIO, however any I2C-Master capable device should 
+work. THIS CODE IS FOR THE SLAVE OF THE I2C CONNECTION. The code will
+expect a byte containing and integer between 1 and 9, and will display
+a specific color or pattern on the LEDs accordingly. The modes and the
+numbers that they correspond with are displayed below.
+
+1 Indigo
+2 Orange
+3* Half Yellow, Half Off
+5 Rainbow
+6 Blue and Yellow Pattern
+7 A White "Bullet" being shot across the leds quickly
+
+* The LEDs will hold as Half Yellow half off until another number is
+received, if the number is 4, the other half of the LEDs will turn on,
+if another number is received, it will display but will not fade and 
+will look gauche as it was not intended to be displayed that way. 
+Do not send 2 (Yellow) to complete the pattern, send 6!
+
+Hardware Required:
+- The LED Strip, a list of some compatable ones are available at: 
+  https://github.com/pololu/pololu-led-strip-arduino
+- An I2C Master, namely the RoboRIO
+- An Arduino and the wires to connect it.
+    - Make sure 
+*/
+
+#include <Wire.h>
+#include <PololuLedStrip.h>
+
+PololuLedStrip<12> ledStrip;
+
+//Defines how many LEDs the code will be handeling. One strip is 60 LEDs.
+#define LED_COUNT 56
+
+rgb_color colors[LED_COUNT];
+
+//Create global RGB values. It is assumed that the LEDs will all always be the same color after a function is completed.
+int r = 255;
+int g = 255;
+int b = 255;
+
+int mode = -1;
+
+void setup(){
+  //Begin I2C Connection on port 168.
+  Wire.begin(168);
+}
+
+void loop(){
+  
+  if(Wire.available()!=0)
+    mode=Wire.read();
+  else
+    mode=5;
+    
+  switch(mode){
+    case 0:
+      error(mode);   //ERROR
+      break;
+    case 1:
+      change(75,0,130,mode,0); //INDIGO
+      break;
+    case 2:
+      change(255,165,0,mode,0); //ORANGE
+      break;
+    case 3:
+      halfyellow(mode,0); //HALF YELLOW
+      break;
+    case 5:
+      rainbow(mode); //RAINBOW
+      break;
+    case 6:
+      pride(mode); //PRIDE
+      break;
+    case 7:
+      fire(mode,1); //FIRE
+      break;
+  }		
+}
+
+void change(int rr, int gg, int bb, int modemode, int wait){
+  
+  do{
+    if(rr>r)
+      r++;
+    if(rr<r)
+      r--;
+    if(gg>g)
+      g++;
+    if(gg<g)
+      g--;
+    if(bb>b)
+      b++;
+    if(bb<b)
+      b--;
+      
+  for(int i=0; i<LED_COUNT; i++)
+    colors[i]=(rgb_color){r,g,b};
+    
+  ledStrip.write(colors,LED_COUNT);
+  delay(wait); //Waits amount of milliseconds equal to "wait"
+  }
+  
+  while(r!=rr||g!=gg||b!=bb);
+
+  //Stay in the method but don't actually do anythig (keep the colors the same) until the mode is changed :)
+  do{}while(modemode==mode);
+}
+
+/*----------------------------------------------*/
+/*----------------------------------------------*/
+/*-----------S-P-E-C-I-A-L--M-O-D-E-S-----------*/
+/*----------------------------------------------*/
+/*----------------------------------------------*/
+
+
+void rainbow(int modemode){   //I don't actually understand how a lot of this is working, I stole it from the examples in the library.
+do{
+  uint16_t time = millis() >> 2;
+  for(uint16_t i = 0; i < LED_COUNT; i++)
+  {
+    byte x = (time >> 2) - (i << 3);
+    colors[i] = hsvToRgb((uint32_t)x * 359 / 256, 255, 255);
+  }
+  ledStrip.write(colors, LED_COUNT);
+
+  delay(10);  
+  }
+  while(mode==modemode);
+}
+
+rgb_color hsvToRgb(uint16_t h, uint8_t s, uint8_t v) //I don't actually understand how a lot of this is working, I stole it from the examples in the library.
+{
+    uint8_t f = (h % 60) * 255 / 60;
+    uint8_t p = (255 - s) * (uint16_t)v / 255;
+    uint8_t q = (255 - f * (uint16_t)s / 255) * (uint16_t)v / 255;
+    uint8_t t = (255 - (255 - f) * (uint16_t)s / 255) * (uint16_t)v / 255;
+    uint8_t r = 0, g = 0, b = 0;
+    switch((h / 60) % 6){
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        case 5: r = v; g = p; b = q; break;
+    }
+    return (rgb_color){r, g, b};
+}
+
+
+void halfyellow(int modemode, int wait){
+  
+  do{
+    if(r<255)
+      r++;
+    if(g<255)
+      g++;
+    if(b>0)
+      b--;
+    for(int i=0; i<LED_COUNT; i++)
+      colors[i]=(rgb_color){r,g,b};
+    ledStrip.write(colors,LED_COUNT);
+    delay(wait);
+  }
+  while(r!=255||g!=255||b!=0);
+
+//Dim half the leds until they are off
+  for(int i=LED_COUNT/2; i<LED_COUNT; i++)
+    for(int x=255; x>0; x--){
+      r--;
+      g--;
+      colors[i]=(rgb_color){r,g,b};
+      ledStrip.write(colors,LED_COUNT);
+    }
+
+  //Reset the RGB values to yellow
+  //THIS DOES NOT EFFECT THE ACTUAL COLORS ON THE STRIP
+  r=255;
+  g=255;
+  b=0;
+  
+  //Stay in the method but don't actually do anything (keep the colors the same) until the mode is changed :)  
+  do{}while(mode==modemode);
+
+//Brighten the off leds back to yellow, making the entire strip one color. :D
+  for(int i=LED_COUNT/2; i<LED_COUNT; i++)
+    for(int x=0; x<255; x++){
+      r--;
+      g--;
+      colors[i]=(rgb_color){r,g,b};
+      ledStrip.write(colors,LED_COUNT);
+    }
+}
+
+void pride(int modemode){
+  do{
+    for(int i=0; i<LED_COUNT; i++){
+      if(i%6<=2){
+        r=255;
+        g=125;
+        b=0;
+        colors[i]=(rgb_color){r,g,b};
+        }
+      else{
+        r=0;
+        g=0;
+        b=255;
+        colors[i]=(rgb_color){r,g,b};
+      }
+    ledStrip.write(colors,LED_COUNT);
+    }
+    delay(50);
+    for(int i=0; i<LED_COUNT; i++){
+      if(i%6<=2){
+        r=0;
+        g=0;
+        b=255;
+        colors[i]=(rgb_color){r,g,b};
+        }
+      else{
+        r=255;
+        g=125;
+        b=0;
+        colors[i]=(rgb_color){r,g,b};
+        }
+    ledStrip.write(colors,LED_COUNT);
+    } 
+    delay(50);
+  }
+  //Keep changing until the mode changes
+  while(mode==modemode);
+}
+
+void fire(int modemode, int wait){
+  for(int i=0; i<LED_COUNT; i++){
+    colors[i,i+1,i+2,i+3]=(rgb_color){255,255,255};
+    colors[i-1,i-2,i-3]=(rgb_color){0,0,0};
+    
+    ledStrip.write(colors,LED_COUNT);
+    delay(wait);
+  }
+}
+
+void error(int modemode){
+  for(int i=0; i<LED_COUNT; i++)
+    colors[i]=(rgb_color){255,0,0};
+    
+  ledStrip.write(colors,LED_COUNT);
+  delay(750);
+  
+  for(int i=0; i<LED_COUNT; i++)
+    colors[i]=(rgb_color){0,0,0};
+    
+  ledStrip.write(colors,LED_COUNT);
+  delay(750);
+}
