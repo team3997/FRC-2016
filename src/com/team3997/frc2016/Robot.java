@@ -43,7 +43,6 @@ public class Robot extends IterativeRobot {
 	Shooter shooter = Hardware.kShooter;
 	Intake intake = Hardware.kIntake;
 	Hanger hanger = Hardware.kHanger;
-	ChickenRun chickenRun = Hardware.kChickenRun;
 	Vision vision = Hardware.kVision;
 	I2C lights = Hardware.kLights;
 	
@@ -56,23 +55,15 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		
-		if(lights.addressOnly()){
+		if(lights.addressOnly())
         	System.out.println("I2C IS ON");
-		}
-        else {
+        else
         	System.out.println("I2C IS OFF");
-		}
 		
 		toSend = new byte[1];
 		toSend[0] = 6;
 		
 		auton.listOptions();
-		
-		Hardware.kAxisCamera.writeBrightness(0);
-		Hardware.kAxisCamera.writeWhiteBalance(AxisCamera.WhiteBalance.kFixedIndoor);
-		Hardware.kAxisCamera.writeResolution(AxisCamera.Resolution.k480x360);
-		Hardware.kAxisCamera.writeCompression(50);
-		Hardware.kAxisCamera.writeMaxFPS(15);
 		
 		//Turn camrea light on
 		Hardware.kTargetLED.set(true);
@@ -87,6 +78,7 @@ public class Robot extends IterativeRobot {
 
 		UpdateParameters.update();
 		auton.start();
+
 	}
 	
 	@Override
@@ -99,7 +91,6 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start teleopInit()");
 
 		auton.stop();
-
 		UpdateParameters.update();
 		//accel.reset();
 	}
@@ -113,10 +104,14 @@ public class Robot extends IterativeRobot {
 		vision.runTeleOp();
 		
 		//Change between manual and automatic mode
+		Dashboard.put("Manual Mode", manualMode);
 		if(manualToggle.getFall()){
 			manualMode = !manualMode;
 			shooter.shooterPID.disablePID();
-			Hardware.kAxisCamera.writeExposureControl(AxisCamera.ExposureControl.kHold);
+		}
+		
+		if(manualMode){
+			//set lights to manual mode color
 		}
 	}
 
@@ -126,26 +121,11 @@ public class Robot extends IterativeRobot {
 		
 		auton.stop();
 
-		// cameraSwitcher.end();
 		UpdateParameters.update();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		lights.transaction(toSend, 1, null, 0);
-		//Vision.getContours();
 	}
-
-	@Override
-	public void testInit() {
-		System.out.println("Start testInit()");
-
-		UpdateParameters.update();
-	}
-
-	@Override
-	public void testPeriodic() {
-
-	}
-
 }

@@ -14,19 +14,18 @@ import edu.wpi.first.wpilibj.Talon;
 public class Intake{
 	
 	private LogitechF310Gamepad gamePad;
-	double intakeMotorPower;
+	double intakeMotorPower = Params.INTAKE_MOTOR_POWER;
 	Talon intakeMotor;
 	private Extender extender;
 	private ChickenRun cRun;
 	
-	public Intake(Talon kIntakeMotor,
-			double intakeMotorPower, DoubleSolenoid kIntakeExtenderSolenoid, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
+	public Intake(Talon kIntakeMotor, DoubleSolenoid kIntakeExtenderSolenoid, 
+			LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
 		
 		extender = new Extender(kIntakeExtenderSolenoid);
 		intakeMotor = kIntakeMotor;
-		this.intakeMotorPower = intakeMotorPower;
 		cRun = kCRun;
 		
 		// set motors to stop for safety
@@ -38,33 +37,23 @@ public class Intake{
     // Function that runs during teleop periodically
     public void runTeleOp(){
     	
-    	//if only intake button is pressed, then run intake and crun
-    	if(gamePad.getButton(Controls.INTAKE_BUTTON) && !gamePad.getButton(Controls.OUTTAKE_BUTTON)){
+    	//cRun and Intake Behaviour
+    	if(cRun.isSendingToShooter()){
+    		cRun.intake();
+    	}
+    	else if(gamePad.getButton(Controls.INTAKE_BUTTON) && !cRun.isIndexed()){
     		this.intake();
-    		
-    		if(!cRun.isSendingToShooter()){
-    			
-    			if(!cRun.isIndexed())
-    				cRun.intake();
-    			else
-    				cRun.stop();
-    		}
+    		cRun.intake();
     	}
-    	//if only outtake button is pressed, then outtake using intake wheels and crun
-    	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON) && !gamePad.getButton(Controls.INTAKE_BUTTON)){
+    	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON)){
     		this.outtake();
-    		
-    		if(!cRun.isSendingToShooter())
-    			cRun.outtake();
+    		cRun.outtake();
     	}
-    	
-		//stops the intake wheels, and BOTH SETS OF ChickenRun WHEELS if the robot is not currently shooting
     	else {
-    		if(!cRun.isSendingToShooter())
-    			stopIntakeAndCRun();
+    		stopIntakeAndCRun();
     	}
     	
-    	//Extender stuff:
+    	//Extender Controls
     	if(gamePad.getButton(Controls.INTAKE_EXTEND_BUTTON)){
     		extender.out();
     	}
@@ -84,8 +73,8 @@ public class Intake{
     }
     
     // Run intake at custom direction and speed
-    public void intake(double speed, int direction){
-    	intakeMotor.set(direction * speed);
+    public void intake(double speed){
+    	intakeMotor.set(speed);
     }
     
     public void outtake(){

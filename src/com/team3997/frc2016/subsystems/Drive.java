@@ -2,6 +2,7 @@ package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
@@ -28,12 +29,12 @@ public class Drive {
 
 	// init
 	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4,
-			Encoder leftEncoder, Encoder rightEncoder, AnalogGyro gyro, LogitechF310Gamepad kGamePad) {
+			AMT103V_Encoder leftEncoder, AMT103V_Encoder rightEncoder, AnalogGyro gyro, LogitechF310Gamepad kGamePad) {
 
 		gamePad = kGamePad;
 		
-		this.leftEncoder = leftEncoder;
-		//this.rightMotorEnc = rightEncoder;
+		this.leftEncoder = leftEncoder.getEncoderObject();
+		this.rightEncoder = rightEncoder.getEncoderObject();
 		this.gyro = gyro;
 		this.gyro.initGyro();
 		this.gyro.calibrate();
@@ -76,9 +77,9 @@ public class Drive {
 		// Print drive magnitudes if wanted
 		if (Params.DASHBOARD_DRIVE_DEBUG) {
 			
-			Dashboard.put("lefyYval", leftYVal);
+			Dashboard.put("leftYval", leftYVal);
 			Dashboard.put("rightxval", rightXVal);
-			Dashboard.put("Left Encoder", leftEncoder.get());
+			//Dashboard.put("Left Encoder", leftEncoder.get());
 			//Dashboard.put("Right Encoder", rightEncoder.get());
 		}
 	}

@@ -4,12 +4,14 @@ import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
+import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
+
 import com.team3997.frc2016.Controls;
 
 
@@ -19,24 +21,27 @@ public class Shooter {
 	public PID shooterPID;
 	private Talon shooterMotor1;
 	private Talon shooterMotor2;
-	private Encoder shooterEncoder;
+	private AMT103V_Encoder shooterEncoder;
 	public double goalRPM = 0;
 	private boolean toggleEnableShooterMotor = false;
 	private Debounce shooterToggleButton;
 	private ChickenRun cRun;
 	
-	public Shooter(Talon kshooterMotor1, Talon kshooterMotor2, Encoder kshooterEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
+	public Shooter(Talon kshooterMotor1, Talon kshooterMotor2, AMT103V_Encoder kshooterEncoder, LogitechF310Gamepad kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
 		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_TOGGLE_BUTTON);
 		
 		shooterMotor1 = kshooterMotor1;
 		shooterMotor2 = kshooterMotor2;
+		shooterMotor1.setInverted(true);
+		shooterMotor2.setInverted(true);
+		
 		shooterEncoder = kshooterEncoder;
 		
 		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2,
 				PIDParams.sP.getDouble(), PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), 
-				PIDParams.sTolerance, PIDParams.sOutMin, PIDParams.sOutMax,  PIDParams.sEncoderRotationScale, 
+				PIDParams.sTolerance, PIDParams.sOutMin, PIDParams.sOutMax, 
 				 PIDParams.sSamplesToAverage, PIDParams.sType);
 		
 		cRun = kCRun;
@@ -50,35 +55,29 @@ public class Shooter {
     public void runTeleOp(){
     		
     	//if shooter button is pressed, toggle motor enable
-    	if(shooterToggleButton.getRise()){
+    	if(shooterToggleButton.getRise())
     		toggleEnableShooterMotor = !toggleEnableShooterMotor;
-    	}
     	
-        if(!Robot.manualMode){ 
+        if(!Robot.manualMode)
         	runAuto();
-        }
-        else { 
+        else
         	runManual();
-        }
+        
     }
     
     public void runAuto(){
-    	if(toggleEnableShooterMotor){
+    	if(toggleEnableShooterMotor)
     		shooterPID.enablePID();
-    		
-        	//if the shooter button is pressed and shooter motors are up to speed, transfer the ball from the Chicken Run to the shooter
-        	if(gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && onTargetRPM()){ //!!Check if onTarget is correct
-        		cRun.setSendingToShooter(true);
-        		cRun.intake();
-        	}
-        	else {
-        		cRun.setSendingToShooter(false);
-        		cRun.stop();
-        	}
-    		
-    	} 
-    	else {
+    	else 
     		shooterPID.disablePID();
+    	
+    	
+    	//if the shooter button is pressed and shooter motors are up to speed, transfer the ball from the Chicken Run to the shooter
+    	if(gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor &&  onTargetRPM() && cRun.isIndexed()){ //!!Check if onTarget is correct
+    		cRun.setSendingToShooter(true);
+    	}
+    	else {
+    		cRun.setSendingToShooter(false);
     	}
     }
     
@@ -88,15 +87,16 @@ public class Shooter {
     		
         	if(gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER)){
         		cRun.setSendingToShooter(true);
-        		cRun.intake();
         	}
         	else {
         		cRun.setSendingToShooter(false);
-        		cRun.stop();
         	}
     	}
-   		else
+   		else if(gamePad.getLeftTrigger()){
+   			   		}
+   		else {
    			stopShooter();
+   		}
     }
 
 
@@ -144,6 +144,12 @@ public class Shooter {
     	shooterMotor1.set(Params.SHOOTER_MOTOR_POWER);
     	shooterMotor2.set(Params.SHOOTER_MOTOR_POWER);
     }
+    
+    public void outtakeShooter(){
+    	shooterMotor1.set(-Params.SHOOTER_OUTTAKE_MOTOR_POWER);
+    	shooterMotor2.set(-Params.SHOOTER_OUTTAKE_MOTOR_POWER);
+    }
+    
     
     /**
      * stopShooter

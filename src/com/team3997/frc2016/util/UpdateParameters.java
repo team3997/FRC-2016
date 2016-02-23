@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * Easy to use constant loader made by Texas Torque. (1477)
+ * 
  * 
  * PURPOSE:
  * This is used to update constants (such as PID) to the robot without redeploying.

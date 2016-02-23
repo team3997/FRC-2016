@@ -13,22 +13,22 @@ public class Controls {
 	public static LogitechF310Gamepad opGamePad = Hardware.kOpGamePad;
 	
 	// Driver:
-	public static int INVERT_DRIVE = F310.rightBumper;
+	public final static int INVERT_DRIVE = F310.rightBumper;
 	
 	// Operator:
 	
-	public static int MANUAL_CONTROL_TOGGLE_BUTTON = F310.startButton;
+	public final static int MANUAL_CONTROL_TOGGLE_BUTTON = F310.startButton;
 	
-	public static int CAMERAFEED_TOGGLE_BUTTON = F310.backButton;
+	public final static int CAMERAFEED_TOGGLE_BUTTON = F310.backButton;
 	
-	public static int INTAKE_BUTTON = F310.rightBumper;
-	public static int OUTTAKE_BUTTON = F310.leftBumper;
+	public final static int INTAKE_BUTTON = F310.rightBumper;
+	public final static int OUTTAKE_BUTTON = F310.leftBumper;
 	
-	public static int INTAKE_EXTEND_BUTTON = F310.blueButton;
+	public final static int INTAKE_EXTEND_BUTTON = F310.blueButton;
 	
-	public static int SHOOTER_RUN_MOTORS_TOGGLE_BUTTON = F310.yellowButton;
+	public final static int SHOOTER_RUN_MOTORS_TOGGLE_BUTTON = F310.yellowButton;
 	
-	public static int RUN_CRUN_TO_SHOOTER = F310.rightTrigger;
+	public final static int RUN_CRUN_TO_SHOOTER = F310.rightTrigger;
 	
 	
 	

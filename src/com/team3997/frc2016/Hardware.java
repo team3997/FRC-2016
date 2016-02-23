@@ -2,6 +2,7 @@ package com.team3997.frc2016;
 
 import com.team3997.frc2016.components.Vision;
 import com.team3997.frc2016.subsystems.*;
+import com.team3997.frc2016.util.AMT103V_Encoder;
 //import com.team3997.frc2016.util.LogitechDualGamepad;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
@@ -20,16 +21,14 @@ public class Hardware {
 	 * 
 	 * Interfaces
 	 */
-	public static LogitechF310Gamepad kDriverGamePad = new LogitechF310Gamepad(
-			Pins.DRIVER_GAMEPAD_USB);
-	public static LogitechF310Gamepad kOpGamePad = new LogitechF310Gamepad(
-			Pins.OP_GAMEPAD_USB);
+	public static LogitechF310Gamepad kDriverGamePad = new LogitechF310Gamepad(Pins.DRIVER_GAMEPAD_USB);
+	public static LogitechF310Gamepad kOpGamePad = new LogitechF310Gamepad(Pins.OP_GAMEPAD_USB);
 	/*
 	 * 
 	 * Target LED
 	 * 
 	 */
-	public static DigitalOutput kTargetLED = new DigitalOutput(9);
+	public static DigitalOutput kTargetLED = new DigitalOutput(Pins.GREEN_CAMERA_LED_PIN);
 	
 	
 	/*
@@ -56,18 +55,22 @@ public class Hardware {
 	 * 
 	 */
 	
-	private static DoubleSolenoid kIntakeExtenderSolenoid = new DoubleSolenoid(Pins.INTAKE_EXTENDER_SOLE_PINS[0], Pins.INTAKE_EXTENDER_SOLE_PINS[1]);
+	private static DoubleSolenoid kIntakeExtenderSolenoid = new DoubleSolenoid(
+			Pins.INTAKE_EXTENDER_SOLE_PINS[0], 
+			Pins.INTAKE_EXTENDER_SOLE_PINS[1]);
 	 
 	
 	/*
 	 * 
 	 * Sensors (Encoders, gyro, index sensor, switches etc..)
 	 */
-	public static Encoder kDriveLeftEncoder = new Encoder(
+	public static AMT103V_Encoder kDriveLeftEncoder = new AMT103V_Encoder(
 			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1]);
-	public static Encoder kDriveRightEncoder = new Encoder(
+	
+	public static AMT103V_Encoder kDriveRightEncoder = new AMT103V_Encoder(
 			Pins.RIGHT_DRIVE_ENCODER_PINS[0], Pins.RIGHT_DRIVE_ENCODER_PINS[1]);
-	public static Encoder kFlyWheelEncoder = new Encoder(
+	
+	public static AMT103V_Encoder kFlyWheelEncoder = new AMT103V_Encoder(
 			Pins.SHOOTER_ENCODER_PINS[0], Pins.SHOOTER_ENCODER_PINS[1]);
 	
 	public static DigitalInput kCRunIndexSensor = new DigitalInput(Pins.CRUN_INDEXER_PIN);
@@ -86,7 +89,7 @@ public class Hardware {
 			kCRunIndexSensor, kOpGamePad);
 	
 	public static Shooter kShooter = new Shooter(kShooterMotor1, kShooterMotor2, kFlyWheelEncoder, kOpGamePad, kChickenRun);
-	public static Intake kIntake = new Intake(kIntakeMotor, Params.INTAKE_MOTOR_POWER, kIntakeExtenderSolenoid, kOpGamePad, kChickenRun);
+	public static Intake kIntake = new Intake(kIntakeMotor, kIntakeExtenderSolenoid, kOpGamePad, kChickenRun);
 	
 	public static Hanger kHanger = new Hanger();
 	
@@ -94,7 +97,6 @@ public class Hardware {
 	 * 
 	 * Vision
 	 */
-	public static AxisCamera kAxisCamera = new AxisCamera(Params.CAMERA_AXIS_IP);
 	public static Vision kVision = new Vision();
 
 	/*

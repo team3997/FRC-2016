@@ -11,6 +11,7 @@ public class ChickenRun {
 	private LogitechF310Gamepad gamePad;
 	Talon cRunMotor;
 	DigitalInput indexSignal;
+	public double crunMotorPower = Params.CRUN_MOTOR_POWER;
 	public boolean sendingToShooter = false;
 
 	public ChickenRun(Talon kMotor1, DigitalInput kIndexSensor, LogitechF310Gamepad kGamePad) {
@@ -29,7 +30,7 @@ public class ChickenRun {
 	}
 	
 	protected boolean isIndexed(){
-		return indexSignal.get();
+		return !indexSignal.get();
 	}
 
 	protected void stop() {
@@ -37,11 +38,11 @@ public class ChickenRun {
 	}
 	
 	protected void intake() {
-		cRunMotor.set(Params.CRUN_MOTOR_POWER);
+		cRunMotor.set(crunMotorPower);
 	}
 	
 	protected void outtake() {
-		cRunMotor.set(-Params.CRUN_MOTOR_POWER);
+		cRunMotor.set(-crunMotorPower);
 	}
 	
 	protected void run(double speed) {

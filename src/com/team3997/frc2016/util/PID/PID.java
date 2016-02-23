@@ -1,5 +1,7 @@
 package com.team3997.frc2016.util.PID;
 
+import com.team3997.frc2016.util.AMT103V_Encoder;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -33,9 +35,8 @@ public class PID {
 	
 	
 	//Shooter PID constructor
-	public PID(Encoder kSensor, Talon kOutputMotor1, Talon kOutputMotor2, double kP, double kI, double kD,
-			double kTolerance, double kOutMin, double kOutMax, 
-			double kRotationScale, int kSamplesToAverage, PIDSourceType kType){
+	public PID(AMT103V_Encoder kEncoder, Talon kOutputMotor1, Talon kOutputMotor2, double kP, double kI, double kD,
+			double kTolerance, double kOutMin, double kOutMax, int kSamplesToAverage, PIDSourceType kType){
 		
 		P = kP;
 		I = kI;
@@ -44,14 +45,13 @@ public class PID {
 		samplesToAverage = kSamplesToAverage;
 		outMin = kOutMin;
 		outMax = kOutMax;
-		rotationScale = kRotationScale;
-		encoder = kSensor;
+		encoder = kEncoder.getEncoderObject();
 		outputMotor1 = kOutputMotor1;
 		outputMotor2 = kOutputMotor2;
 		sensingType = kType;
 		
 		encoder.setPIDSourceType(sensingType);
-    	encoder.setDistancePerPulse(rotationScale);
+
     	encoder.setSamplesToAverage(samplesToAverage);
     	
     	pidOutput = new ShooterMotorsPIDOutput(outputMotor1, outputMotor2);
