@@ -1,2 +1,3 @@
 # FRC-2016
-Code for our 2016 robot
+Screaming Chickens FRC Team 3997:
+Code base for our 2016 robot
