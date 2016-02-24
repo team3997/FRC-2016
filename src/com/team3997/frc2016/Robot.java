@@ -45,8 +45,6 @@ public class Robot extends IterativeRobot {
 	Hanger hanger = Hardware.kHanger;
 	Vision vision = Hardware.kVision;
 	I2C lights = Hardware.kLights;
-	
-	//CameraSwitcher cameraSwitcher = new CameraSwitcher(Hardware.kOpGamePad);
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
 	byte[] toSend;

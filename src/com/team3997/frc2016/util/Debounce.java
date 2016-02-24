@@ -2,7 +2,7 @@ package com.team3997.frc2016.util;
 
 /*********************************Debounce**************************************
  * Purpose:
- * 		The Debounce class allows for the creation if joystick button debounce
+ * 		The Debounce class allows for the creation of joystick button debounce
  * 		objects.  These objects automatically keep track in changes of button
  * 		state, so you can read falling and rising edges.  This can help keep you
  * 		from processing button pushes more than once for an individual task.

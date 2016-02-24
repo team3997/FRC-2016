@@ -5,45 +5,42 @@ import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
-
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 
-public class Drive {
+/**
+ * @author mikechacko
+ *
+ */
+/**
+ * @author mikechacko
+ *
+ */
+public class Drive{
 
-	double rightXVal;
-	double leftXVal;
-	double rightYVal;
-	double leftYVal;
+	double rightXVal, leftXVal, rightYVal, leftYVal;
 	public AnalogGyro gyro;
-	public Encoder leftEncoder;
-	public Encoder rightEncoder;
-
-	// http://www.vexrobotics.com/vexpro/motion/gearboxes/wcp-ss.html
-	// gear ratio: 8inch wheels 54:20 + 14t
-
+	public Encoder leftEncoder, rightEncoder;
 	private LogitechF310Gamepad gamePad;
-
 	RobotDrive driveTrain;
 
-	// init
-	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4,
-			AMT103V_Encoder leftEncoder, AMT103V_Encoder rightEncoder, AnalogGyro gyro, LogitechF310Gamepad kGamePad) {
+	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
+			AMT103V_Encoder rightEncoder, AnalogGyro gyro, LogitechF310Gamepad kGamePad) {
 
 		gamePad = kGamePad;
-		
+
 		this.leftEncoder = leftEncoder.getEncoderObject();
 		this.rightEncoder = rightEncoder.getEncoderObject();
 		this.gyro = gyro;
 		this.gyro.initGyro();
 		this.gyro.calibrate();
-		
+
 		resetGyro();
-		
+
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
-	}	
-	// Function that runs during teleop periodically
+	}
+
 	public void runTeleOp() {
 
 		// Get Joystick input from gamepad
@@ -52,66 +49,117 @@ public class Drive {
 		rightYVal = (gamePad.getRightY()) * (Params.DRIVE_MOTOR_SPEED);
 		leftYVal = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED);
 
-		//Button to reset gyro
-		if(gamePad.getBlueButton()){
+		// Button to reset gyro
+		if (gamePad.getBlueButton()) {
 			resetGyro();
 		}
-		
-		//If invert drive button is pressed, invert the drive values
-		if(gamePad.getButton(Controls.INVERT_DRIVE)){
+
+		// If invert drive button is pressed, invert the drive values
+		if (gamePad.getButton(Controls.INVERT_DRIVE)) {
 			rightXVal = -rightXVal;
 			leftXVal = -leftXVal;
 			rightYVal = -rightYVal;
 			leftYVal = -leftYVal;
 		}
-		
-		
+
 		// Drive at the given input magnitude
-		if(Params.ARCADE_DRIVE){
+		if (Params.ARCADE_DRIVE) {
 			setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
-		}
-		else{
+		} else {
 			setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
 		}
-		
+
 		// Print drive magnitudes if wanted
 		if (Params.DASHBOARD_DRIVE_DEBUG) {
-			
+
 			Dashboard.put("leftYval", leftYVal);
 			Dashboard.put("rightxval", rightXVal);
-			//Dashboard.put("Left Encoder", leftEncoder.get());
-			//Dashboard.put("Right Encoder", rightEncoder.get());
+			// Dashboard.put("Left Encoder", leftEncoder.get());
+			// Dashboard.put("Right Encoder", rightEncoder.get());
 		}
 	}
-	
 
+	/**
+	 * Stop the robot from driving
+	 */
 	public void stop() {
-		driveTrain.arcadeDrive(0, 0, false);
+		driveTrain.arcadeDrive(0.00, 0.00, false);
 	}
 
-	// easy to use drive function
+	/**
+	 * Set drive motor output in arcade style
+	 * 
+	 * @param y
+	 *            forward direction
+	 * @param x
+	 *            rotate direction
+	 * @param squareInputs
+	 *            whether to square the x and y inputs to change input
+	 *            sensitivity
+	 */
 	public void setArcadeDrive(double y, double x, boolean squareInputs) {
 		driveTrain.arcadeDrive(y, -x, squareInputs);
 	}
-	
+
+	/**
+	 * Set drive motor output in arcade style
+	 * 
+	 * @param y
+	 *            forward direction
+	 * @param x
+	 *            rotate direction
+	 */
 	public void setArcadeDrive(double y, double x) {
-		driveTrain.arcadeDrive(y, -x, false);
+		driveTrain.arcadeDrive(y, x, false);
 	}
-	
+
+	/**
+	 * Set drive motor output in tank drive style
+	 * 
+	 * @param lefty
+	 *            left input
+	 * @param righty
+	 *            right input
+	 * @param squareInputs
+	 *            whether to square the inputs to change input sensitivity
+	 */
 	public void setTankDrive(double lefty, double righty, boolean squareInputs) {
 		driveTrain.tankDrive(lefty, righty, squareInputs);
 	}
-	
+
+	/**
+	 * Set drive motor output in tank drive style
+	 * 
+	 * @param lefty
+	 *            left input
+	 * @param righty
+	 *            right input
+	 */
 	public void setTankDrive(double lefty, double righty) {
 		driveTrain.tankDrive(lefty, righty, false);
 	}
-	
-	public double getGyroAngle(){
+
+	 /**
+	   * Return the actual angle in degrees that the robot is currently facing.
+	   *
+	   * The angle is based on the current accumulator value corrected by the
+	   * oversampling rate, the gyro type and the A/D calibration values. The angle
+	   * is continuous, that is it will continue from 360 to 361 degrees. This
+	   * allows algorithms that wouldn't want to see a discontinuity in the gyro
+	   * output as it sweeps past from 360 to 0 on the second time around.
+	   *
+	   * @return the current heading of the robot in degrees. This heading is based
+	   *         on integration of the returned rate from the gyro.
+	   */
+	public double getGyroAngle() {
 		return -gyro.getAngle();
 	}
-	
-	public void resetGyro(){
+
+	/**
+	 * Resets the gyro to a heading of zero.
+	 */
+	public void resetGyro() {
 		gyro.reset();
 	}
-	
+
 }

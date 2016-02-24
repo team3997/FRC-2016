@@ -51,11 +51,11 @@ public class DashboardAutonPicker {
 		return autonModes.get(selectedIndex);
 	}
 	
-    private void setAutonModeByIndex(int which) {
-        if (which < 0 || which >= autonModes.size()) {
-            which = 0;
+    private void setAutonModeByIndex(int input) {
+        if (input < 0 || input >= autonModes.size()) {
+        	input = 0;
         }
-        selectedIndex = which;
+        selectedIndex = input;
     }
 
 

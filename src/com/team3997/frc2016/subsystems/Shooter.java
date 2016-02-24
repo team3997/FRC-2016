@@ -101,7 +101,6 @@ public class Shooter {
 
 
     /**
-     * onTargetRPM
      * @return true if the shooter's RPM is within the tolerance of it's goal RPM.
      */
     public boolean onTargetRPM(){
@@ -112,7 +111,6 @@ public class Shooter {
     }
     
     /**
-     * isPIDEnabled
      * @return true if a PID loop to achieve a certain RPM is running
      */
     public boolean isPIDEnabled(){
@@ -120,7 +118,6 @@ public class Shooter {
     }
     
     /**
-     * setRPMSetpoint
      * sets the goal RPM of the PID loop
      */
     public void setRPMSetpoint(int newSetpoint){
@@ -128,7 +125,6 @@ public class Shooter {
     }
     
     /**
-     * getRPMSetpoint
      * @return the goal RPM of the current PID loop
      */
     public double getRPMSetpoint(){
@@ -136,9 +132,7 @@ public class Shooter {
     }
     
     /**
-     * runShooterAtDefaultSpeed
-     * 
-     * sets the shooter to run at a set motor speed
+     * Sets the shooter to run at a set motor speed
      */
     public void runShooterAtDefaultSpeed(){
     	shooterMotor1.set(Params.SHOOTER_MOTOR_POWER);
@@ -152,8 +146,6 @@ public class Shooter {
     
     
     /**
-     * stopShooter
-     * 
      * sets the shooter motor to 0.0
      */
     public void stopShooter(){
