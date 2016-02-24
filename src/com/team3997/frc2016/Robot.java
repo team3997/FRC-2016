@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	Intake intake = Hardware.kIntake;
 	Hanger hanger = Hardware.kHanger;
 	Vision vision = Hardware.kVision;
-	I2C lights = Hardware.kLights;
+	Lights lights = Hardware.kLights;
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
 	byte[] toSend;
@@ -52,11 +52,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
-		
-		if(lights.addressOnly())
-        	System.out.println("I2C IS ON");
-        else
-        	System.out.println("I2C IS OFF");
 		
 		toSend = new byte[1];
 		toSend[0] = 6;
@@ -124,6 +119,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		lights.transaction(toSend, 1, null, 0);
+		lights.setColor(Lights.PRIDE);
 	}
 }

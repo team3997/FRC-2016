@@ -1,5 +1,6 @@
 package com.team3997.frc2016;
 
+import com.team3997.frc2016.components.Lights;
 import com.team3997.frc2016.components.Vision;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.AMT103V_Encoder;
@@ -36,7 +37,8 @@ public class Hardware {
 	 * Arduino
 	 * 
 	 */
-	public static I2C kLights = new I2C(I2C.Port.kOnboard, 168);
+	public static I2C kArduino = new I2C(I2C.Port.kOnboard, 168);
+	public static Lights kLights = new Lights(kArduino);
 	
 	
 	/*
