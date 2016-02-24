@@ -53,9 +53,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		
-		toSend = new byte[1];
-		toSend[0] = 6;
-		
 		auton.listOptions();
 		
 		//Turn camrea light on
