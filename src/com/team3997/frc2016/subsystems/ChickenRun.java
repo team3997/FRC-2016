@@ -21,14 +21,24 @@ public class ChickenRun {
 		cRunMotor = kMotor1;
 	}
 	
+	/**
+	 * Set the state of whether the cRun should send the ball to the shooter. The intake class handles the actual act of sending it
+	 * @param state 
+	 */
 	protected void setSendingToShooter(boolean state){
 		sendingToShooter = state;
 	}
 	
+	/**
+	 * @return Boolean that is true if the cRun is in the process of sending the ball to the shooter
+	 */
 	protected boolean isSendingToShooter(){
 		return sendingToShooter;
 	}
 	
+	/**
+	 * @return whether the ball is indexed in the bot
+	 */
 	protected boolean isIndexed(){
 		return !indexSignal.get();
 	}
