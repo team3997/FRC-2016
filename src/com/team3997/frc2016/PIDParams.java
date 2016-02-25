@@ -17,6 +17,5 @@ public class PIDParams extends UpdateParameters {
 	public static final double sOutMin = 0; //minimum output value
 	public static final double sOutMax = 1; //maximum output value
 	public static final int sSamplesToAverage = 50; //Amount of samples to average
-	public static final PIDSourceType sType = PIDSourceType.kRate;
-	
+	public static final PIDSourceType sType = PIDSourceType.kRate;	
 }

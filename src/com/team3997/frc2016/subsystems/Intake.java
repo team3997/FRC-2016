@@ -3,6 +3,7 @@ package com.team3997.frc2016.subsystems;
 import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 
@@ -11,7 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Talon;
 
 
-public class Intake{
+public class Intake {
 	
 	private LogitechF310Gamepad gamePad;
 	double intakeMotorPower = Params.INTAKE_MOTOR_POWER;
@@ -41,9 +42,18 @@ public class Intake{
     	if(cRun.isSendingToShooter()){
     		cRun.intake();
     	}
-    	else if(gamePad.getButton(Controls.INTAKE_BUTTON) && !cRun.isIndexed()){
-    		this.intake();
-    		cRun.intake();
+    	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){
+    		if(Robot.isManualMode){
+    			this.intake();
+    			cRun.intake();
+    		}
+    		else if(!Robot.isManualMode && !cRun.isIndexed()){
+    			this.intake();
+    			cRun.intake();
+    		}
+    		else {
+    			stopIntakeAndCRun();
+    		}
     	}
     	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON)){
     		this.outtake();

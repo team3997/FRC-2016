@@ -22,14 +22,14 @@ public class Vision extends IterativeRobot {
     }
 	
 	public void runTeleOp(){
-		updateValues();
-		printValues();
+		updateGripValues();
+		printGripValues();
 	}
-
+	
 	/**
 	 *  Grab all grip contour variables
 	 */
-    public void updateValues() {
+    public void updateGripValues() {
 		centerx = table.getNumberArray("centerX", defaultValue);
 		centery = table.getNumberArray("centerY", defaultValue);
 		area = table.getNumberArray("area", defaultValue);
@@ -40,7 +40,7 @@ public class Vision extends IterativeRobot {
     /**
      * Print all incoming grip contour variables to the dashboard 
      */
-    public void printValues(){
+    public void printGripValues(){
     	if(centerx.length > 0)
     		Dashboard.put("centerx", centerx[0]);
     	if(centery.length > 0)

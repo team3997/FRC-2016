@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj.vision.AxisCamera.ExposureControl;
 
 public class Robot extends IterativeRobot {
 	
-	public static boolean manualMode = false;
+	public static boolean isManualMode = false;
 
 	LogitechF310Gamepad driverGamePad = Hardware.kDriverGamePad;
 	LogitechF310Gamepad opGamePad = Hardware.kOpGamePad;
@@ -94,13 +94,13 @@ public class Robot extends IterativeRobot {
 		vision.runTeleOp();
 		
 		//Change between manual and automatic mode
-		Dashboard.put("Manual Mode", manualMode);
+		Dashboard.put("Manual Mode", isManualMode);
 		if(manualToggle.getFall()){
-			manualMode = !manualMode;
+			isManualMode = !isManualMode;
 			shooter.shooterPID.disablePID();
 		}
 		
-		if(manualMode){
+		if(isManualMode){
 			//set lights to manual mode color
 		}
 	}

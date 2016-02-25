@@ -32,7 +32,7 @@ public class Shooter {
 			LogitechF310Gamepad kGamePad, ChickenRun kCRun) {
 
 		gamePad = kGamePad;
-		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_TOGGLE_BUTTON);
+		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_BUTTON);
 
 		shooterMotor1 = kshooterMotor1;
 		shooterMotor2 = kshooterMotor2;
@@ -58,13 +58,10 @@ public class Shooter {
 		if (shooterToggleButton.getRise())
 			toggleEnableShooterMotor = !toggleEnableShooterMotor;
 
-		if (!Robot.manualMode)
+		if (!Robot.isManualMode)
 			runAuto();
 		else
 			runManual();
-		
-		
-
 	}
 
 	public void runAuto() {
@@ -75,8 +72,7 @@ public class Shooter {
 
 		// if the shooter button is pressed and shooter motors are up to speed,
 		// transfer the ball from the Chicken Run to the shooter
-		if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor && onTargetRPM()
-				&& cRun.isIndexed()) { // !!Check if onTarget is correct
+		if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor && this.onTargetRPM() && cRun.isIndexed()) { // !!Check if onTarget is correct
 			cRun.setSendingToShooter(true);
 		} else {
 			cRun.setSendingToShooter(false);
@@ -99,8 +95,11 @@ public class Shooter {
 			} else {
 				cRun.setSendingToShooter(false);
 			}
-		} else if (gamePad.getLeftTrigger()) {
-		} else {
+		} 
+		else if (gamePad.getLeftTrigger()) {
+		
+		} 
+		else {
 			stopShooter();
 		}
 		

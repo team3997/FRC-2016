@@ -29,7 +29,7 @@ public class PID {
 	
 	private double setpoint = 0;
 	
-	private ShooterMotorsPIDOutput pidOutput;
+	public ShooterMotorsPIDOutput pidShooterOutput;
 	
 	protected PIDController pidController;
 	
@@ -54,9 +54,9 @@ public class PID {
 
     	encoder.setSamplesToAverage(samplesToAverage);
     	
-    	pidOutput = new ShooterMotorsPIDOutput(outputMotor1, outputMotor2);
+    	pidShooterOutput = new ShooterMotorsPIDOutput(outputMotor1, outputMotor2);
     	
-		pidController = new PIDController(P, I, D, encoder, pidOutput);
+		pidController = new PIDController(P, I, D, encoder, pidShooterOutput);
 		
 		pidController.setOutputRange(outMin, outMax);
 		pidController.setAbsoluteTolerance(tolerance);
@@ -69,16 +69,11 @@ public class PID {
 	public void disablePID(){
 		pidController.disable(); //this also sets output to zero
 	}
-	
+
 	public void setSetpoint(int newSetpoint){
 		setpoint = newSetpoint;
 		
 		pidController.setSetpoint(setpoint);
-	}
-	
-	
-	public double getLoopOutput(){
-		return pidOutput.getPIDLoopOutput();
 	}
 	
 	public boolean onTarget(){
