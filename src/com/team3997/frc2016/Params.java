@@ -30,7 +30,7 @@ public class Params extends UpdateParameters {
 	 * 
 	 */
 	public static final EncodingType ENCODER_ENCODING_TYPE = EncodingType.k4X;
-	public static final double ENCODER_DISTANCE_PER_PULSE = 1000;
+	public static final double ENCODER_DISTANCE_PER_PULSE = 2048;
 	
 	/*
 	 * 
@@ -58,6 +58,7 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Shooter Parameters
 	 */
+	public static final boolean SHOOTER_USE_PID = false;
 	public static final double SHOOTER_MOTOR_POWER = 1.00;
 	public static final double SHOOTER_OUTTAKE_MOTOR_POWER = 0.60;
 	

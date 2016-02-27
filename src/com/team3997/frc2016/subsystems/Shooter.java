@@ -7,12 +7,14 @@ import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.components.Lights;
 import com.team3997.frc2016.util.AMT103V_Encoder;
+import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.LogitechF310Gamepad;
 import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.team3997.frc2016.Controls;
 
@@ -23,6 +25,7 @@ public class Shooter {
 	private Talon shooterMotor1;
 	private Talon shooterMotor2;
 	private AMT103V_Encoder shooterEncoder;
+	private Encoder wpiShooterEncoder;
 	public double goalRPM = 0;
 	private boolean toggleEnableShooterMotor = false;
 	private Debounce shooterToggleButton;
@@ -40,6 +43,7 @@ public class Shooter {
 		shooterMotor2.setInverted(true);
 
 		shooterEncoder = kshooterEncoder;
+		wpiShooterEncoder = shooterEncoder.getEncoderObject();
 
 		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2, PIDParams.sP.getDouble(),
 				PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), PIDParams.sTolerance, PIDParams.sOutMin,
@@ -62,17 +66,37 @@ public class Shooter {
 			runAuto();
 		else
 			runManual();
+		
+		Dashboard.put("encoder RPM distance (total rotations)", wpiShooterEncoder.getDistance());
+		SmartDashboard.putNumber("encoder RPM raw scaled quadrature", wpiShooterEncoder.get());
+    	SmartDashboard.putNumber("encoder RPS rate", wpiShooterEncoder.getRate());
 	}
 
 	public void runAuto() {
-		if (toggleEnableShooterMotor)
-			shooterPID.enablePID();
-		else
-			shooterPID.disablePID();
+		if (toggleEnableShooterMotor){
+			if(!Params.SHOOTER_USE_PID){
+				this.runShooterAtDefaultSpeed();
+				Dashboard.put("shooterPID", true);
+			}
+			else{
+				shooterPID.enablePID();
+				Dashboard.put("shooterPID", false);
+			}
+			
+		}
+		else {
+			if(!Params.SHOOTER_USE_PID){
+				stopShooter();
+			}
+			else{
+				shooterPID.disablePID();
+			}
+		}
 
 		// if the shooter button is pressed and shooter motors are up to speed,
 		// transfer the ball from the Chicken Run to the shooter
-		if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor && this.onTargetRPM() && cRun.isIndexed()) { // !!Check if onTarget is correct
+		//if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor && this.onTargetRPM() && cRun.isIndexed()) { // !!Check if onTarget is correct
+		if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor) {	
 			cRun.setSendingToShooter(true);
 		} else {
 			cRun.setSendingToShooter(false);
@@ -92,8 +116,10 @@ public class Shooter {
 
 			if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER)) {
 				cRun.setSendingToShooter(true);
+				Dashboard.put("trigger boolean", true);
 			} else {
 				cRun.setSendingToShooter(false);
+				Dashboard.put("trigger boolean", false);
 			}
 		} 
 		else if (gamePad.getLeftTrigger()) {

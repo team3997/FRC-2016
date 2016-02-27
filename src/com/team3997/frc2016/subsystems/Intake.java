@@ -40,6 +40,7 @@ public class Intake {
     	
     	//cRun and Intake Behaviour
     	if(cRun.isSendingToShooter()){
+    		this.intake();
     		cRun.intake();
     	}
     	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){

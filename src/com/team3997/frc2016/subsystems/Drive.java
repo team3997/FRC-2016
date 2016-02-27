@@ -47,7 +47,7 @@ public class Drive{
 		rightXVal = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED);
 		leftXVal = (gamePad.getLeftX()) * (Params.DRIVE_MOTOR_SPEED);
 		rightYVal = (gamePad.getRightY()) * (Params.DRIVE_MOTOR_SPEED);
-		leftYVal = (gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED);
+		leftYVal = (-gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED);
 
 		// Button to reset gyro
 		if (gamePad.getBlueButton()) {
