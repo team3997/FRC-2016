@@ -14,6 +14,7 @@ import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.team3997.frc2016.Controls;
@@ -27,15 +28,16 @@ public class Shooter {
 	private AMT103V_Encoder shooterEncoder;
 	private Encoder wpiShooterEncoder;
 	public double goalRPM = 0;
-	private boolean toggleEnableShooterMotor = false;
-	private Debounce shooterToggleButton;
+	private boolean enableShooterMotor = false;
+	
+	//private Debounce shooterToggleButton;
 	private ChickenRun cRun;
 
 	public Shooter(Talon kshooterMotor1, Talon kshooterMotor2, AMT103V_Encoder kshooterEncoder,
 			LogitechF310Gamepad kGamePad, ChickenRun kCRun) {
 
 		gamePad = kGamePad;
-		shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_BUTTON);
+		//shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_BUTTON);
 
 		shooterMotor1 = kshooterMotor1;
 		shooterMotor2 = kshooterMotor2;
@@ -55,25 +57,60 @@ public class Shooter {
 		stopShooter();
 	}
 
+	public void initTeleOp(){
+		wpiShooterEncoder.reset();
+		wpiShooterEncoder.setDistancePerPulse(1/2048);
+		//wpiShooterEncoder.
+	}
+	
 	// Function that runs during teleop periodically
 	public void runTeleOp() {
 
 		// if shooter button is pressed, toggle motor enable
-		if (shooterToggleButton.getRise())
-			toggleEnableShooterMotor = !toggleEnableShooterMotor;
+		if (gamePad.getButton(Controls.SHOOTER_RUN_MOTORS_BUTTON))
+			enableShooterMotor = true;
+		else 
+			enableShooterMotor = false;
+			
 
 		if (!Robot.isManualMode)
 			runAuto();
 		else
 			runManual();
 		
-		Dashboard.put("encoder RPM distance (total rotations)", wpiShooterEncoder.getDistance());
-		SmartDashboard.putNumber("encoder RPM raw scaled quadrature", wpiShooterEncoder.get());
-    	SmartDashboard.putNumber("encoder RPS rate", wpiShooterEncoder.getRate());
+		
+		SmartDashboard.putNumber("encoder raw scaled quadrature", wpiShooterEncoder.get());
+    	SmartDashboard.putNumber("encoder rotations cummalative", wpiShooterEncoder.get()/2048);
+    	SmartDashboard.putNumber("encoder wpi distance", wpiShooterEncoder.getDistance());
+    	SmartDashboard.putNumber("encoder rotations rate", wpiShooterEncoder.getRate());
+    	//System.out.println(getRate());
+
 	}
+	
+	/*public int getRate(){
+		int x=0;
+		int y=0;
+		int z=0;
+		
+		if(timer.get() > 1){
+			timer.reset();
+		}
+		
+		if(timer.get() <= 1){
+			if(timer.get() < 0.1){
+				x=wpiShooterEncoder.get()/2048;
+			}
+			if((timer.get() > 0.8) || timer.get() < 0.9){
+				y=wpiShooterEncoder.get()/2048;
+			}
+		}
+		
+		z=y-x;
+		return z*60;
+	}*/
 
 	public void runAuto() {
-		if (toggleEnableShooterMotor){
+		if (enableShooterMotor){
 			if(!Params.SHOOTER_USE_PID){
 				this.runShooterAtDefaultSpeed();
 				Dashboard.put("shooterPID", true);
@@ -96,22 +133,22 @@ public class Shooter {
 		// if the shooter button is pressed and shooter motors are up to speed,
 		// transfer the ball from the Chicken Run to the shooter
 		//if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor && this.onTargetRPM() && cRun.isIndexed()) { // !!Check if onTarget is correct
-		if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor) {	
+		if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && enableShooterMotor) {	
 			cRun.setSendingToShooter(true);
 		} else {
 			cRun.setSendingToShooter(false);
 		}
 		
-		if ((toggleEnableShooterMotor && !cRun.isIndexed()))
+		if ((enableShooterMotor && !cRun.isIndexed()))
 			Hardware.kLights.setColor(Lights.HALFYELLOW);
-		else if ((!toggleEnableShooterMotor) && cRun.isIndexed())
+		else if ((!enableShooterMotor) && cRun.isIndexed())
 			Hardware.kLights.setColor(Lights.FULLYELLOW);
 		else
 			Hardware.kLights.setColor(Lights.ORANGE);
 	}
 
 	public void runManual() {
-		if (toggleEnableShooterMotor) {
+		if (enableShooterMotor) {
 			runShooterAtDefaultSpeed();
 
 			if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER)) {

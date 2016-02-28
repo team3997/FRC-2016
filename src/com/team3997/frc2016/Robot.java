@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Start teleopInit()");
-
+		shooter.initTeleOp();
 		auton.stop();
 		UpdateParameters.update();
 		//accel.reset();

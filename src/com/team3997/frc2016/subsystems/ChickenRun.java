@@ -48,11 +48,11 @@ public class ChickenRun {
 	}
 	
 	protected void intake() {
-		cRunMotor.set(crunMotorPower);
+		cRunMotor.set(-crunMotorPower);
 	}
 	
 	protected void outtake() {
-		cRunMotor.set(-crunMotorPower);
+		cRunMotor.set(crunMotorPower);
 	}
 	
 	protected void run(double speed) {

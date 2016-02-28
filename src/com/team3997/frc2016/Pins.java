@@ -71,7 +71,7 @@ public class Pins {
 	 * Intake
 	 */
 	public static final int INTAKE_MOTOR_PIN = 4; // left, right
-	public static final int INTAKE_EXTENDER_SOLE_PINS[] = {2, 3};
+	public static final int INTAKE_EXTENDER_SOLE_PINS[] = {0, 1};
 
 	/*
 	 * 

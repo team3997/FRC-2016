@@ -56,7 +56,7 @@ public class Drive{
 
 		// If invert drive button is pressed, invert the drive values
 		if (gamePad.getButton(Controls.INVERT_DRIVE)) {
-			rightXVal = -rightXVal;
+			rightXVal = rightXVal;
 			leftXVal = -leftXVal;
 			rightYVal = -rightYVal;
 			leftYVal = -leftYVal;
