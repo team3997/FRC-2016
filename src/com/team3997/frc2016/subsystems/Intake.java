@@ -40,8 +40,8 @@ public class Intake {
     	
     	//cRun and Intake Behaviour
     	if(cRun.isSendingToShooter()){
-    		this.intake();
-    		cRun.intake();
+    		//this.intake();
+    		cRun.run(Params.CRUN_SHOOTING_MOTOR_POWER);
     	}
     	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){
     		if(Robot.isManualMode){

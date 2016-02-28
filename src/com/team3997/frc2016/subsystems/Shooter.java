@@ -80,7 +80,7 @@ public class Shooter {
 		
 		
 		SmartDashboard.putNumber("encoder raw scaled quadrature", wpiShooterEncoder.get());
-    	SmartDashboard.putNumber("encoder rotations cummalative", wpiShooterEncoder.get()/2048);
+    	SmartDashboard.putNumber("encoder rotations cummalative", wpiShooterEncoder.get() / 2048);
     	SmartDashboard.putNumber("encoder wpi distance", wpiShooterEncoder.getDistance());
     	SmartDashboard.putNumber("encoder rotations rate", wpiShooterEncoder.getRate());
     	//System.out.println(getRate());

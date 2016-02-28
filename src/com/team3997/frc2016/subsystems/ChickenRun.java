@@ -19,6 +19,7 @@ public class ChickenRun {
 		gamePad = kGamePad;
 		indexSignal = kIndexSensor;
 		cRunMotor = kMotor1;
+		cRunMotor.setInverted(true);
 	}
 	
 	/**
@@ -48,11 +49,11 @@ public class ChickenRun {
 	}
 	
 	protected void intake() {
-		cRunMotor.set(-crunMotorPower);
+		cRunMotor.set(crunMotorPower);
 	}
 	
 	protected void outtake() {
-		cRunMotor.set(crunMotorPower);
+		cRunMotor.set(-crunMotorPower);
 	}
 	
 	protected void run(double speed) {
