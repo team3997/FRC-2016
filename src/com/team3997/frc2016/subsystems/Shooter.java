@@ -59,8 +59,6 @@ public class Shooter {
 
 	public void initTeleOp(){
 		wpiShooterEncoder.reset();
-		wpiShooterEncoder.setDistancePerPulse(1/2048);
-		//wpiShooterEncoder.
 	}
 	
 	// Function that runs during teleop periodically
@@ -82,42 +80,21 @@ public class Shooter {
 		SmartDashboard.putNumber("encoder raw scaled quadrature", wpiShooterEncoder.get());
     	SmartDashboard.putNumber("encoder rotations cummalative", wpiShooterEncoder.get() / 2048);
     	SmartDashboard.putNumber("encoder wpi distance", wpiShooterEncoder.getDistance());
-    	SmartDashboard.putNumber("encoder rotations rate", wpiShooterEncoder.getRate());
+    	SmartDashboard.putNumber("encoder rotations rate", wpiShooterEncoder.getRate() * 60);
     	//System.out.println(getRate());
 
 	}
-	
-	/*public int getRate(){
-		int x=0;
-		int y=0;
-		int z=0;
-		
-		if(timer.get() > 1){
-			timer.reset();
-		}
-		
-		if(timer.get() <= 1){
-			if(timer.get() < 0.1){
-				x=wpiShooterEncoder.get()/2048;
-			}
-			if((timer.get() > 0.8) || timer.get() < 0.9){
-				y=wpiShooterEncoder.get()/2048;
-			}
-		}
-		
-		z=y-x;
-		return z*60;
-	}*/
+
 
 	public void runAuto() {
 		if (enableShooterMotor){
 			if(!Params.SHOOTER_USE_PID){
 				this.runShooterAtDefaultSpeed();
-				Dashboard.put("shooterPID", true);
+				Dashboard.put("shooterPID", false);
 			}
 			else{
 				shooterPID.enablePID();
-				Dashboard.put("shooterPID", false);
+				Dashboard.put("shooterPID", true);
 			}
 			
 		}
@@ -138,13 +115,6 @@ public class Shooter {
 		} else {
 			cRun.setSendingToShooter(false);
 		}
-		
-		if ((enableShooterMotor && !cRun.isIndexed()))
-			Hardware.kLights.setColor(Lights.HALFYELLOW);
-		else if ((!enableShooterMotor) && cRun.isIndexed())
-			Hardware.kLights.setColor(Lights.FULLYELLOW);
-		else
-			Hardware.kLights.setColor(Lights.ORANGE);
 	}
 
 	public void runManual() {

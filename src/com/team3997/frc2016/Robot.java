@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		hanger.runTeleOp();
-		vision.runTeleOp();
+		//vision.runTeleOp();
 		
 		//Change between manual and automatic mode
 		Dashboard.put("Manual Mode", isManualMode);

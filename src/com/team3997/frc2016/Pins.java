@@ -46,7 +46,7 @@ public class Pins {
 	 * Encoders
 	 * 
 	 */
-	public static final int LEFT_DRIVE_ENCODER_PINS[] = {0, 2};
+	public static final int LEFT_DRIVE_ENCODER_PINS[] = {4, 2};
 	public static final int RIGHT_DRIVE_ENCODER_PINS[] = {1, 3};
 	public static final int SHOOTER_ENCODER_PINS[] = {8, 9};
 
@@ -64,7 +64,7 @@ public class Pins {
 	 * 
 	 */
 	public static final int CRUN_MOTOR_PIN = 5;
-	public static final int CRUN_INDEXER_PIN = 7; //6 is other state
+	public static final int CRUN_INDEXER_PIN = 0; //6 is other state
 	
 	/*
 	 * 

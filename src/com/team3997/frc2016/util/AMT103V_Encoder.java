@@ -12,12 +12,12 @@ public class AMT103V_Encoder {
 
 	public AMT103V_Encoder(final int aChannel, final int bChannel){
 		encoder = new Encoder(aChannel, bChannel, false, encodingType);
-		encoder.setDistancePerPulse(distancePerPulse);
+		encoder.setDistancePerPulse((double)distancePerPulse);
 	}
 	
 	public AMT103V_Encoder(final int aChannel, final int bChannel, boolean reverseDirection){
 		encoder = new Encoder(aChannel, bChannel, reverseDirection, encodingType);
-		encoder.setDistancePerPulse(distancePerPulse);
+		encoder.setDistancePerPulse((double)distancePerPulse);
 	}
 	
 	
