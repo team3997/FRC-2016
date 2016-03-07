@@ -5,6 +5,7 @@ import com.team3997.frc2016.util.AMT103V_Encoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 
 public class PID {
@@ -22,8 +23,8 @@ public class PID {
 	private double rotationScale;
 	
 	private Encoder encoder;
-	private Talon outputMotor1;
-	private Talon outputMotor2;
+	private Spark outputMotor1;
+	private Spark outputMotor2;
 	
 	private PIDSourceType sensingType;
 	
@@ -35,7 +36,7 @@ public class PID {
 	
 	
 	//Shooter PID constructor
-	public PID(AMT103V_Encoder kEncoder, Talon kOutputMotor1, Talon kOutputMotor2, double kP, double kI, double kD,
+	public PID(AMT103V_Encoder kEncoder, Spark kOutputMotor1, Spark kOutputMotor2, double kP, double kI, double kD,
 			double kTolerance, double kOutMin, double kOutMax, int kSamplesToAverage, PIDSourceType kType){
 		
 		P = kP;

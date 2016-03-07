@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
@@ -47,8 +48,8 @@ public class Hardware {
 	 */
 	public static Talon kIntakeMotor = new Talon(Pins.INTAKE_MOTOR_PIN);
 
-	public static Talon kShooterMotor1 = new Talon(Pins.SHOOTER_MOTOR_PINS[0]);
-	public static Talon kShooterMotor2 = new Talon(Pins.SHOOTER_MOTOR_PINS[1]);
+	public static Spark kShooterMotor1 = new Spark(Pins.SHOOTER_MOTOR_PINS[0]);
+	public static Spark kShooterMotor2 = new Spark(Pins.SHOOTER_MOTOR_PINS[1]);
 	
 	public static Talon kCRunMotor = new Talon(Pins.CRUN_MOTOR_PIN);
 	/*

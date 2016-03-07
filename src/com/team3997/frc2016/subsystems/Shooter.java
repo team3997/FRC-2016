@@ -13,6 +13,7 @@ import com.team3997.frc2016.util.F310;
 import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,8 +24,8 @@ public class Shooter {
 
 	private F310 gamePad;
 	public PID shooterPID;
-	private Talon shooterMotor1;
-	private Talon shooterMotor2;
+	private Spark shooterMotor1;
+	private Spark shooterMotor2;
 	private AMT103V_Encoder shooterEncoder;
 	private Encoder wpiShooterEncoder;
 	public double goalRPM = 0;
@@ -33,7 +34,7 @@ public class Shooter {
 	//private Debounce shooterToggleButton;
 	private ChickenRun cRun;
 
-	public Shooter(Talon kshooterMotor1, Talon kshooterMotor2, AMT103V_Encoder kshooterEncoder,
+	public Shooter(Spark kshooterMotor1, Spark kshooterMotor2, AMT103V_Encoder kshooterEncoder,
 			F310 kGamePad, ChickenRun kCRun) {
 
 		gamePad = kGamePad;

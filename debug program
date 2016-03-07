@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
@@ -53,7 +54,8 @@ public class Robot extends IterativeRobot {
 	
 	RobotDrive myDrive;
 	Joystick op, driver;
-	Talon cRun, intake, shooter1, shooter2;
+	Talon cRun, intake;
+	Spark shooter1, shooter2;
 	DoubleSolenoid pIntake;
 	DigitalInput indexSensor1;
 	rpmControllerOuput output;
@@ -75,8 +77,8 @@ public class Robot extends IterativeRobot {
     	myDrive = new RobotDrive(0,1,2,3);
     	cRun = new Talon(5);
     	intake = new Talon(4);
-    	shooter1 = new Talon(6);
-    	shooter2 = new Talon(7);
+    	shooter1 = new Spark(6);
+    	shooter2 = new Spark(7);
     	indexSensor1 = new DigitalInput(index_sensor_dio_port_1);
     	pIntake = new DoubleSolenoid(0, 1);
     	pIntake.set(DoubleSolenoid.Value.kOff);
@@ -229,10 +231,10 @@ public class Robot extends IterativeRobot {
     
     class rpmControllerOuput implements PIDOutput {
 
-		Talon m_outputMotor1;
-		Talon m_outputMotor2;
+		Spark m_outputMotor1;
+		Spark m_outputMotor2;
 
-		rpmControllerOuput(Talon outputMotor1, Talon outputMotor2) {
+		rpmControllerOuput(Spark outputMotor1, Spark outputMotor2) {
 			m_outputMotor1 = outputMotor1;
 			m_outputMotor2 = outputMotor2;
 

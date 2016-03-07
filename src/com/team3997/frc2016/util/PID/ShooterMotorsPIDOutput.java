@@ -1,16 +1,17 @@
 package com.team3997.frc2016.util.PID;
 
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterMotorsPIDOutput implements PIDOutput{
 
 	private double PIDloopOutput = 0;
-	private Talon outputMotor1;
-	private Talon outputMotor2;
+	private Spark outputMotor1;
+	private Spark outputMotor2;
 	public boolean disablePIDControl = false;
 	
-	ShooterMotorsPIDOutput(Talon kOutputMotor1, Talon kOutputMotor2){
+	ShooterMotorsPIDOutput(Spark kOutputMotor1, Spark kOutputMotor2){
 		outputMotor1 = kOutputMotor1;
 		outputMotor2 = kOutputMotor2;
 	}
