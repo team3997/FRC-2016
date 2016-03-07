@@ -30,7 +30,7 @@ public class Params extends UpdateParameters {
 	 * 
 	 */
 	public static final EncodingType ENCODER_ENCODING_TYPE = EncodingType.k4X;
-	public static final double ENCODER_DISTANCE_PER_PULSE = 1/2048;
+	public static final double ENCODER_DISTANCE_PER_PULSE = (double)(1/2048);
 	
 	/*
 	 * 

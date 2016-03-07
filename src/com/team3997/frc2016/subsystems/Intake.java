@@ -5,7 +5,7 @@ import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.util.Dashboard;
-import com.team3997.frc2016.util.LogitechF310Gamepad;
+import com.team3997.frc2016.util.F310;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -14,14 +14,14 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class Intake {
 	
-	private LogitechF310Gamepad gamePad;
+	private F310 gamePad;
 	double intakeMotorPower = Params.INTAKE_MOTOR_POWER;
 	Talon intakeMotor;
 	private Extender extender;
 	private ChickenRun cRun;
 	
 	public Intake(Talon kIntakeMotor, DoubleSolenoid kIntakeExtenderSolenoid, 
-			LogitechF310Gamepad kGamePad, ChickenRun kCRun){
+			F310 kGamePad, ChickenRun kCRun){
 		
 		gamePad = kGamePad;
 		

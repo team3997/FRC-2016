@@ -18,36 +18,27 @@ import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;
-import com.team3997.frc2016.util.LogitechF310Gamepad;
+import com.team3997.frc2016.util.F310;
+import com.team3997.frc2016.util.FrontCamera;
 import com.team3997.frc2016.util.UpdateParameters;
 
-import edu.wpi.first.wpilibj.ADXL362;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
-import edu.wpi.first.wpilibj.vision.AxisCamera;
-import edu.wpi.first.wpilibj.vision.AxisCamera.ExposureControl;
 
 public class Robot extends IterativeRobot {
 	
 	public static boolean isManualMode = false;
 
-	LogitechF310Gamepad driverGamePad = Hardware.kDriverGamePad;
-	LogitechF310Gamepad opGamePad = Hardware.kOpGamePad;
+	F310 driverGamePad = Hardware.kDriverGamePad;
+	F310 opGamePad = Hardware.kOpGamePad;
 	Drive drive = Hardware.kDrive;
 	Shooter shooter = Hardware.kShooter;
 	Intake intake = Hardware.kIntake;
 	Hanger hanger = Hardware.kHanger;
 	Vision vision = Hardware.kVision;
 	Lights lights = Hardware.kLights;
+	FrontCamera frontCamera = Hardware.kFrontCamera;
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
-	byte[] toSend;
 
 	@Override
 	public void robotInit() {
@@ -68,21 +59,22 @@ public class Robot extends IterativeRobot {
 
 		UpdateParameters.update();
 		auton.start();
-
+		frontCamera.init();
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-		
+		frontCamera.run();
 	}
 
 	@Override
 	public void teleopInit() {
 		System.out.println("Start teleopInit()");
-		shooter.initTeleOp();
 		auton.stop();
 		UpdateParameters.update();
-		//accel.reset();
+		
+		shooter.initTeleOp();
+		frontCamera.init();
 	}
 
 	@Override
@@ -91,7 +83,7 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		hanger.runTeleOp();
-		//vision.runTeleOp();
+		frontCamera.run();
 		
 		//Change between manual and automatic mode
 		Dashboard.put("Manual Mode", isManualMode);
@@ -108,14 +100,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 		System.out.println("Start disabledInit()");
-		
 		auton.stop();
-
 		UpdateParameters.update();
+		
+		frontCamera.init();
+
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		lights.setColor(Lights.PRIDE);
+		frontCamera.run();
 	}
 }

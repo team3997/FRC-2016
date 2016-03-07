@@ -9,7 +9,7 @@ package com.team3997.frc2016.util;
  ******************************************************************************/
 
 public class Debounce {
-	private LogitechF310Gamepad joystick;	//Joystick object
+	private F310 joystick;	//Joystick object
 	private int button;			//Button number on the joystick
 	private boolean lastState;	//Records the button's previous state
 	
@@ -30,7 +30,7 @@ public class Debounce {
 	 * 		parameters of the same name, which normally override precedence in
 	 * 		the local scope. 
 	 **************************************************************************/
-	public Debounce(LogitechF310Gamepad joystick, int button) {
+	public Debounce(F310 joystick, int button) {
 		this.joystick = joystick;	//Scope is important, y'all. 
 		this.button = button;
 		

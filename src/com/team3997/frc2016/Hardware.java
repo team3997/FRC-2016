@@ -4,18 +4,17 @@ import com.team3997.frc2016.components.Lights;
 import com.team3997.frc2016.components.Vision;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.AMT103V_Encoder;
-import com.team3997.frc2016.util.LogitechF310Gamepad;
+import com.team3997.frc2016.util.F310;
+import com.team3997.frc2016.util.FrontCamera;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import edu.wpi.first.wpilibj.vision.AxisCamera;
 
 public class Hardware {
 
@@ -23,8 +22,8 @@ public class Hardware {
 	 * 
 	 * Interfaces
 	 */
-	public static LogitechF310Gamepad kDriverGamePad = new LogitechF310Gamepad(Pins.DRIVER_GAMEPAD_USB);
-	public static LogitechF310Gamepad kOpGamePad = new LogitechF310Gamepad(Pins.OP_GAMEPAD_USB);
+	public static F310 kDriverGamePad = new F310(Pins.DRIVER_GAMEPAD_USB);
+	public static F310 kOpGamePad = new F310(Pins.OP_GAMEPAD_USB);
 	/*
 	 * 
 	 * Target LED
@@ -80,7 +79,7 @@ public class Hardware {
 	
 	public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
 	
-	public static Accelerometer accel = new BuiltInAccelerometer(Accelerometer.Range.k4G);
+	public static Accelerometer kAccel = new BuiltInAccelerometer();
 
 	/*
 	 * 
@@ -108,5 +107,5 @@ public class Hardware {
 	 * 
 	 * Utilities
 	 */
-	//public static CameraSwitcher kCameraSwitcher = new CameraSwitcher();
+	public static FrontCamera kFrontCamera = new FrontCamera(kOpGamePad);
 }

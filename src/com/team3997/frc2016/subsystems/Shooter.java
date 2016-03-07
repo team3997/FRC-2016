@@ -9,7 +9,7 @@ import com.team3997.frc2016.components.Lights;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;
-import com.team3997.frc2016.util.LogitechF310Gamepad;
+import com.team3997.frc2016.util.F310;
 import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -21,7 +21,7 @@ import com.team3997.frc2016.Controls;
 
 public class Shooter {
 
-	private LogitechF310Gamepad gamePad;
+	private F310 gamePad;
 	public PID shooterPID;
 	private Talon shooterMotor1;
 	private Talon shooterMotor2;
@@ -34,7 +34,7 @@ public class Shooter {
 	private ChickenRun cRun;
 
 	public Shooter(Talon kshooterMotor1, Talon kshooterMotor2, AMT103V_Encoder kshooterEncoder,
-			LogitechF310Gamepad kGamePad, ChickenRun kCRun) {
+			F310 kGamePad, ChickenRun kCRun) {
 
 		gamePad = kGamePad;
 		//shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_BUTTON);
@@ -75,7 +75,6 @@ public class Shooter {
 			runAuto();
 		else
 			runManual();
-		
 		
 		SmartDashboard.putNumber("encoder raw scaled quadrature", wpiShooterEncoder.get());
     	SmartDashboard.putNumber("encoder rotations cummalative", wpiShooterEncoder.get() / 2048);
@@ -123,10 +122,8 @@ public class Shooter {
 
 			if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER)) {
 				cRun.setSendingToShooter(true);
-				Dashboard.put("trigger boolean", true);
 			} else {
 				cRun.setSendingToShooter(false);
-				Dashboard.put("trigger boolean", false);
 			}
 		} 
 		else if (gamePad.getLeftTrigger()) {

@@ -3,11 +3,24 @@ package com.team3997.frc2016.util;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class LogitechF310Gamepad {
+public class F310 {
+	public static final int greenButton = 1;
+	public static final int blueButton = 3;
+	public static final int redButton = 2;
+	public static final int yellowButton = 4;
+	public static final int backButton = 7;
+	public static final int startButton = 8;
+	public static final int leftBumper = 5;
+	public static final int rightBumper = 6;
+	public static final int leftStickClick = 9;
+	public static final int rightStickClick = 10;
+	public static final int leftTrigger = 11;
+	public static final int rightTrigger = 12;
+		
     private Joystick joystick;
-    private final double triggerEnableThreshold = 0.8;
+    private final double triggerEnableThreshold = 0.78;
     
-    public LogitechF310Gamepad(int portNum) {
+    public F310(int portNum) {
         this.joystick = new Joystick(portNum);
     }
     
@@ -53,43 +66,43 @@ public class LogitechF310Gamepad {
     }
     
     public boolean getGreenButton() {
-        return this.joystick.getRawButton(1);
+        return this.joystick.getRawButton(greenButton);
     }
     
     public boolean getBlueButton() {
-        return this.joystick.getRawButton(3);
+        return this.joystick.getRawButton(blueButton);
     }
     
     public boolean getRedButton() {
-        return this.joystick.getRawButton(2);
+        return this.joystick.getRawButton(redButton);
     }
     
     public boolean getYellowButton() {
-        return this.joystick.getRawButton(4);
+        return this.joystick.getRawButton(yellowButton);
     }
     
     public boolean getBackButton() {
-        return this.joystick.getRawButton(7);
+        return this.joystick.getRawButton(backButton);
     }
     
     public boolean getStartButton() {
-        return this.joystick.getRawButton(8);
+        return this.joystick.getRawButton(startButton);
     }
     
     public boolean getLeftBumper() {
-        return this.joystick.getRawButton(5);
+        return this.joystick.getRawButton(leftBumper);
     }
     
     public boolean getRightBumper() {
-        return this.joystick.getRawButton(6);
+        return this.joystick.getRawButton(rightBumper);
     }
     
     public boolean getLeftStickClick() {
-        return this.joystick.getRawButton(9);
+        return this.joystick.getRawButton(leftStickClick);
     }
     
     public boolean getRightStickClick() {
-        return this.joystick.getRawButton(10);
+        return this.joystick.getRawButton(rightStickClick);
     }
     
     public boolean getTrigger(int num){

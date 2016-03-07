@@ -4,7 +4,7 @@ import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Dashboard;
-import com.team3997.frc2016.util.LogitechF310Gamepad;
+import com.team3997.frc2016.util.F310;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -22,11 +22,11 @@ public class Drive{
 	double rightXVal, leftXVal, rightYVal, leftYVal;
 	public AnalogGyro gyro;
 	public Encoder leftEncoder, rightEncoder;
-	private LogitechF310Gamepad gamePad;
+	private F310 gamePad;
 	RobotDrive driveTrain;
 
 	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
-			AMT103V_Encoder rightEncoder, AnalogGyro gyro, LogitechF310Gamepad kGamePad) {
+			AMT103V_Encoder rightEncoder, AnalogGyro gyro, F310 kGamePad) {
 
 		gamePad = kGamePad;
 
@@ -56,7 +56,7 @@ public class Drive{
 
 		// If invert drive button is pressed, invert the drive values
 		if (gamePad.getButton(Controls.INVERT_DRIVE)) {
-			rightXVal = rightXVal;
+			rightXVal = -rightXVal;
 			leftXVal = -leftXVal;
 			rightYVal = -rightYVal;
 			leftYVal = -leftYVal;
@@ -67,15 +67,6 @@ public class Drive{
 			setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
 		} else {
 			setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
-		}
-
-		// Print drive magnitudes if wanted
-		if (Params.DASHBOARD_DRIVE_DEBUG) {
-
-			Dashboard.put("leftYval", leftYVal);
-			Dashboard.put("rightxval", rightXVal);
-			// Dashboard.put("Left Encoder", leftEncoder.get());
-			// Dashboard.put("Right Encoder", rightEncoder.get());
 		}
 	}
 
