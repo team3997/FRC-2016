@@ -59,12 +59,12 @@ public class Robot extends IterativeRobot {
 
 		UpdateParameters.update();
 		auton.start();
-		frontCamera.init();
+		frontCamera.start();
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-		frontCamera.run();
+
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 		UpdateParameters.update();
 		
 		shooter.initTeleOp();
-		frontCamera.init();
+		frontCamera.start();
 	}
 
 	@Override
@@ -83,7 +83,6 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		hanger.runTeleOp();
-		frontCamera.run();
 		
 		//Change between manual and automatic mode
 		Dashboard.put("Manual Mode", isManualMode);
@@ -103,13 +102,12 @@ public class Robot extends IterativeRobot {
 		auton.stop();
 		UpdateParameters.update();
 		
-		frontCamera.init();
+		frontCamera.start();
 
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		lights.setColor(Lights.PRIDE);
-		frontCamera.run();
 	}
 }
