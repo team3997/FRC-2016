@@ -1,0 +1,261 @@
+
+package org.usfirst.frc.team3997.robot;
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.DrawMode;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ShapeMode;
+
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.USBCamera;
+
+public class Robot extends IterativeRobot {
+	
+	NIVision.Rect rect = new NIVision.Rect(20, 170, 50, 50);
+	
+	final int index_sensor_dio_port_1 = 0;
+	final int shooter_encoder_ports[] = {9, 8};
+	final boolean use_pid = false;
+	//PID settings
+	final int goalRPM = 4000; 
+	final double P = 0.1; 
+	final double I = 0.0; 
+	final double D = 0.0; 
+	final double tolerance = 50;
+	final double outMin = 0.0, outMax = 1.0;
+	
+	final double shooter_motor_speed = 1.00;
+	final double intake_motor_speed = 1.0;
+	final double crun_motor_speed = 1.00;
+	final double drive_speed = 1.0;
+	final double turn_speed = 1.0;
+	
+	//shooting button is right trigger
+	final int intake_motor_button = F310.rightBumper;
+	final int intake_reverse_motor_button = F310.leftBumper;
+	final int intake_extender_button = F310.blueButton;
+	final int start_shooter_wheels_button = F310.yellowButton;
+	
+	RobotDrive myDrive;
+	Joystick op, driver;
+	Talon cRun, intake, shooter1, shooter2;
+	DoubleSolenoid pIntake;
+	DigitalInput indexSensor1;
+	rpmControllerOuput output;
+	Encoder rpmEncoder;
+	Accelerometer accel;
+	//USBCamera frontCam;
+	
+	public int session;
+	public int buffer;
+	Image frame;
+	
+	static PIDController rpmController;
+	public boolean isIndexed = false;
+	public boolean isShooting = false;
+	
+    public void robotInit() {
+    	op = new Joystick(1);
+    	driver = new Joystick(2);
+    	myDrive = new RobotDrive(0,1,2,3);
+    	cRun = new Talon(5);
+    	intake = new Talon(4);
+    	shooter1 = new Talon(6);
+    	shooter2 = new Talon(7);
+    	indexSensor1 = new DigitalInput(index_sensor_dio_port_1);
+    	pIntake = new DoubleSolenoid(0, 1);
+    	pIntake.set(DoubleSolenoid.Value.kOff);
+    	accel = new BuiltInAccelerometer();
+    	
+    	//frontCam = new USBCamera();
+    	rpmEncoder = new Encoder(shooter_encoder_ports[0], shooter_encoder_ports[1], false, EncodingType.k4X);
+   
+    	output = new rpmControllerOuput(shooter1, shooter2);
+
+		rpmController = new PIDController(P, I, D, rpmEncoder, output);
+		rpmController.setOutputRange(outMin, outMax);
+		rpmController.setAbsoluteTolerance(tolerance);
+		
+		rpmEncoder.setDistancePerPulse((double)1/2048);
+		
+		//setRPM(goalRPM);
+		rpmController.disable();
+		
+		//rpmController.disable();
+		
+		
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+        session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+    }
+    
+    public void teleopInit() {
+    	rpmEncoder.reset();
+    	
+    	NIVision.IMAQdxConfigureGrab(session);
+        NIVision.IMAQdxStartAcquisition(session);
+    }
+    
+    public void teleopPeriodic() {
+    	//debug for index sensor
+    	SmartDashboard.putNumber("encoder pulses raw scaled", rpmEncoder.get());
+    	SmartDashboard.putNumber("encoder RPM rate", (rpmEncoder.getRate() * 60)); //rpm
+    	SmartDashboard.putNumber("encoder total distance (total rotations)", rpmEncoder.getDistance());
+    	
+    	SmartDashboard.putBoolean("index sensor1 state", indexSensor1.get());
+    	
+    	
+    	SmartDashboard.putNumber("accel x", accel.getX());
+    	SmartDashboard.putNumber("accel y", accel.getY());
+    	SmartDashboard.putNumber("accel z", accel.getZ());
+    	isIndexed = !indexSensor1.get();
+    	
+    	//Drive
+    	myDrive.arcadeDrive(driver.getRawAxis(1)*drive_speed, -driver.getRawAxis(4)*turn_speed, true);
+    	
+    	//Intake and crun
+    	
+    	//if the intake button is being pressed and the ball is not indexed, then intake. OR if we are shooting, then intake
+    	/*if(isShooting){
+    		intake.set(-intake_motor_speed);
+    		cRun.set(crun_motor_speed);
+    	}*/
+    	
+    	if((op.getRawButton(intake_motor_button) && !isIndexed) || isShooting){
+    		intake.set(intake_motor_speed);
+    		cRun.set(-crun_motor_speed);
+    	}
+    	else if(op.getRawButton(intake_reverse_motor_button)){
+    		intake.set(-intake_motor_speed);
+    		cRun.set(crun_motor_speed);
+    	}
+    	else {
+    		intake.set(0.0);
+    		cRun.set(0.0);
+    	}
+    	
+    	//Intake pistons / extender (press and hold)
+    	if(op.getRawButton(intake_extender_button))
+    		pIntake.set(DoubleSolenoid.Value.kReverse);
+    	else
+    		pIntake.set(DoubleSolenoid.Value.kForward);
+    	
+    	//shooter
+    	if (op.getRawButton(start_shooter_wheels_button)){
+    		if(use_pid){
+    			rpmController.enable();
+    		}
+    		else {
+    			shooter1.set(-shooter_motor_speed);
+    			shooter2.set(-shooter_motor_speed);
+    		}
+    	}
+    	else if (op.getRawButton(F310.startButton)){
+    		shooter1.set(shooter_motor_speed);
+    		shooter2.set(shooter_motor_speed);
+    	}
+    	else if(!op.getRawButton(start_shooter_wheels_button)){
+    		if(use_pid){
+    			rpmController.disable();
+    		}
+    		else {
+    			shooter1.set(0.0);
+    			shooter2.set(0.0);
+    		}
+    	}
+    	else {
+    		shooter1.set(0.0);
+    		shooter2.set(0.0);
+    	}
+    		
+    	//shooting function
+    	if(op.getRawAxis(3)>0.85){
+    		if(op.getRawButton(start_shooter_wheels_button))
+    			isShooting = true;
+    	}
+    	else
+    		isShooting = false;
+    	
+    	
+    	if(!op.getRawButton(F310.greenButton)){
+    		NIVision.IMAQdxGrab(session, frame, 1);
+    		
+    		NIVision.imaqDrawShapeOnImage(frame, frame, rect,
+    				DrawMode.DRAW_INVERT, ShapeMode.SHAPE_RECT, 0.0f);
+    	
+    		CameraServer.getInstance().setImage(frame);
+    	}
+    
+    }
+    
+    public void disabledInit(){
+    	NIVision.IMAQdxConfigureGrab(session);
+        NIVision.IMAQdxStartAcquisition(session);
+    }
+    
+    @Override
+    public void disabledPeriodic(){
+    	SmartDashboard.putNumber("accel x", accel.getX());
+    	SmartDashboard.putNumber("accel y", accel.getY());
+    	SmartDashboard.putNumber("accel z", accel.getZ());
+    	
+    	if(!op.getRawButton(F310.greenButton)){
+    		NIVision.IMAQdxGrab(session, frame, 1);
+    		
+    		NIVision.imaqDrawShapeOnImage(frame, frame, rect,
+    				DrawMode.DRAW_INVERT, ShapeMode.SHAPE_RECT, 0.0f);
+    	
+    		CameraServer.getInstance().setImage(frame);
+    	}
+    }
+    
+	public static void setRPM(int rpm) {
+		rpmController.setSetpoint(rpm);
+	}
+    
+    class rpmControllerOuput implements PIDOutput {
+
+		Talon m_outputMotor1;
+		Talon m_outputMotor2;
+
+		rpmControllerOuput(Talon outputMotor1, Talon outputMotor2) {
+			m_outputMotor1 = outputMotor1;
+			m_outputMotor2 = outputMotor2;
+
+		}
+
+		@Override
+		public void pidWrite(double output) {
+			m_outputMotor1.set(-output);
+			m_outputMotor2.set(-output);
+		}
+
+	}
+    
+    class F310 {
+    	public static final int greenButton = 1;
+    	public static final int blueButton = 3;
+    	public static final int redButton = 2;
+    	public static final int yellowButton = 4;
+    	public static final int backButton = 7;
+    	public static final int startButton = 8;
+    	public static final int leftBumper = 5;
+    	public static final int rightBumper = 6;
+    	public static final int leftStickClick = 9;
+    	public static final int rightStickClick = 10;
+    }
+}
