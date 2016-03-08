@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 	rpmControllerOuput output;
 	Encoder rpmEncoder;
 	Accelerometer accel;
-	//USBCamera frontCam;
+	USBCamera frontCam;
 	
 	public int session;
 	public int buffer;
@@ -72,6 +72,8 @@ public class Robot extends IterativeRobot {
 	public boolean isShooting = false;
 	
     public void robotInit() {
+    	System.out.println("/*****Running DEBUG Code Base*****/");
+    
     	op = new Joystick(1);
     	driver = new Joystick(2);
     	myDrive = new RobotDrive(0,1,2,3);
@@ -101,23 +103,24 @@ public class Robot extends IterativeRobot {
 		//rpmController.disable();
 		
 		
-		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		/*frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
         session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+    */
     }
     
     public void teleopInit() {
     	rpmEncoder.reset();
     	
-    	NIVision.IMAQdxConfigureGrab(session);
-        NIVision.IMAQdxStartAcquisition(session);
+    	/*NIVision.IMAQdxConfigureGrab(session);
+        NIVision.IMAQdxStartAcquisition(session);*/
     }
     
     public void teleopPeriodic() {
     	//debug for index sensor
-    	SmartDashboard.putNumber("encoder pulses raw scaled", rpmEncoder.get());
+    	/*SmartDashboard.putNumber("encoder pulses raw scaled", rpmEncoder.get());
     	SmartDashboard.putNumber("encoder RPM rate", (rpmEncoder.getRate() * 60)); //rpm
     	SmartDashboard.putNumber("encoder total distance (total rotations)", rpmEncoder.getDistance());
-    	
+    	*/
     	SmartDashboard.putBoolean("index sensor1 state", indexSensor1.get());
     	
     	
@@ -194,7 +197,15 @@ public class Robot extends IterativeRobot {
     	
     	
     	if(!op.getRawButton(F310.greenButton)){
-    		NIVision.IMAQdxGrab(session, frame, 1);
+    		
+    		try {
+    			NIVision.IMAQdxGrab(session, frame, 1);
+    		}
+    		catch (Exception e){
+    			System.out.println("camera fail to connect");
+    			NIVision.IMAQdxConfigureGrab(session);
+    			NIVision.IMAQdxStartAcquisition(session);
+    		}
     		
     		NIVision.imaqDrawShapeOnImage(frame, frame, rect,
     				DrawMode.DRAW_INVERT, ShapeMode.SHAPE_RECT, 0.0f);
@@ -215,14 +226,14 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("accel y", accel.getY());
     	SmartDashboard.putNumber("accel z", accel.getZ());
     	
-    	if(!op.getRawButton(F310.greenButton)){
-    		NIVision.IMAQdxGrab(session, frame, 1);
-    		
-    		NIVision.imaqDrawShapeOnImage(frame, frame, rect,
-    				DrawMode.DRAW_INVERT, ShapeMode.SHAPE_RECT, 0.0f);
-    	
-    		CameraServer.getInstance().setImage(frame);
-    	}
+    	try {
+			NIVision.IMAQdxGrab(session, frame, 1);
+		}
+		catch (Exception e){
+			System.out.println("camera fail to connect");
+			NIVision.IMAQdxConfigureGrab(session);
+			NIVision.IMAQdxStartAcquisition(session);
+		}
     }
     
 	public static void setRPM(int rpm) {

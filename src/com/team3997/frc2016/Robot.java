@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 public class Robot extends IterativeRobot {
 	
 	public static boolean isManualMode = false;
-
+	
 	F310 driverGamePad = Hardware.kDriverGamePad;
 	F310 opGamePad = Hardware.kOpGamePad;
 	Drive drive = Hardware.kDrive;
@@ -38,11 +38,13 @@ public class Robot extends IterativeRobot {
 	Lights lights = Hardware.kLights;
 	FrontCamera frontCamera = Hardware.kFrontCamera;
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
+	
 	public static Auton auton = new Auton();
 
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
+		System.out.println("/*****Running Main Code Base*****/");
 		
 		auton.listOptions();
 		
