@@ -76,7 +76,15 @@ public class FrontCamera {
 	}
 
 	private void grabImage() {
-		NIVision.IMAQdxGrab(session, frame, 1);
+		try {
+			NIVision.IMAQdxGrab(session, frame, 1);
+		}
+		catch (Exception e){
+			System.out.println("Camera Failed");
+			
+			NIVision.IMAQdxConfigureGrab(session);
+	        NIVision.IMAQdxStartAcquisition(session);
+		}
 	}
 
 	private void pushImage() {

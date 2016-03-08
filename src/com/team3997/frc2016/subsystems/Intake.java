@@ -111,11 +111,11 @@ class Extender {
 	
 	
 	public void out(){
-		extenderSolenoid.set(DoubleSolenoid.Value.kForward);
+		extenderSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public void in(){
-		extenderSolenoid.set(DoubleSolenoid.Value.kReverse);
+		extenderSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	public void set(Value value){

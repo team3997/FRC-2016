@@ -77,7 +77,7 @@ public class Pins {
 	 * 
 	 * Shooter
 	 */
-	public static final int SHOOTER_MOTOR_PINS[] = {8, 9};
+	public static final int SHOOTER_MOTOR_PINS[] = {6, 7};
 	
 	/*
 	 * 
