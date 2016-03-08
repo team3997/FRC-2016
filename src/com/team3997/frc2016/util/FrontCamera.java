@@ -80,7 +80,7 @@ public class FrontCamera {
 			NIVision.IMAQdxGrab(session, frame, 1);
 		}
 		catch (Exception e){
-			System.out.println("Camera Failed");
+			System.out.println("Camera Disconnected. Reinitializing...");
 			
 			NIVision.IMAQdxConfigureGrab(session);
 	        NIVision.IMAQdxStartAcquisition(session);
