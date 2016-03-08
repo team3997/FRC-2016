@@ -1,0 +1,5 @@
+1. The startAcquistion function for initilizing a camera feed may need to be run in a try, catch function  (untested) 
+2. There is the GRIP vision class which is constantly getting networktables data (untested)
+3.
+4.
+5. We have not isolated individial portions of code and tested them. That is important.
