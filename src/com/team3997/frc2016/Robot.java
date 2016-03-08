@@ -46,9 +46,6 @@ public class Robot extends IterativeRobot {
 		
 		auton.listOptions();
 		
-		//Turn camrea light on
-		Hardware.kTargetLED.set(true);
-		
 		// Update parameters from text file
 		UpdateParameters.update();
 	}

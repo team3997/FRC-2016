@@ -25,13 +25,6 @@ public class Hardware {
 	 */
 	public static F310 kDriverGamePad = new F310(Pins.DRIVER_GAMEPAD_USB);
 	public static F310 kOpGamePad = new F310(Pins.OP_GAMEPAD_USB);
-	/*
-	 * 
-	 * Target LED
-	 * 
-	 */
-	public static DigitalOutput kTargetLED = new DigitalOutput(Pins.GREEN_CAMERA_LED_PIN);
-	
 	
 	/*
 	 * 

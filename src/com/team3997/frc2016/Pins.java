@@ -83,11 +83,4 @@ public class Pins {
 	 * 
 	 * Climber
 	 */
-
-	/*
-	 * 
-	 * Camera LED
-	 * 
-	 */
-	 public static final int GREEN_CAMERA_LED_PIN = 6;
 }
