@@ -39,7 +39,7 @@ public class UpdateParameters {
         try {
             paramsFile.createNewFile();
         } catch (IOException e) {
-            //Dashboard.put("PARAMS error", e.getMessage());
+            System.out.println("Error creating params.txt file");
         }
     }
 
@@ -64,11 +64,11 @@ public class UpdateParameters {
                         }
                     }
                 } else {
-                    System.out.println("Invalid line");
+                    System.out.println("Invalid params.txt line");
                 }
             }
         } catch (Exception e) {
-            System.out.println("Messed up reading constants");
+            System.out.println("Error reading params.txt");
         }
     }
 
