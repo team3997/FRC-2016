@@ -7,16 +7,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 
 public class ChickenRun {
-
-	private F310 gamePad;
 	Talon cRunMotor;
 	DigitalInput indexSignal;
 	public double crunMotorPower = Params.CRUN_MOTOR_POWER;
 	public boolean sendingToShooter = false;
 
-	public ChickenRun(Talon kMotor1, DigitalInput kIndexSensor, F310 kGamePad) {
-
-		gamePad = kGamePad;
+	public ChickenRun(Talon kMotor1, DigitalInput kIndexSensor) {
 		indexSignal = kIndexSensor;
 		cRunMotor = kMotor1;
 		cRunMotor.setInverted(true);

@@ -7,18 +7,12 @@ import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.components.Lights;
 import com.team3997.frc2016.util.AMT103V_Encoder;
-import com.team3997.frc2016.util.Dashboard;
-import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.F310;
 import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.team3997.frc2016.Controls;
 
 public class Shooter {
 
@@ -29,23 +23,23 @@ public class Shooter {
 	private AMT103V_Encoder shooterEncoder;
 	private Encoder wpiShooterEncoder;
 	public double goalRPM = 0;
-	private boolean enableShooterMotor = false;
+	private boolean shooterIsSpinning = false;
 	
 	//private Debounce shooterToggleButton;
 	private ChickenRun cRun;
 
-	public Shooter(Spark kshooterMotor1, Spark kshooterMotor2, AMT103V_Encoder kshooterEncoder,
+	public Shooter(Spark kShooterMotor1, Spark kShooterMotor2, AMT103V_Encoder kShooterEncoder,
 			F310 kGamePad, ChickenRun kCRun) {
 
 		gamePad = kGamePad;
 		//shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_BUTTON);
 
-		shooterMotor1 = kshooterMotor1;
-		shooterMotor2 = kshooterMotor2;
+		shooterMotor1 = kShooterMotor1;
+		shooterMotor2 = kShooterMotor2;
 		shooterMotor1.setInverted(true);
 		shooterMotor2.setInverted(true);
 
-		shooterEncoder = kshooterEncoder;
+		shooterEncoder = kShooterEncoder;
 		wpiShooterEncoder = shooterEncoder.getEncoderObject();
 
 		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2, PIDParams.sP.getDouble(),
@@ -65,70 +59,68 @@ public class Shooter {
 	// Function that runs during teleop periodically
 	public void runTeleOp() {
 
-		// if shooter button is pressed, toggle motor enable
-		if (gamePad.getButton(Controls.SHOOTER_RUN_MOTORS_BUTTON))
-			enableShooterMotor = true;
-		else 
-			enableShooterMotor = false;
-			
+		if( gamePad.getYellowButton() || gamePad.getRedButton() || gamePad.getBlueButton() || gamePad.getGreenButton() )
+			shooterIsSpinning = true;
+		else
+			shooterIsSpinning = false;
+		
+		
+		if(gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && shooterIsSpinning)
+			cRun.setSendingToShooter(true);
+		else
+			cRun.setSendingToShooter(false);
 
-		if (!Robot.isManualMode)
+		
+		if(!Robot.isManualMode)
 			runAuto();
 		else
 			runManual();
-		
-		SmartDashboard.putNumber("encoder raw scaled quadrature", wpiShooterEncoder.get());
-    	SmartDashboard.putNumber("encoder rotations cummalative", wpiShooterEncoder.get() / 2048);
-    	SmartDashboard.putNumber("encoder wpi distance", wpiShooterEncoder.getDistance());
-    	SmartDashboard.putNumber("encoder rotations rate", wpiShooterEncoder.getRate() * 60);
-    	//System.out.println(getRate());
+
 
 	}
 
 
 	public void runAuto() {
-		if (enableShooterMotor){
-			if(!Params.SHOOTER_USE_PID){
-				this.runShooterAtDefaultSpeed();
-				Dashboard.put("shooterPID", false);
-			}
-			else{
+		if(Params.SHOOTER_USE_PID){
+			if(gamePad.getYellowButton()){
 				shooterPID.enablePID();
-				Dashboard.put("shooterPID", true);
 			}
-			
-		}
-		else {
-			if(!Params.SHOOTER_USE_PID){
-				stopShooter();
+			else if(gamePad.getRedButton()){ 
+				shooterPID.enablePID();
 			}
-			else{
+			else if(gamePad.getBlueButton()){ 
+				shooterPID.enablePID();
+			}
+			else if(gamePad.getGreenButton()){ 
+				shooterPID.enablePID();
+			}
+			else if (gamePad.getLeftTrigger()) {
+				outtakeShooter();
+			}
+			else {
 				shooterPID.disablePID();
 			}
 		}
-
-		// if the shooter button is pressed and shooter motors are up to speed,
-		// transfer the ball from the Chicken Run to the shooter
-		//if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && toggleEnableShooterMotor && this.onTargetRPM() && cRun.isIndexed()) { // !!Check if onTarget is correct
-		if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER) && enableShooterMotor) {	
-			cRun.setSendingToShooter(true);
-		} else {
-			cRun.setSendingToShooter(false);
+		else {
+			runManual();
 		}
 	}
 
 	public void runManual() {
-		if (enableShooterMotor) {
-			runShooterAtDefaultSpeed();
-
-			if (gamePad.getButton(Controls.RUN_CRUN_TO_SHOOTER)) {
-				cRun.setSendingToShooter(true);
-			} else {
-				cRun.setSendingToShooter(false);
-			}
-		} 
+		if(gamePad.getYellowButton()){
+			this.run(Params.SHOOTER_YELLOW_MOTOR_POWER);
+		}
+		else if(gamePad.getRedButton()){ 
+			this.run(Params.SHOOTER_RED_MOTOR_POWER);
+		}
+		else if(gamePad.getBlueButton()){ 
+			this.run(Params.SHOOTER_BLUE_MOTOR_POWER);
+		}
+		else if(gamePad.getGreenButton()){ 
+			this.run(Params.SHOOTER_GREEN_MOTOR_POWER);
+		}
 		else if (gamePad.getLeftTrigger()) {
-		
+			outtakeShooter();
 		} 
 		else {
 			stopShooter();
@@ -169,25 +161,22 @@ public class Shooter {
 		return shooterPID.getSetpoint();
 	}
 
-	/**
-	 * Sets the shooter to run at a set motor speed
-	 */
-	public void runShooterAtDefaultSpeed() {
-		shooterMotor1.set(Params.SHOOTER_MOTOR_POWER);
-		shooterMotor2.set(Params.SHOOTER_MOTOR_POWER);
-	}
-
 	public void outtakeShooter() {
 		shooterMotor1.set(-Params.SHOOTER_OUTTAKE_MOTOR_POWER);
 		shooterMotor2.set(-Params.SHOOTER_OUTTAKE_MOTOR_POWER);
 	}
+	
+	public void run(double speed){
+		shooterMotor1.set(speed);
+		shooterMotor2.set(speed);
+	}
 
 	/**
-	 * sets the shooter motor to 0.0
+	 * sets the shooter motor output to 0.00
 	 */
 	public void stopShooter() {
-		shooterMotor1.set(0.0);
-		shooterMotor2.set(0.0);
+		shooterMotor1.set(0.00);
+		shooterMotor2.set(0.00);
 	}
 
 }

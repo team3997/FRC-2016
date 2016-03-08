@@ -3,7 +3,6 @@ package com.team3997.frc2016.subsystems;
 import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.AMT103V_Encoder;
-import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.F310;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -32,27 +31,16 @@ public class Drive{
 
 		this.leftEncoder = leftEncoder.getEncoderObject();
 		this.rightEncoder = rightEncoder.getEncoderObject();
-		this.gyro = gyro;
-		this.gyro.initGyro();
-		this.gyro.calibrate();
-
-		resetGyro();
 
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
 	}
 
 	public void runTeleOp() {
-
 		// Get Joystick input from gamepad
 		rightXVal = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED);
 		leftXVal = (gamePad.getLeftX()) * (Params.DRIVE_MOTOR_SPEED);
 		rightYVal = (gamePad.getRightY()) * (Params.DRIVE_MOTOR_SPEED);
 		leftYVal = (-gamePad.getLeftY()) * (Params.DRIVE_MOTOR_SPEED);
-
-		// Button to reset gyro
-		if (gamePad.getBlueButton()) {
-			resetGyro();
-		}
 
 		// If invert drive button is pressed, invert the drive values
 		if (gamePad.getButton(Controls.INVERT_DRIVE)) {
@@ -63,11 +51,10 @@ public class Drive{
 		}
 
 		// Drive at the given input magnitude
-		if (Params.ARCADE_DRIVE) {
+		if (Params.ARCADE_DRIVE)
 			setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
-		} else {
+		else
 			setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
-		}
 	}
 
 	/**

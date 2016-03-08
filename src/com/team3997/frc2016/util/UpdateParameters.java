@@ -39,7 +39,7 @@ public class UpdateParameters {
         try {
             paramsFile.createNewFile();
         } catch (IOException e) {
-            Dashboard.put("PARAMS error", e.getMessage());
+            //Dashboard.put("PARAMS error", e.getMessage());
         }
     }
 

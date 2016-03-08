@@ -44,14 +44,13 @@ public class Hardware {
 	
 	/*
 	 * 
-	 * Motors
+	 * Motor Controllers
 	 */
 	public static Talon kIntakeMotor = new Talon(Pins.INTAKE_MOTOR_PIN);
-
+	public static Talon kCRunMotor = new Talon(Pins.CRUN_MOTOR_PIN);
 	public static Spark kShooterMotor1 = new Spark(Pins.SHOOTER_MOTOR_PINS[0]);
 	public static Spark kShooterMotor2 = new Spark(Pins.SHOOTER_MOTOR_PINS[1]);
-	
-	public static Talon kCRunMotor = new Talon(Pins.CRUN_MOTOR_PIN);
+
 	/*
 	 * 
 	 * Pneumatics
@@ -90,8 +89,7 @@ public class Hardware {
 			Pins.DRIVE_MOTOR_PINS[1], Pins.DRIVE_MOTOR_PINS[2], Pins.DRIVE_MOTOR_PINS[3], 
 			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
 	
-	public static ChickenRun kChickenRun = new ChickenRun(kCRunMotor, 
-			kCRunIndexSensor, kOpGamePad);
+	public static ChickenRun kChickenRun = new ChickenRun(kCRunMotor, kCRunIndexSensor);
 	
 	public static Shooter kShooter = new Shooter(kShooterMotor1, kShooterMotor2, kFlyWheelEncoder, kOpGamePad, kChickenRun);
 	public static Intake kIntake = new Intake(kIntakeMotor, kIntakeExtenderSolenoid, kOpGamePad, kChickenRun);

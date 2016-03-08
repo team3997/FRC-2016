@@ -51,7 +51,6 @@ public class Vision extends IterativeRobot {
     		Dashboard.put("height", height[0]);
     	if(width.length > 0)
     		Dashboard.put("width", width[0]);
-    	
     }
     
     /**

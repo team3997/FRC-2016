@@ -45,6 +45,11 @@ public class FrontCamera {
 
 		CameraServer.getInstance().setQuality(80);
 	}
+	
+	private void init(){
+		NIVision.IMAQdxConfigureGrab(session);
+        NIVision.IMAQdxStartAcquisition(session);
+	}
 
 	public void stop() {
 		NIVision.IMAQdxStopAcquisition(session);
@@ -52,8 +57,7 @@ public class FrontCamera {
 	}
 
 	public void start() {
-		NIVision.IMAQdxConfigureGrab(session);
-		NIVision.IMAQdxStartAcquisition(session);
+		init();
 
 		if (m_thread == null) {
 			m_thread = new Thread(new Runnable() {
@@ -67,7 +71,7 @@ public class FrontCamera {
 			m_thread.start();
 		}
 	}
-
+	
 	public void loop() {
 		grabImage();
 		getRectFromButton();
@@ -82,8 +86,7 @@ public class FrontCamera {
 		catch (Exception e){
 			System.out.println("Camera Disconnected. Reinitializing...");
 			
-			NIVision.IMAQdxConfigureGrab(session);
-	        NIVision.IMAQdxStartAcquisition(session);
+			init();
 		}
 	}
 

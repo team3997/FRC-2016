@@ -1,10 +1,8 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Controls;
-import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
-import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.F310;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -29,7 +27,7 @@ public class Intake {
 		intakeMotor = kIntakeMotor;
 		cRun = kCRun;
 		
-		// set motors to stop for safety
+		//set motors to stop for safety
 		extender.off();
 		stopIntakeAndCRun();
 	}
@@ -40,7 +38,6 @@ public class Intake {
     	
     	//cRun and Intake Behaviour
     	if(cRun.isSendingToShooter()){
-    		//this.intake();
     		cRun.run(Params.CRUN_SHOOTING_MOTOR_POWER);
     	}
     	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){
@@ -71,10 +68,6 @@ public class Intake {
     	else {
     		extender.in();
     	}
-    	
-		if(Params.DASHBOARD_INTAKE_DEBUG){
-			Dashboard.put("INTAKE Left Motor: ", intakeMotor.get());
-		}	
     }
 
     

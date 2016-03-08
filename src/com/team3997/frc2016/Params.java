@@ -20,7 +20,6 @@ public class Params extends UpdateParameters {
 	public static final String CAMERA_USB = "cam1";
 	public static final String CAMERA_AXIS = "cam0";
 	public static final String CAMERA_AXIS_IP = "10.39.97.89";
-	public static final boolean DASHBOARD_CAMERA_DEBUG = false;
 	
 	
 	
@@ -36,7 +35,6 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Drive Parameters
 	 */
-	public static final boolean DASHBOARD_DRIVE_DEBUG = true;
 	public static final double DRIVE_MOTOR_SPEED = 1.00;
 	public static final boolean SQUARE_INPUTS = true;
 	public static final boolean ARCADE_DRIVE = true; // arcade drive is true, tank is false
@@ -46,28 +44,23 @@ public class Params extends UpdateParameters {
 	 * ChickenRun
 	 * 
 	 */
-	public static final double CRUN_MOTOR_POWER = 0.85;
+	public static final double CRUN_MOTOR_POWER = 0.70;
 	public static final double CRUN_SHOOTING_MOTOR_POWER = 0.60;
 	/*
 	 * 
 	 * Intake Parameters
 	 */
-	public static final double INTAKE_MOTOR_POWER = 0.75;
-	public static final boolean DASHBOARD_INTAKE_DEBUG = true;
+	public static final double INTAKE_MOTOR_POWER = 0.70;
 
 	/*
 	 * 
 	 * Shooter Parameters
 	 */
 	public static final boolean SHOOTER_USE_PID = false;
-	public static final double SHOOTER_MOTOR_POWER = 1.00;
-	public static final double SHOOTER_OUTTAKE_MOTOR_POWER = 0.60;
+	public static final double SHOOTER_OUTTAKE_MOTOR_POWER = 0.55;
 	
-	/*
-	 * 
-	 * Climber Parameters
-	 */
-	
-
-
+	public static final double SHOOTER_YELLOW_MOTOR_POWER = 1.00;
+	public static final double SHOOTER_RED_MOTOR_POWER = 0.90;
+	public static final double SHOOTER_BLUE_MOTOR_POWER = 0.80;
+	public static final double SHOOTER_GREEN_MOTOR_POWER = 0.70;
 }
