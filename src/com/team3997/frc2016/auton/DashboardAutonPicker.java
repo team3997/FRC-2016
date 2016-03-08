@@ -29,6 +29,7 @@ public class DashboardAutonPicker {
 		autonChooser.addDefault("Do nuthin (Default)", 0);
 		autonChooser.addObject("Drive Forward (3s)", 1);
 		autonChooser.addObject("Drive Multi", 2); 
+		autonChooser.addObject("High Goal", 3); 
 		
 		// Put all these radio buttons in the smart dashboard
 		SmartDashboard.putData("Autonomous Selector", autonChooser);
