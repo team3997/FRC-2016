@@ -9,7 +9,6 @@ public abstract class AutonMode extends AutonBase{
 	protected Drive drive = Hardware.kDrive;
 	protected Shooter shooter = Hardware.kShooter;
 	protected Intake intake = Hardware.kIntake;
-	protected Hanger hanger = Hardware.kHanger;
 	
 	//Wait for a set amount of seconds
 	public void waitTime(double seconds) throws AutonModeEndedException {

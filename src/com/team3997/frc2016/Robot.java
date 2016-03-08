@@ -33,9 +33,9 @@ public class Robot extends IterativeRobot {
 	Drive drive = Hardware.kDrive;
 	Shooter shooter = Hardware.kShooter;
 	Intake intake = Hardware.kIntake;
-	Hanger hanger = Hardware.kHanger;
+	/*Hanger hanger = Hardware.kHanger;
 	Vision vision = Hardware.kVision;
-	Lights lights = Hardware.kLights;
+	Lights lights = Hardware.kLights;*/
 	FrontCamera frontCamera = Hardware.kFrontCamera;
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	
@@ -81,13 +81,13 @@ public class Robot extends IterativeRobot {
 		drive.runTeleOp();
 		shooter.runTeleOp();
 		intake.runTeleOp();
-		hanger.runTeleOp();
+		//hanger.runTeleOp();
 		
 		//Change between manual and automatic mode
 		Dashboard.put("Manual Mode", isManualMode);
 		if(manualToggle.getFall()){
 			isManualMode = !isManualMode;
-			shooter.shooterPID.disablePID();
+			//shooter.shooterPID.disablePID();
 		}
 		
 		if(isManualMode){
@@ -107,6 +107,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		lights.setColor(Lights.PRIDE);
+		//lights.setColor(Lights.PRIDE);
 	}
 }

@@ -19,18 +19,19 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class Drive{
 
 	double rightXVal, leftXVal, rightYVal, leftYVal;
-	public AnalogGyro gyro;
-	public Encoder leftEncoder, rightEncoder;
+	//public AnalogGyro gyro;
+	//public Encoder leftEncoder, rightEncoder;
 	private F310 gamePad;
 	RobotDrive driveTrain;
 
-	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
-			AMT103V_Encoder rightEncoder, AnalogGyro gyro, F310 kGamePad) {
+	/*public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
+			AMT103V_Encoder rightEncoder, AnalogGyro gyro, F310 kGamePad) {*/
+	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, F310 kGamePad) {
 
 		gamePad = kGamePad;
 
-		this.leftEncoder = leftEncoder.getEncoderObject();
-		this.rightEncoder = rightEncoder.getEncoderObject();
+		/*this.leftEncoder = leftEncoder.getEncoderObject();
+		this.rightEncoder = rightEncoder.getEncoderObject();*/
 
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
 	}
@@ -129,15 +130,15 @@ public class Drive{
 	   * @return the current heading of the robot in degrees. This heading is based
 	   *         on integration of the returned rate from the gyro.
 	   */
-	public double getGyroAngle() {
+	/*public double getGyroAngle() {
 		return -gyro.getAngle();
-	}
+	}*/
 
 	/**
 	 * Resets the gyro to a heading of zero.
 	 */
-	public void resetGyro() {
+	/*public void resetGyro() {
 		gyro.reset();
-	}
+	}*/
 
 }

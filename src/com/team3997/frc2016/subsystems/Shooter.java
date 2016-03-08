@@ -17,18 +17,20 @@ import edu.wpi.first.wpilibj.Spark;
 public class Shooter {
 
 	private F310 gamePad;
-	public PID shooterPID;
+	//public PID shooterPID;
 	private Spark shooterMotor1;
 	private Spark shooterMotor2;
-	private AMT103V_Encoder shooterEncoder;
-	private Encoder wpiShooterEncoder;
+	//private AMT103V_Encoder shooterEncoder;
+	//private Encoder wpiShooterEncoder;
 	public double goalRPM = 0;
 	private boolean shooterIsSpinning = false;
 	
 	//private Debounce shooterToggleButton;
 	private ChickenRun cRun;
 
-	public Shooter(Spark kShooterMotor1, Spark kShooterMotor2, AMT103V_Encoder kShooterEncoder,
+	/*public Shooter(Spark kShooterMotor1, Spark kShooterMotor2, AMT103V_Encoder kShooterEncoder,
+			F310 kGamePad, ChickenRun kCRun) {*/
+	public Shooter(Spark kShooterMotor1, Spark kShooterMotor2,
 			F310 kGamePad, ChickenRun kCRun) {
 
 		gamePad = kGamePad;
@@ -39,21 +41,21 @@ public class Shooter {
 		shooterMotor1.setInverted(true);
 		shooterMotor2.setInverted(true);
 
-		shooterEncoder = kShooterEncoder;
-		wpiShooterEncoder = shooterEncoder.getEncoderObject();
+		/*shooterEncoder = kShooterEncoder;
+		wpiShooterEncoder = shooterEncoder.getEncoderObject();*/
 
-		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2, PIDParams.sP.getDouble(),
+		/*shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2, PIDParams.sP.getDouble(),
 				PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), PIDParams.sTolerance, PIDParams.sOutMin,
-				PIDParams.sOutMax, PIDParams.sSamplesToAverage, PIDParams.sType);
+				PIDParams.sOutMax, PIDParams.sSamplesToAverage, PIDParams.sType);*/
 
 		cRun = kCRun;
 
-		shooterPID.setSetpoint(PIDParams.sGoalRPM.getInt());
+		//shooterPID.setSetpoint(PIDParams.sGoalRPM.getInt());
 		stopShooter();
 	}
 
 	public void initTeleOp(){
-		wpiShooterEncoder.reset();
+		//wpiShooterEncoder.reset();
 	}
 	
 	// Function that runs during teleop periodically
@@ -83,22 +85,22 @@ public class Shooter {
 	public void runAuto() {
 		if(Params.SHOOTER_USE_PID){
 			if(gamePad.getYellowButton()){
-				shooterPID.enablePID();
+				//shooterPID.enablePID();
 			}
 			else if(gamePad.getRedButton()){ 
-				shooterPID.enablePID();
+				//shooterPID.enablePID();
 			}
 			else if(gamePad.getBlueButton()){ 
-				shooterPID.enablePID();
+				//shooterPID.enablePID();
 			}
 			else if(gamePad.getGreenButton()){ 
-				shooterPID.enablePID();
+				//shooterPID.enablePID();
 			}
 			else if (gamePad.getLeftTrigger()) {
 				outtakeShooter();
 			}
 			else {
-				shooterPID.disablePID();
+				//shooterPID.disablePID();
 			}
 		}
 		else {
@@ -126,40 +128,40 @@ public class Shooter {
 			stopShooter();
 		}
 		
-		Hardware.kLights.setColor(Lights.RAINBOW);
+		//Hardware.kLights.setColor(Lights.RAINBOW);
 	}
 
 	/**
 	 * @return true if the shooter's RPM is within the tolerance of it's goal
 	 *         RPM.
 	 */
-	public boolean onTargetRPM() {
+	/*public boolean onTargetRPM() {
 		if (isPIDEnabled())
 			return shooterPID.onTarget();
 		else
 			return false;
-	}
+	}*/
 
 	/**
 	 * @return true if a PID loop to achieve a certain RPM is running
 	 */
-	public boolean isPIDEnabled() {
+	/*public boolean isPIDEnabled() {
 		return shooterPID.isPIDEnabled();
-	}
+	}*/
 
 	/**
 	 * sets the goal RPM of the PID loop
 	 */
-	public void setRPMSetpoint(int newSetpoint) {
+	/*public void setRPMSetpoint(int newSetpoint) {
 		shooterPID.setSetpoint(newSetpoint);
-	}
+	}*/
 
 	/**
 	 * @return the goal RPM of the current PID loop
 	 */
-	public double getRPMSetpoint() {
+	/*public double getRPMSetpoint() {
 		return shooterPID.getSetpoint();
-	}
+	}*/
 
 	public void outtakeShooter() {
 		shooterMotor1.set(-Params.SHOOTER_OUTTAKE_MOTOR_POWER);

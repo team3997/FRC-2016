@@ -31,8 +31,8 @@ public class Hardware {
 	 * Arduino
 	 * 
 	 */
-	public static I2C kArduino = new I2C(I2C.Port.kOnboard, 168);
-	public static Lights kLights = new Lights(kArduino);
+	/*public static I2C kArduino = new I2C(I2C.Port.kOnboard, 168);
+	public static Lights kLights = new Lights(kArduino);*/
 	
 	
 	/*
@@ -59,41 +59,46 @@ public class Hardware {
 	 * 
 	 * Sensors (Encoders, gyro, index sensor, switches etc..)
 	 */
-	public static AMT103V_Encoder kDriveLeftEncoder = new AMT103V_Encoder(
+	/*public static AMT103V_Encoder kDriveLeftEncoder = new AMT103V_Encoder(
 			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1]);
 	
 	public static AMT103V_Encoder kDriveRightEncoder = new AMT103V_Encoder(
 			Pins.RIGHT_DRIVE_ENCODER_PINS[0], Pins.RIGHT_DRIVE_ENCODER_PINS[1]);
 	
 	public static AMT103V_Encoder kFlyWheelEncoder = new AMT103V_Encoder(
-			Pins.SHOOTER_ENCODER_PINS[0], Pins.SHOOTER_ENCODER_PINS[1]);
+			Pins.SHOOTER_ENCODER_PINS[0], Pins.SHOOTER_ENCODER_PINS[1]);*/
 	
 	public static DigitalInput kCRunIndexSensor = new DigitalInput(Pins.CRUN_INDEXER_PIN);
 	
-	public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
+	//public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
 	
-	public static Accelerometer kAccel = new BuiltInAccelerometer();
+	//public static Accelerometer kAccel = new BuiltInAccelerometer();
 
 	/*
 	 * 
 	 * Subsystems
 	 */
-	public static Drive kDrive = new Drive(Pins.DRIVE_MOTOR_PINS[0],
+	/*public static Drive kDrive = new Drive(Pins.DRIVE_MOTOR_PINS[0],
 			Pins.DRIVE_MOTOR_PINS[1], Pins.DRIVE_MOTOR_PINS[2], Pins.DRIVE_MOTOR_PINS[3], 
-			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
+			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);*/
+	
+	public static Drive kDrive = new Drive(Pins.DRIVE_MOTOR_PINS[0],
+	Pins.DRIVE_MOTOR_PINS[1], Pins.DRIVE_MOTOR_PINS[2], Pins.DRIVE_MOTOR_PINS[3], kDriverGamePad);
 	
 	public static ChickenRun kChickenRun = new ChickenRun(kCRunMotor, kCRunIndexSensor);
 	
-	public static Shooter kShooter = new Shooter(kShooterMotor1, kShooterMotor2, kFlyWheelEncoder, kOpGamePad, kChickenRun);
+	//public static Shooter kShooter = new Shooter(kShooterMotor1, kShooterMotor2, kFlyWheelEncoder, kOpGamePad, kChickenRun);
+	public static Shooter kShooter = new Shooter(kShooterMotor1, kShooterMotor2, kOpGamePad, kChickenRun);
+	
 	public static Intake kIntake = new Intake(kIntakeMotor, kIntakeExtenderSolenoid, kOpGamePad, kChickenRun);
 	
-	public static Hanger kHanger = new Hanger();
+	//public static Hanger kHanger = new Hanger();
 	
 	/*
 	 * 
 	 * Vision
 	 */
-	public static Vision kVision = new Vision();
+	//public static Vision kVision = new Vision();
 
 	/*
 	 * 
