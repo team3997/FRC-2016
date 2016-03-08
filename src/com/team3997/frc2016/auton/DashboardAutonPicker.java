@@ -18,6 +18,7 @@ public class DashboardAutonPicker {
 		registerAutonomous(new DoNothing()); //default
 		registerAutonomous(new DriveForward());
 		registerAutonomous(new DriveMulti());
+		registerAutonomous(new HighGoal());
 	}
 	
 	//Function that sends options to the dashboard
