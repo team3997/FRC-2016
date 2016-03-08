@@ -23,12 +23,12 @@ public class FrontCamera {
 	public int buffer;
 	Image frame;
 
-	NIVision.Rect closeRect = new NIVision.Rect(20, 170, 50, 50); //yellow button
-	NIVision.Rect farRect = new NIVision.Rect(80, 170, 35, 35); //red button
-	NIVision.Rect smallRect = new NIVision.Rect(100, 170, 10, 10); //blue button
-	NIVision.Rect otherRect = new NIVision.Rect(90, 170, 35, 35); //green button
+	NIVision.Rect yellowRect = new NIVision.Rect(20, 170, 50, 50);
+	NIVision.Rect redRect = new NIVision.Rect(80, 170, 35, 35); 
+	NIVision.Rect blueRect = new NIVision.Rect(100, 170, 10, 10); 
+	NIVision.Rect greenRect = new NIVision.Rect(90, 170, 35, 35); 
 
-	NIVision.Rect activeRect = closeRect; // default rectangle is close rectangle
+	NIVision.Rect activeRect = yellowRect; // default rectangle is close rectangle
 
 	public FrontCamera(F310 kGamePad) {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -101,19 +101,19 @@ public class FrontCamera {
 
 	public void getRectFromButton() {
 		if (yellowToggle.getFall()) {
-			activeRect = closeRect;
+			activeRect = yellowRect;
 		}
 
 		if (redToggle.getFall()) {
-			activeRect = farRect;
+			activeRect = redRect;
 		}
 
 		if (blueToggle.getFall()) {
-			activeRect = otherRect;
+			activeRect = blueRect;
 		}
 
 		if (greenToggle.getFall()) {
-			activeRect = smallRect;
+			activeRect = greenRect;
 		}
 	}
 }
