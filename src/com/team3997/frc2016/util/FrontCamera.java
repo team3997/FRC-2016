@@ -85,7 +85,6 @@ public class FrontCamera {
 		}
 		catch (Exception e){
 			System.out.println("Camera Disconnected. Reinitializing...");
-			
 			init();
 		}
 	}

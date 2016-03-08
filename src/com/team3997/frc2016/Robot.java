@@ -45,7 +45,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		System.out.println("/*****Running Main Code Base*****/");
-		
 		auton.listOptions();
 		
 		// Update parameters from text file
@@ -55,7 +54,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Start autonomousInit()");
-
 		UpdateParameters.update();
 		auton.start();
 		frontCamera.start();
@@ -71,7 +69,6 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start teleopInit()");
 		auton.stop();
 		UpdateParameters.update();
-		
 		shooter.initTeleOp();
 		frontCamera.start();
 	}
@@ -100,7 +97,6 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start disabledInit()");
 		auton.stop();
 		UpdateParameters.update();
-		
 		frontCamera.start();
 
 	}

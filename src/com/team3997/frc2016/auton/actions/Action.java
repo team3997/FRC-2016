@@ -10,7 +10,6 @@ public abstract	class Action {
 	protected Drive drive = Hardware.kDrive;
 	protected Shooter shooter = Hardware.kShooter;
 	protected Intake intake = Hardware.kIntake;
-	protected Hanger hanger = Hardware.kHanger;
 
     public abstract boolean isFinished();
 
