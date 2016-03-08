@@ -17,7 +17,7 @@ tmp/**/*
 *~.nib
 local.properties
 #.classpath
-#sysProps.xml
+sysProps.xml
 .settings/
 .loadpath
 /src/main/resources/rebel.xml
