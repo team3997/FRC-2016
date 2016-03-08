@@ -25,8 +25,8 @@ public class FrontCamera {
 
 	NIVision.Rect closeRect = new NIVision.Rect(20, 170, 50, 50); //yellow button
 	NIVision.Rect farRect = new NIVision.Rect(80, 170, 35, 35); //red button
-	NIVision.Rect otherRect = new NIVision.Rect(90, 170, 35, 35); //green button
 	NIVision.Rect smallRect = new NIVision.Rect(100, 170, 10, 10); //blue button
+	NIVision.Rect otherRect = new NIVision.Rect(90, 170, 35, 35); //green button
 
 	NIVision.Rect activeRect = closeRect; // default rectangle is close rectangle
 
@@ -108,11 +108,11 @@ public class FrontCamera {
 			activeRect = farRect;
 		}
 
-		if (greenToggle.getFall()) {
+		if (blueToggle.getFall()) {
 			activeRect = otherRect;
 		}
 
-		if (blueToggle.getFall()) {
+		if (greenToggle.getFall()) {
 			activeRect = smallRect;
 		}
 	}
