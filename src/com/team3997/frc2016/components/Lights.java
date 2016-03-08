@@ -56,6 +56,6 @@ public class Lights {
 		if(lights.addressOnly())
 			lights.transaction(toSend, 1, null, 0);
 		else
-			System.out.println("ERROR! No slave on the I2C bus! Check connection.");
+			System.out.println("Arduino not found!");
 	}
 }
