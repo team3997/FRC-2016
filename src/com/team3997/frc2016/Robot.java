@@ -16,6 +16,7 @@ package com.team3997.frc2016;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
+import com.team3997.frc2016.components.vision.Vision;
 import com.team3997.frc2016.util.CameraFeed;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;

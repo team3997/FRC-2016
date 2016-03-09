@@ -1,7 +1,7 @@
 package com.team3997.frc2016;
 
 import com.team3997.frc2016.components.Lights;
-import com.team3997.frc2016.components.Vision;
+import com.team3997.frc2016.components.vision.Vision;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.CameraFeed;

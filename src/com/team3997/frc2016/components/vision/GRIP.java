@@ -1,11 +1,11 @@
-package com.team3997.frc2016.components;
+package com.team3997.frc2016.components.vision;
 
 import com.team3997.frc2016.util.Dashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class Vision extends IterativeRobot {
+public class GRIP extends IterativeRobot {
 	
 	NetworkTable table;
 	
@@ -17,13 +17,12 @@ public class Vision extends IterativeRobot {
 	
 	double[] defaultValue = {0.0};
 	
-	public Vision() {
+	public GRIP() {
 		table = NetworkTable.getTable("GRIP/myContoursReport");
     }
 	
 	public void runTeleOp(){
 		updateGripValues();
-		printGripValues();
 	}
 	
 	/**
@@ -56,20 +55,21 @@ public class Vision extends IterativeRobot {
     /**
      * Return the largest value in a given double array
      * @param valueArray a double array
-     * @return the value of the element with the largest value. (returns 0.0 if array is empty)
+     * @return the value of the element with the largest value. (returns -1 if array is empty)
      */
     public double getLargestArrayValue(double[] valueArray){
-    	int max = 0;
+    	double max = 0;
     	for(int i = 0; i < valueArray.length; i++){
-    		max = valueArray[i] > max ? i : max;
+    		if(valueArray[i] > max){
+    			max = valueArray[i];
+    		}
     	}
     	
     	if(valueArray.length > 0){
-    		System.out.println("return" + valueArray[max]);
-    		return valueArray[max];
+    		return max;
     	}
     	else
-    		return 0.0;
+    		return -1.0;
     }
     
     /**
@@ -78,14 +78,17 @@ public class Vision extends IterativeRobot {
      * @return the value of the element with the largest value. (returns -1 if array is empty)
      */
     public int getLargestArrayValueIndex(double[] valueArray){
-    	int max = 0;
-    	int i = 0;
-    	for(i = 0; i < valueArray.length; i++){
-    		max = valueArray[i] > valueArray[max] ? i : max;
+    	int biggestIndex = 0;
+    	double max = 0;
+    	for(int i = 0; i < valueArray.length; i++){
+    		if(valueArray[i] > max){
+    			max = valueArray[i];
+    			biggestIndex = i;
+    		}
     	}
     	
     	if(valueArray.length > 0)
-    		return max;
+    		return biggestIndex;
     	else
     		return -1;
     }
