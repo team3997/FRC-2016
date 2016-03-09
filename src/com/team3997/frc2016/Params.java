@@ -42,13 +42,13 @@ public class Params extends UpdateParameters {
 	 * ChickenRun
 	 * 
 	 */
-	public static final double CRUN_MOTOR_POWER = 0.70;
+	public static final double CRUN_MOTOR_POWER = 1.00;
 	public static final double CRUN_SHOOTING_MOTOR_POWER = 0.60;
 	/*
 	 * 
 	 * Intake Parameters
 	 */
-	public static final double INTAKE_MOTOR_POWER = 0.70;
+	public static final double INTAKE_MOTOR_POWER = 1.0;
 
 	/*
 	 * 
@@ -58,7 +58,7 @@ public class Params extends UpdateParameters {
 	public static final double SHOOTER_OUTTAKE_MOTOR_POWER = 0.55;
 	
 	public static final double SHOOTER_YELLOW_MOTOR_POWER = 1.00;
-	public static final double SHOOTER_RED_MOTOR_POWER = 0.90;
-	public static final double SHOOTER_BLUE_MOTOR_POWER = 0.80;
-	public static final double SHOOTER_GREEN_MOTOR_POWER = 0.70;
+	public static final double SHOOTER_RED_MOTOR_POWER = 0.98;
+	public static final double SHOOTER_BLUE_MOTOR_POWER = 0.96;
+	public static final double SHOOTER_GREEN_MOTOR_POWER = 0.94;
 }

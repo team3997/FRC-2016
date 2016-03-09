@@ -24,7 +24,7 @@ public class FrontCamera {
 	Image frame;
 
 	NIVision.Rect yellowRect = new NIVision.Rect(20, 170, 50, 50);
-	NIVision.Rect redRect = new NIVision.Rect(80, 170, 35, 35); 
+	NIVision.Rect redRect = new NIVision.Rect(45, 170, 50, 50); 
 	NIVision.Rect blueRect = new NIVision.Rect(100, 170, 10, 10); 
 	NIVision.Rect greenRect = new NIVision.Rect(90, 170, 35, 35); 
 

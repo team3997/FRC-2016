@@ -36,7 +36,7 @@ public class PID {
 	
 	
 	//Shooter PID constructor
-	public PID(AMT103V_Encoder kEncoder, Spark kOutputMotor1, Spark kOutputMotor2, double kP, double kI, double kD,
+	public PID(Encoder shooterEncoder, Spark kOutputMotor1, Spark kOutputMotor2, double kP, double kI, double kD,
 			double kTolerance, double kOutMin, double kOutMax, int kSamplesToAverage, PIDSourceType kType){
 		
 		P = kP;
@@ -46,7 +46,7 @@ public class PID {
 		samplesToAverage = kSamplesToAverage;
 		outMin = kOutMin;
 		outMax = kOutMax;
-		encoder = kEncoder.getEncoderObject();
+		encoder = shooterEncoder;
 		outputMotor1 = kOutputMotor1;
 		outputMotor2 = kOutputMotor2;
 		sensingType = kType;

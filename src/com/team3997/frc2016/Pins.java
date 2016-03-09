@@ -48,7 +48,7 @@ public class Pins {
 	 */
 	public static final int LEFT_DRIVE_ENCODER_PINS[] = {4, 2};
 	public static final int RIGHT_DRIVE_ENCODER_PINS[] = {1, 3};
-	public static final int SHOOTER_ENCODER_PINS[] = {8, 9};
+	public static final int SHOOTER_ENCODER_PINS[] = {9, 8};
 
 	
 	/*

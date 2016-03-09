@@ -22,7 +22,9 @@ import com.team3997.frc2016.util.F310;
 import com.team3997.frc2016.util.FrontCamera;
 import com.team3997.frc2016.util.UpdateParameters;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
@@ -38,7 +40,7 @@ public class Robot extends IterativeRobot {
 	Lights lights = Hardware.kLights;
 	FrontCamera frontCamera = Hardware.kFrontCamera;
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
-	
+	Encoder rpmEncoder = Hardware.kFlyWheelEncoder;
 	public static Auton auton = new Auton();
 
 	@Override
@@ -90,6 +92,7 @@ public class Robot extends IterativeRobot {
 		if(isManualMode){
 			//set lights to manual mode color
 		}
+		
 	}
 
 	@Override
@@ -98,11 +101,13 @@ public class Robot extends IterativeRobot {
 		auton.stop();
 		UpdateParameters.update();
 		frontCamera.start();
-
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		lights.setColor(Lights.PRIDE);
+		SmartDashboard.putNumber("encoder pulses raw scaled", rpmEncoder.get());
+    	SmartDashboard.putNumber("encoder RPM rate", (rpmEncoder.getRate() * 60)); //rpm
+    	SmartDashboard.putNumber("encoder total distance (total rotations)", rpmEncoder.getDistance());
 	}
 }

@@ -7,11 +7,14 @@ import com.team3997.frc2016.Params;
 import com.team3997.frc2016.Robot;
 import com.team3997.frc2016.components.Lights;
 import com.team3997.frc2016.util.AMT103V_Encoder;
+import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.F310;
 import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Shooter {
@@ -20,19 +23,16 @@ public class Shooter {
 	public PID shooterPID;
 	private Spark shooterMotor1;
 	private Spark shooterMotor2;
-	private AMT103V_Encoder shooterEncoder;
-	private Encoder wpiShooterEncoder;
+	private Encoder shooterEncoder;
 	public double goalRPM = 0;
 	private boolean shooterIsSpinning = false;
 	
-	//private Debounce shooterToggleButton;
 	private ChickenRun cRun;
 
-	public Shooter(Spark kShooterMotor1, Spark kShooterMotor2, AMT103V_Encoder kShooterEncoder,
+	public Shooter(Spark kShooterMotor1, Spark kShooterMotor2, Encoder kShooterEncoder,
 			F310 kGamePad, ChickenRun kCRun) {
 
 		gamePad = kGamePad;
-		//shooterToggleButton = new Debounce(gamePad, Controls.SHOOTER_RUN_MOTORS_BUTTON);
 
 		shooterMotor1 = kShooterMotor1;
 		shooterMotor2 = kShooterMotor2;
@@ -40,20 +40,21 @@ public class Shooter {
 		shooterMotor2.setInverted(true);
 
 		shooterEncoder = kShooterEncoder;
-		wpiShooterEncoder = shooterEncoder.getEncoderObject();
 
 		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2, PIDParams.sP.getDouble(),
 				PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), PIDParams.sTolerance, PIDParams.sOutMin,
 				PIDParams.sOutMax, PIDParams.sSamplesToAverage, PIDParams.sType);
 
 		cRun = kCRun;
+		shooterEncoder.setPIDSourceType(PIDSourceType.kRate);
+		shooterEncoder.setDistancePerPulse((double)1/2048);
 
-		shooterPID.setSetpoint(PIDParams.sGoalRPM.getInt());
+		shooterPID.setSetpoint(PIDParams.sGoalRPM.getInt()/60);
 		stopShooter();
 	}
 
 	public void initTeleOp(){
-		wpiShooterEncoder.reset();
+		shooterEncoder.reset();
 	}
 	
 	// Function that runs during teleop periodically
@@ -75,8 +76,10 @@ public class Shooter {
 			runAuto();
 		else
 			runManual();
-
-
+		
+		SmartDashboard.putNumber("encoder pulses raw scaled", shooterEncoder.get());
+    	SmartDashboard.putNumber("encoder RPM rate", (shooterEncoder.getRate() * 60)); //rpm
+    	SmartDashboard.putNumber("encoder total distance (total rotations)", shooterEncoder.getDistance());
 	}
 
 
