@@ -38,6 +38,7 @@ public class Intake {
     	
     	//cRun and Intake Behaviour
     	if(cRun.isSendingToShooter()){
+    		this.stop();
     		cRun.run(Params.CRUN_SHOOTING_MOTOR_POWER);
     	}
     	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){
@@ -53,9 +54,13 @@ public class Intake {
     			stopIntakeAndCRun();
     		}
     	}
-    	else if(gamePad.getButton(Controls.OUTTAKE_BUTTON)){
+    	else if(gamePad.getButton(Controls.FORCE_OUTTAKE_BUTTON)){
     		this.outtake();
     		cRun.outtake();
+    	}
+    	else if(gamePad.getButton(Controls.SOFT_OUTTAKE_BUTTON)){
+    		this.outtake();
+    		cRun.stop();
     	}
     	else {
     		stopIntakeAndCRun();
@@ -85,9 +90,13 @@ public class Intake {
     	intakeMotor.set(-intakeMotorPower);
     }
     
+    public void stop(){
+    	intakeMotor.set(0.0);
+    }
+    
     // Stop intake motors AND ChickenRun motors;
     public void stopIntakeAndCRun(){
-    	intakeMotor.set(0.0);
+    	this.stop();
 		cRun.stop();
     }
 

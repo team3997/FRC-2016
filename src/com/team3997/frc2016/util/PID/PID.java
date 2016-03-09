@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class PID {
 	
-	private double P;
-	private double I;
-	private double D;
+	private double P = 0.00;
+	private double I = 0.00;
+	private double D = 0.00;
 	
 	private double tolerance;
 	private int samplesToAverage;
@@ -28,20 +28,14 @@ public class PID {
 	
 	private PIDSourceType sensingType;
 	
-	private double setpoint = 0;
-	
 	public ShooterMotorsPIDOutput pidShooterOutput;
 	
 	protected PIDController pidController;
 	
 	
 	//Shooter PID constructor
-	public PID(Encoder shooterEncoder, Spark kOutputMotor1, Spark kOutputMotor2, double kP, double kI, double kD,
+	public PID(Encoder shooterEncoder, Spark kOutputMotor1, Spark kOutputMotor2,
 			double kTolerance, double kOutMin, double kOutMax, int kSamplesToAverage, PIDSourceType kType){
-		
-		P = kP;
-		I = kI;
-		D = kD;
 		tolerance = kTolerance;
 		samplesToAverage = kSamplesToAverage;
 		outMin = kOutMin;
@@ -52,7 +46,6 @@ public class PID {
 		sensingType = kType;
 		
 		encoder.setPIDSourceType(sensingType);
-
     	encoder.setSamplesToAverage(samplesToAverage);
     	
     	pidShooterOutput = new ShooterMotorsPIDOutput(outputMotor1, outputMotor2);
@@ -71,10 +64,8 @@ public class PID {
 		pidController.disable(); //this also sets output to zero
 	}
 
-	public void setSetpoint(int newSetpoint){
-		setpoint = newSetpoint;
-		
-		pidController.setSetpoint(setpoint);
+	public void setSetpoint(double newSetpoint){
+		pidController.setSetpoint(newSetpoint);
 	}
 	
 	public boolean onTarget(){
@@ -91,11 +82,10 @@ public class PID {
 	
 
 	public double getSetpoint(){
-		return setpoint;
+		return pidController.getSetpoint();
 	}
 	
-    public void changePID(int goalRPM, double P, double I, double D){
+    public void changePID(double P, double I, double D){
     	pidController.setPID(P, I, D);
-    	setSetpoint(goalRPM);
     }
 }

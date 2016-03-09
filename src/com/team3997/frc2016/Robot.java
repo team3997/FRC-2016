@@ -16,10 +16,10 @@ package com.team3997.frc2016;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
+import com.team3997.frc2016.util.CameraFeed;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.Debounce;
 import com.team3997.frc2016.util.F310;
-import com.team3997.frc2016.util.FrontCamera;
 import com.team3997.frc2016.util.UpdateParameters;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
 	Hanger hanger = Hardware.kHanger;
 	Vision vision = Hardware.kVision;
 	Lights lights = Hardware.kLights;
-	FrontCamera frontCamera = Hardware.kFrontCamera;
+	CameraFeed cameraFeed = Hardware.kCameraFeed;
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	Encoder rpmEncoder = Hardware.kFlyWheelEncoder;
 	public static Auton auton = new Auton();
@@ -46,7 +46,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
-		System.out.println("/*****Running Main Code Base*****/");
+		System.out.println("*****Running Main Code Base*****");
+		System.out.println("USING SHOOTER PID:" + Params.SHOOTER_USE_PID);
 		auton.listOptions();
 		
 		// Update parameters from text file
@@ -58,7 +59,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start autonomousInit()");
 		UpdateParameters.update();
 		auton.start();
-		frontCamera.start();
+		cameraFeed.start();
 	}
 	
 	@Override
@@ -72,7 +73,7 @@ public class Robot extends IterativeRobot {
 		auton.stop();
 		UpdateParameters.update();
 		shooter.initTeleOp();
-		frontCamera.start();
+		cameraFeed.start();
 	}
 
 	@Override
@@ -100,14 +101,15 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start disabledInit()");
 		auton.stop();
 		UpdateParameters.update();
-		frontCamera.start();
+		cameraFeed.start();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		lights.setColor(Lights.PRIDE);
-		SmartDashboard.putNumber("encoder pulses raw scaled", rpmEncoder.get());
-    	SmartDashboard.putNumber("encoder RPM rate", (rpmEncoder.getRate() * 60)); //rpm
-    	SmartDashboard.putNumber("encoder total distance (total rotations)", rpmEncoder.getDistance());
+		
+		Dashboard.put("encoder pulses raw scaled", rpmEncoder.get());
+    	Dashboard.put("encoder RPM rate", (rpmEncoder.getRate() * 60)); //rpm
+    	Dashboard.put("encoder total distance (total rotations)", rpmEncoder.getDistance());
 	}
 }

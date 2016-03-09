@@ -4,8 +4,8 @@ import com.team3997.frc2016.components.Lights;
 import com.team3997.frc2016.components.Vision;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.AMT103V_Encoder;
+import com.team3997.frc2016.util.CameraFeed;
 import com.team3997.frc2016.util.F310;
-import com.team3997.frc2016.util.FrontCamera;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -101,5 +101,5 @@ public class Hardware {
 	 * 
 	 * Utilities
 	 */
-	public static FrontCamera kFrontCamera = new FrontCamera(kOpGamePad);
+	public static CameraFeed kCameraFeed = new CameraFeed(kOpGamePad);
 }

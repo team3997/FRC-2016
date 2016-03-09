@@ -27,7 +27,7 @@ public class Params extends UpdateParameters {
 	 * 
 	 */
 	public static final EncodingType ENCODER_ENCODING_TYPE = EncodingType.k4X;
-	public static final double ENCODER_DISTANCE_PER_PULSE = (double)(1/2048);
+	public static final double ENCODER_DISTANCE_PER_PULSE = (double)1/2048;
 	
 	/*
 	 * 
@@ -43,12 +43,14 @@ public class Params extends UpdateParameters {
 	 * 
 	 */
 	public static final double CRUN_MOTOR_POWER = 1.00;
+	public static final double CRUN_OUTTAKE_MOTOR_POWER = 1.00;
 	public static final double CRUN_SHOOTING_MOTOR_POWER = 0.60;
 	/*
 	 * 
 	 * Intake Parameters
 	 */
 	public static final double INTAKE_MOTOR_POWER = 1.0;
+	public static final double INTAKE_OUTTAKE_MOTOR_POWER = 1.0;
 
 	/*
 	 * 

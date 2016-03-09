@@ -24,7 +24,6 @@ public class Shooter {
 	private Spark shooterMotor1;
 	private Spark shooterMotor2;
 	private Encoder shooterEncoder;
-	public double goalRPM = 0;
 	private boolean shooterIsSpinning = false;
 	
 	private ChickenRun cRun;
@@ -38,18 +37,17 @@ public class Shooter {
 		shooterMotor2 = kShooterMotor2;
 		shooterMotor1.setInverted(true);
 		shooterMotor2.setInverted(true);
+		
+		cRun = kCRun;
 
 		shooterEncoder = kShooterEncoder;
+		shooterEncoder.setDistancePerPulse(Params.ENCODER_DISTANCE_PER_PULSE); //Try directly inputting value if it doens't work
 
-		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2, PIDParams.sP.getDouble(),
-				PIDParams.sI.getDouble(), PIDParams.sI.getDouble(), PIDParams.sTolerance, PIDParams.sOutMin,
+		shooterPID = new PID(shooterEncoder, shooterMotor1, shooterMotor2, PIDParams.sTolerance, PIDParams.sOutMin,
 				PIDParams.sOutMax, PIDParams.sSamplesToAverage, PIDParams.sType);
-
-		cRun = kCRun;
-		shooterEncoder.setPIDSourceType(PIDSourceType.kRate);
-		shooterEncoder.setDistancePerPulse((double)1/2048);
-
-		shooterPID.setSetpoint(PIDParams.sGoalRPM.getInt()/60);
+		
+		setRPMSetpoint(0);
+		
 		stopShooter();
 	}
 
@@ -77,30 +75,55 @@ public class Shooter {
 		else
 			runManual();
 		
-		SmartDashboard.putNumber("encoder pulses raw scaled", shooterEncoder.get());
-    	SmartDashboard.putNumber("encoder RPM rate", (shooterEncoder.getRate() * 60)); //rpm
-    	SmartDashboard.putNumber("encoder total distance (total rotations)", shooterEncoder.getDistance());
+		Dashboard.put("encoder pulses raw scaled", shooterEncoder.get());
+    	Dashboard.put("encoder RPM rate", (shooterEncoder.getRate() * 60));
+    	Dashboard.put("encoder total distance (total rotations)", shooterEncoder.getDistance());
 	}
 
 
 	public void runAuto() {
 		if(Params.SHOOTER_USE_PID){
 			if(gamePad.getYellowButton()){
+				shooterPID.changePID(PIDParams.syP.getDouble(), PIDParams.syI.getDouble(), PIDParams.syD.getDouble());
+				
+				if(getRPMSetpoint() != PIDParams.syGoalRPM.getInt()){
+					setRPMSetpoint(PIDParams.syGoalRPM.getInt());
+				}
+				
 				shooterPID.enablePID();
 			}
 			else if(gamePad.getRedButton()){ 
+				shooterPID.changePID(PIDParams.srP.getDouble(), PIDParams.srI.getDouble(), PIDParams.srD.getDouble());
+				
+				if(getRPMSetpoint() != PIDParams.srGoalRPM.getInt()){
+					setRPMSetpoint(PIDParams.srGoalRPM.getInt());
+				}
+				
 				shooterPID.enablePID();
 			}
 			else if(gamePad.getBlueButton()){ 
+				shooterPID.changePID(PIDParams.sbP.getDouble(), PIDParams.sbI.getDouble(), PIDParams.sbD.getDouble());
+				
+				if(getRPMSetpoint() != PIDParams.sbGoalRPM.getInt()){
+					setRPMSetpoint(PIDParams.sbGoalRPM.getInt());
+				}
+				
 				shooterPID.enablePID();
 			}
 			else if(gamePad.getGreenButton()){ 
+				shooterPID.changePID(PIDParams.sgP.getDouble(), PIDParams.sgI.getDouble(), PIDParams.sgD.getDouble());
+				
+				if(getRPMSetpoint() != PIDParams.sgGoalRPM.getInt()){
+					setRPMSetpoint(PIDParams.sgGoalRPM.getInt());
+				}
+				
 				shooterPID.enablePID();
 			}
-			else if (gamePad.getLeftTrigger()) {
+			else if(gamePad.getLeftTrigger()) {
 				outtakeShooter();
 			}
 			else {
+				setRPMSetpoint(0);
 				shooterPID.disablePID();
 			}
 		}
@@ -122,7 +145,7 @@ public class Shooter {
 		else if(gamePad.getGreenButton()){ 
 			this.run(Params.SHOOTER_GREEN_MOTOR_POWER);
 		}
-		else if (gamePad.getLeftTrigger()) {
+		else if(gamePad.getLeftTrigger()) {
 			outtakeShooter();
 		} 
 		else {
@@ -153,15 +176,15 @@ public class Shooter {
 	/**
 	 * sets the goal RPM of the PID loop
 	 */
-	public void setRPMSetpoint(int newSetpoint) {
-		shooterPID.setSetpoint(newSetpoint);
+	public void setRPMSetpoint(double rpm) {
+		shooterPID.setSetpoint(rpm / 60);
 	}
 
 	/**
 	 * @return the goal RPM of the current PID loop
 	 */
 	public double getRPMSetpoint() {
-		return shooterPID.getSetpoint();
+		return shooterPID.getSetpoint() * 60;
 	}
 
 	public void outtakeShooter() {

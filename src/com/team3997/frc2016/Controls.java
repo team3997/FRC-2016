@@ -4,7 +4,7 @@ import com.team3997.frc2016.util.F310;
 
 /**
  * 
- * All human controls go in this class.
+ * Human controls
  *
  */
 
@@ -16,12 +16,20 @@ public class Controls {
 	public final static int MANUAL_CONTROL_TOGGLE_BUTTON = F310.startButton;
 	
 	public final static int INTAKE_BUTTON = F310.rightBumper;
-	public final static int OUTTAKE_BUTTON = F310.leftBumper;
+	
+	public final static int FORCE_OUTTAKE_BUTTON = F310.leftBumper; // run outtake function on both intake and chicken run
+	public final static int SOFT_OUTTAKE_BUTTON = F310.leftTrigger; // run outtake function only on intake, not chicken run
 	
 	public final static int INTAKE_EXTEND_BUTTON = F310.backButton;
 	
-	public final static int SHOOTER_RUN_MOTORS_BUTTON = F310.yellowButton;
-	
 	public final static int RUN_CRUN_TO_SHOOTER = F310.rightTrigger;
+	
+	public final static int CHANGE_CAMERA_FEED_TOGGLE_BUTTON = F310.rightStickClick;
+	
+	/*
+	 * 
+	 * The colored buttons on the F310 run the shooter motors.
+	 * 
+	 */
 }
 
