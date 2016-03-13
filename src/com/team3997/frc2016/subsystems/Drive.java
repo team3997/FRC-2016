@@ -3,7 +3,9 @@ package com.team3997.frc2016.subsystems;
 import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.AMT103V_Encoder;
+import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.F310;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -22,6 +24,9 @@ public class Drive{
 	public AnalogGyro gyro;
 	public Encoder leftEncoder, rightEncoder;
 	private F310 gamePad;
+	boolean manualDrive = true;
+	boolean visionLineUpX = false;
+	double visionXOutput = 0.0;
 	RobotDrive driveTrain;
 
 	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
@@ -49,12 +54,50 @@ public class Drive{
 			rightYVal = -rightYVal;
 			leftYVal = -leftYVal;
 		}
+		
+		if(gamePad.getButton(Controls.VISION_LINE_UP_X)){
+			manualDrive = false;
+			visionLineUpX = true;
+		}
+		else{
+			manualDrive = true;
+			visionLineUpX = false;
+		}
+		
 
 		// Drive at the given input magnitude
-		if (Params.ARCADE_DRIVE)
-			setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
-		else
-			setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
+		if(manualDrive){
+			Dashboard.put("Driving", "Manual");
+			if (Params.ARCADE_DRIVE)
+				setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
+			else
+				setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
+		}
+		else if(visionLineUpX){
+			Dashboard.put("Driving", "Auto aiming X axis");
+			//visionAutoAimX();
+		}
+	}
+	
+	
+	public void visionAutoAimX(int currentTargetX, int goalTargetX){
+		if(currentTargetX > 0){
+			//adjust to the right
+			if((currentTargetX < (0.7 * goalTargetX))){
+				setArcadeDrive(leftYVal, 0.75);
+			}
+			else if((currentTargetX < (0.9 * goalTargetX))){
+				setArcadeDrive(leftYVal, 0.5);
+			}
+			
+			//adjust to the left
+			if((currentTargetX > (1.3 * goalTargetX))){
+				setArcadeDrive(leftYVal, -0.75);
+			}
+			else if((currentTargetX > (1.4 * goalTargetX))){
+				setArcadeDrive(leftYVal, -0.5);
+			}
+		}
 	}
 
 	/**
@@ -116,6 +159,7 @@ public class Drive{
 	public void setTankDrive(double lefty, double righty) {
 		driveTrain.tankDrive(lefty, righty, false);
 	}
+
 
 	 /**
 	   * Return the actual angle in degrees that the robot is currently facing.
