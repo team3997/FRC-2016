@@ -77,6 +77,7 @@ public class Shooter {
 		
 		Dashboard.put("encoder pulses raw scaled", shooterEncoder.get());
     	Dashboard.put("encoder RPM rate", (shooterEncoder.getRate() * 60));
+    	Dashboard.put("Shooter RPM graph", (shooterEncoder.getRate() * 60));
     	Dashboard.put("encoder total distance (total rotations)", shooterEncoder.getDistance());
 	}
 
@@ -88,8 +89,9 @@ public class Shooter {
 				
 				if(getRPMSetpoint() != PIDParams.syGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.syGoalRPM.getInt());
+					Dashboard.put("SHOOTER_PID", "yellow");
 				}
-				
+
 				shooterPID.enablePID();
 			}
 			else if(gamePad.getRedButton()){ 
@@ -97,6 +99,7 @@ public class Shooter {
 				
 				if(getRPMSetpoint() != PIDParams.srGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.srGoalRPM.getInt());
+					Dashboard.put("SHOOTER_PID", "red");
 				}
 				
 				shooterPID.enablePID();
@@ -106,6 +109,7 @@ public class Shooter {
 				
 				if(getRPMSetpoint() != PIDParams.sbGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.sbGoalRPM.getInt());
+					Dashboard.put("SHOOTER_PID", "blue");
 				}
 				
 				shooterPID.enablePID();
@@ -115,6 +119,7 @@ public class Shooter {
 				
 				if(getRPMSetpoint() != PIDParams.sgGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.sgGoalRPM.getInt());
+					Dashboard.put("SHOOTER_PID", "green");
 				}
 				
 				shooterPID.enablePID();

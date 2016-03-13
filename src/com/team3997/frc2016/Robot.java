@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start autonomousInit()");
 		UpdateParameters.update();
 		auton.start();
-		cameraFeed.start();
+		//cameraFeed.start();
 	}
 	
 	@Override
@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 		auton.stop();
 		UpdateParameters.update();
 		shooter.initTeleOp();
-		cameraFeed.start();
+		//cameraFeed.start();
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start disabledInit()");
 		auton.stop();
 		UpdateParameters.update();
-		cameraFeed.start();
+		//cameraFeed.start();
 	}
 
 	@Override

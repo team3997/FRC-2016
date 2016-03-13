@@ -9,7 +9,7 @@ import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.CameraServer;
 
-public class CameraFeed {
+public class CameraFeed{
 
 	private Thread m_thread = null;
 
@@ -18,16 +18,9 @@ public class CameraFeed {
 	Debounce redToggle;
 	Debounce blueToggle;
 	Debounce greenToggle;
-	
-	Debounce cameraToggleButton;
-	boolean cameraToggleBoolean;
-	
-	boolean frontCamIsActive = true;
-	boolean backCamIsActive = false;
-	
-	public int sessionFront;
-	public int sessionBack;
-	
+
+	public int session;
+	public int buffer;
 	Image frame;
 
 	NIVision.Rect yellowRect = new NIVision.Rect(20, 170, 50, 50);
@@ -40,29 +33,31 @@ public class CameraFeed {
 	public CameraFeed(F310 kGamePad) {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
-		sessionFront = NIVision.IMAQdxOpenCamera(Params.CAMERA_AXIS,NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		sessionBack = NIVision.IMAQdxOpenCamera(Params.CAMERA_USB,NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		
+		session = NIVision.IMAQdxOpenCamera(Params.CAMERA_AXIS,
+				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+
 		gamePad = kGamePad;
 
 		yellowToggle = new Debounce(gamePad, F310.yellowButton);
 		redToggle = new Debounce(gamePad, F310.redButton);
 		blueToggle = new Debounce(gamePad, F310.blueButton);
 		greenToggle = new Debounce(gamePad, F310.greenButton);
-		
-		cameraToggleButton = new Debounce(gamePad, Controls.CHANGE_CAMERA_FEED_TOGGLE_BUTTON);
 
 		CameraServer.getInstance().setQuality(80);
 	}
+	
+	private void init(){
+		NIVision.IMAQdxConfigureGrab(session);
+        NIVision.IMAQdxStartAcquisition(session);
+	}
 
-	public void stopCamThread() {
-		stopFrontCam();
-		stopBackCam();
+	public void stop() {
+		NIVision.IMAQdxStopAcquisition(session);
 		m_thread = null;
 	}
 
 	public void start() {
-		initFrontCam();
+		init();
 
 		if (m_thread == null) {
 			m_thread = new Thread(new Runnable() {
@@ -78,47 +73,19 @@ public class CameraFeed {
 	}
 	
 	public void loop() {
-		//Switch camera toggle boolean, and init the opposite camera
-		if(cameraToggleButton.getFall()){
-			cameraToggleBoolean = !cameraToggleBoolean;
-			
-			if(frontCamIsActive)
-				initBackCam();
-			else if(backCamIsActive)
-				initFrontCam();
-		}
-		
-		
-		if(frontCamIsActive){
-			frontCamGrabImage();
-			drawRect(activeRect);
-		}
-		else if(backCamIsActive) {
-			backCamGrabImage();
-		}
-		
+		grabImage();
 		getRectFromButton();
-			
+		drawRect(activeRect);
 		pushImage();
 	}
 
-	private void frontCamGrabImage() {
+	private void grabImage() {
 		try {
-			NIVision.IMAQdxGrab(sessionFront, frame, 1);
+			NIVision.IMAQdxGrab(session, frame, 1);
 		}
 		catch (Exception e){
-			System.out.println("Front Camera Disconnected. Reinitializing...");
-			initFrontCam();
-		}
-	}
-	
-	private void backCamGrabImage() {
-		try {
-			NIVision.IMAQdxGrab(sessionBack, frame, 1);
-		}
-		catch (Exception e){
-			System.out.println("Back Camera Disconnected. Reinitializing...");
-			initBackCam();
+			System.out.println("Camera Disconnected. Reinitializing...");
+			init();
 		}
 	}
 
@@ -147,33 +114,5 @@ public class CameraFeed {
 		if (greenToggle.getFall()) {
 			activeRect = greenRect;
 		}
-	}
-	
-	private void initFrontCam(){
-		stopBackCam();
-		NIVision.IMAQdxConfigureGrab(sessionFront);
-        NIVision.IMAQdxStartAcquisition(sessionFront);
-        
-        frontCamIsActive = true;
-        backCamIsActive = false;
-	}
-	
-	private void initBackCam(){
-		stopFrontCam();
-		NIVision.IMAQdxConfigureGrab(sessionBack);
-        NIVision.IMAQdxStartAcquisition(sessionBack);
-        
-        frontCamIsActive = false;
-        backCamIsActive = true;
-	}
-	
-	private void stopFrontCam(){
-		NIVision.IMAQdxUnconfigureAcquisition(sessionFront);
-        NIVision.IMAQdxStopAcquisition(sessionFront);
-	}
-	
-	private void stopBackCam(){
-		NIVision.IMAQdxUnconfigureAcquisition(sessionBack);
-        NIVision.IMAQdxStopAcquisition(sessionBack);
 	}
 }

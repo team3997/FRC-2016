@@ -49,14 +49,14 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Intake Parameters
 	 */
-	public static final double INTAKE_MOTOR_POWER = 1.0;
+	public static final double INTAKE_MOTOR_POWER = 0.60;
 	public static final double INTAKE_OUTTAKE_MOTOR_POWER = 1.0;
 
 	/*
 	 * 
 	 * Shooter Parameters
 	 */
-	public static final boolean SHOOTER_USE_PID = false;
+	public static final boolean SHOOTER_USE_PID = true;
 	public static final double SHOOTER_OUTTAKE_MOTOR_POWER = 0.55;
 	
 	public static final double SHOOTER_YELLOW_MOTOR_POWER = 1.00;

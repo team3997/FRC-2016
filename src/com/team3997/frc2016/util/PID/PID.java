@@ -53,7 +53,7 @@ public class PID {
 		pidController = new PIDController(P, I, D, encoder, pidShooterOutput);
 		
 		pidController.setOutputRange(outMin, outMax);
-		pidController.setAbsoluteTolerance(tolerance);
+		pidController.setPercentTolerance(tolerance);
 	}
 	
 	public void enablePID(){
