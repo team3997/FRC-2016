@@ -26,9 +26,15 @@ public class Drive{
 	public Encoder leftEncoder, rightEncoder;
 	private F310 gamePad;
 	boolean manualDrive = true;
-	boolean visionLineUpX = false;
+	
+	boolean middleGoalVisionLineUpX = false;
+	boolean leftGoalVisionLineUpX = false;
+	boolean rightGoalVisionLineUpX = false;
+	
 	double visionXOutput = 0.0;
 	RobotDrive driveTrain;
+	
+	
 
 	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
 			AMT103V_Encoder rightEncoder, AnalogGyro gyro, F310 kGamePad) {
@@ -60,13 +66,29 @@ public class Drive{
 			leftYVal = -leftYVal;
 		}
 		
-		if(gamePad.getButton(Controls.VISION_LINE_UP_X)){
+		if(gamePad.getButton(Controls.LEFT_GOAL_VISION_LINE_UP_X)){
 			manualDrive = false;
-			visionLineUpX = true;
+			leftGoalVisionLineUpX = true;
+			middleGoalVisionLineUpX = false;
+			rightGoalVisionLineUpX = false;
 		}
-		else{
+		else if(gamePad.getButton(Controls.MIDDLE_GOAL_VISION_LINE_UP_X)){
+			manualDrive = false;
+			leftGoalVisionLineUpX = false;
+			middleGoalVisionLineUpX = true;
+			rightGoalVisionLineUpX = false;
+		}
+		else if(gamePad.getButton(Controls.RIGHT_GOAL_VISION_LINE_UP_X)){
+			manualDrive = false;
+			leftGoalVisionLineUpX = false;
+			middleGoalVisionLineUpX = false;
+			rightGoalVisionLineUpX = true;
+		}
+		else {
 			manualDrive = true;
-			visionLineUpX = false;
+			leftGoalVisionLineUpX = false;
+			middleGoalVisionLineUpX = false;
+			rightGoalVisionLineUpX = false;
 		}
 		
 
@@ -78,45 +100,18 @@ public class Drive{
 			else
 				setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
 		}
-		else if(visionLineUpX){
-			Dashboard.put("Driving", "Auto aiming X axis");
-			visionAutoAimX(Hardware.kGrip.getCenterX(), 150);
+		
+		else if(leftGoalVisionLineUpX){
+			Dashboard.put("Driving", "Auto aiming X Left");
+			leftGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.LEFT_GOAL_X);
 		}
-	}
-	
-	
-	public void visionAutoAimX(double currentTargetX, int goalTargetX){
-		if(currentTargetX > 0){
-			//adjust to the right
-			if(currentTargetX < 120){
-				setArcadeDrive(leftYVal, 0.47);
-			}
-			else if(currentTargetX < 146){
-				setArcadeDrive(leftYVal, 0.3);
-			}	
-			//adjust to the left
-			else if(currentTargetX > 180){
-				setArcadeDrive(leftYVal, -0.47);
-			}
-			else if(currentTargetX > 154){
-				setArcadeDrive(leftYVal, -0.3);
-			}
-			else{
-				setArcadeDrive(leftYVal, 0.0);
-			}
-			
-			/*if(currentTargetX < 148){
-				setArcadeDrive(leftYVal, (100-(100*(currentTargetX/150))) );
-			}
-			else if(currentTargetX > 152){
-				setArcadeDrive(leftYVal, (100-(100*(currentTargetX/150)))/(100) );
-			}
-			else{
-				setArcadeDrive(leftYVal, 0.0);
-			}*/
+		else if(middleGoalVisionLineUpX){
+			Dashboard.put("Driving", "Auto aiming X Middle");
+			middleGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.MIDDLE_GOAL_X);
 		}
-		else{
-			setArcadeDrive(leftYVal, 0.0);
+		else if(rightGoalVisionLineUpX){
+			Dashboard.put("Driving", "Auto aiming X Right");
+			rightGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.RIGHT_GOAL_X);
 		}
 	}
 
@@ -202,6 +197,81 @@ public class Drive{
 	 */
 	public void resetGyro() {
 		gyro.reset();
+	}
+
+	public void leftGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
+		if(currentTargetX > 0){
+			//adjust to the right
+			if(currentTargetX < 120){
+				setArcadeDrive(leftYVal, 0.47);
+			}
+			else if(currentTargetX < 146){
+				setArcadeDrive(leftYVal, 0.3);
+			}	
+			//adjust to the left
+			else if(currentTargetX > 180){
+				setArcadeDrive(leftYVal, -0.47);
+			}
+			else if(currentTargetX > 154){
+				setArcadeDrive(leftYVal, -0.3);
+			}
+			else{
+				setArcadeDrive(leftYVal, 0.0);
+			}
+		}
+		else {
+			setArcadeDrive(leftYVal, 0.0);
+		}
+	}
+	
+	public void middleGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
+		if(currentTargetX > 0){
+			//adjust to the right
+			if(currentTargetX < 120){
+				setArcadeDrive(leftYVal, 0.47);
+			}
+			else if(currentTargetX < 146){
+				setArcadeDrive(leftYVal, 0.3);
+			}	
+			//adjust to the left
+			else if(currentTargetX > 180){
+				setArcadeDrive(leftYVal, -0.47);
+			}
+			else if(currentTargetX > 154){
+				setArcadeDrive(leftYVal, -0.3);
+			}
+			else{
+				setArcadeDrive(leftYVal, 0.0);
+			}
+		}
+		else {
+			setArcadeDrive(leftYVal, 0.0);
+		}
+	}
+	
+	public void rightGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
+		if(currentTargetX > 0){
+			//adjust to the right
+			if(currentTargetX < 120){
+				setArcadeDrive(leftYVal, 0.47);
+			}
+			else if(currentTargetX < 146){
+				setArcadeDrive(leftYVal, 0.3);
+			}	
+			//adjust to the left
+			else if(currentTargetX > 180){
+				setArcadeDrive(leftYVal, -0.47);
+			}
+			else if(currentTargetX > 154){
+				setArcadeDrive(leftYVal, -0.3);
+			}
+			else{
+				setArcadeDrive(leftYVal, 0.0);
+			}
+		}
+		else {
+			setArcadeDrive(leftYVal, 0.0);
+		}
 	}
 
 }

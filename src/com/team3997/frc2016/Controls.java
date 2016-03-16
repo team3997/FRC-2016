@@ -12,7 +12,9 @@ public class Controls {
 	// Driver:
 	public final static int INVERT_DRIVE = F310.rightBumper;
 	
-	public final static int VISION_LINE_UP_X = F310.greenButton;
+	public final static int LEFT_GOAL_VISION_LINE_UP_X = F310.blueButton;
+	public final static int MIDDLE_GOAL_VISION_LINE_UP_X = F310.greenButton;
+	public final static int RIGHT_GOAL_VISION_LINE_UP_X = F310.redButton;
 	
 	
 	// Operator:

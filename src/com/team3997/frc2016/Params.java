@@ -20,6 +20,14 @@ public class Params extends UpdateParameters {
 	public static final String CAMERA_USB = "cam1";
 	public static final String CAMERA_AXIS = "cam0";
 	
+	/*
+	 * 
+	 * Vision Params
+	 * 
+	 */
+	public static final int MIDDLE_GOAL_X = 148;
+	public static final int LEFT_GOAL_X  = 150;
+	public static final int RIGHT_GOAL_X  = 152;
 	
 	/*
 	 * 
