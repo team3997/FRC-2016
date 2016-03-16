@@ -16,6 +16,7 @@ package com.team3997.frc2016;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.auton.Auton;
 import com.team3997.frc2016.components.*;
+import com.team3997.frc2016.components.vision.GRIP;
 import com.team3997.frc2016.components.vision.Vision;
 import com.team3997.frc2016.util.CameraFeed;
 import com.team3997.frc2016.util.Dashboard;
@@ -37,6 +38,7 @@ public class Robot extends IterativeRobot {
 	Shooter shooter = Hardware.kShooter;
 	Intake intake = Hardware.kIntake;
 	Hanger hanger = Hardware.kHanger;
+	GRIP grip = Hardware.kGrip;
 	Vision vision = Hardware.kVision;
 	Lights lights = Hardware.kLights;
 	CameraFeed cameraFeed = Hardware.kCameraFeed;
@@ -50,7 +52,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("*****Running Main Code Base*****");
 		System.out.println("USING SHOOTER PID:" + Params.SHOOTER_USE_PID);
 		auton.listOptions();
-		
+		cameraFeed.initRect();
 		// Update parameters from text file
 		UpdateParameters.update();
 	}
@@ -60,7 +62,8 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start autonomousInit()");
 		UpdateParameters.update();
 		auton.start();
-		//cameraFeed.start();
+		cameraFeed.start();
+		cameraFeed.initRect();
 	}
 	
 	@Override
@@ -74,7 +77,8 @@ public class Robot extends IterativeRobot {
 		auton.stop();
 		UpdateParameters.update();
 		shooter.initTeleOp();
-		//cameraFeed.start();
+		cameraFeed.start();
+		cameraFeed.initRect();
 	}
 
 	@Override
@@ -83,7 +87,7 @@ public class Robot extends IterativeRobot {
 		shooter.runTeleOp();
 		intake.runTeleOp();
 		hanger.runTeleOp();
-		
+		grip.runTeleOp();
 		//Change between manual and automatic mode
 		Dashboard.put("Manual Mode", isManualMode);
 		if(manualToggle.getFall()){
@@ -102,13 +106,15 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start disabledInit()");
 		auton.stop();
 		UpdateParameters.update();
-		//cameraFeed.start();
+		cameraFeed.start();
+		cameraFeed.initRect();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		lights.setColor(Lights.PRIDE);
-		
+		grip.runTeleOp();
+		Dashboard.put("Gyro Angle", drive.getGyroAngle());
 		Dashboard.put("encoder pulses raw scaled", rpmEncoder.get());
     	Dashboard.put("encoder RPM rate", (rpmEncoder.getRate() * 60)); //rpm
     	Dashboard.put("encoder total distance (total rotations)", rpmEncoder.getDistance());

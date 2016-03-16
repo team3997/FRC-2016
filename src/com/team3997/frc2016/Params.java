@@ -33,7 +33,7 @@ public class Params extends UpdateParameters {
 	 * 
 	 * Drive Parameters
 	 */
-	public static final double DRIVE_MOTOR_SPEED = 1.00;
+	public static final double DRIVE_MOTOR_SPEED = 1.0;
 	public static final boolean SQUARE_INPUTS = true;
 	public static final boolean ARCADE_DRIVE = true; // arcade drive is true, tank is false
 	
@@ -44,12 +44,12 @@ public class Params extends UpdateParameters {
 	 */
 	public static final double CRUN_MOTOR_POWER = 1.00;
 	public static final double CRUN_OUTTAKE_MOTOR_POWER = 1.00;
-	public static final double CRUN_SHOOTING_MOTOR_POWER = 0.60;
+	public static final double CRUN_SHOOTING_MOTOR_POWER = 0.6; //60%
 	/*
 	 * 
 	 * Intake Parameters
 	 */
-	public static final double INTAKE_MOTOR_POWER = 0.60;
+	public static final double INTAKE_MOTOR_POWER = 0.70;
 	public static final double INTAKE_OUTTAKE_MOTOR_POWER = 1.0;
 
 	/*

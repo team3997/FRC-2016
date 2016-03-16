@@ -1,18 +1,19 @@
 package com.team3997.frc2016.auton.actions;
 
+import com.team3997.frc2016.Params;
+
 import edu.wpi.first.wpilibj.Timer;
 
-public class WaitForDriveTimeAction extends Action {
+public class RunShooterWheelsAction extends Action {
 	double goal_time;
     double start_time;
+    double speed;
+    double warmup;
     
-    double x_drive;
-    double y_drive;
-    
-	public WaitForDriveTimeAction(double seconds, double y, double x) {
+	public RunShooterWheelsAction(double seconds, double warmupWheels, double kSpeed) {
 		goal_time = seconds;
-		x_drive = x;
-		y_drive = y;
+		speed = kSpeed;
+		warmup = warmupWheels;
 	}
     @Override
     public boolean isFinished() {
@@ -21,12 +22,16 @@ public class WaitForDriveTimeAction extends Action {
 
     @Override
     public void update() {
-        drive.setArcadeDrive(-y_drive, x_drive, false);
+        shooter.run(speed);
+        
+        if(Timer.getFPGATimestamp() >= start_time + warmup){
+        	cRun.run(Params.CRUN_SHOOTING_MOTOR_POWER);
+        }
     }
 
     @Override
     public void done(){
-    	drive.stop();
+    	shooter.stopShooter();
     }
 
     @Override

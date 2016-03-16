@@ -1,6 +1,7 @@
 package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Controls;
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Dashboard;
@@ -36,11 +37,15 @@ public class Drive{
 
 		this.leftEncoder = leftEncoder.getEncoderObject();
 		this.rightEncoder = rightEncoder.getEncoderObject();
-
+		this.gyro = gyro;
+		gyro.initGyro();
+		gyro.reset();
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
 	}
 
 	public void runTeleOp() {
+		
+		Dashboard.put("Gyro Angle", getGyroAngle());
 		// Get Joystick input from gamepad
 		rightXVal = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED);
 		leftXVal = (gamePad.getLeftX()) * (Params.DRIVE_MOTOR_SPEED);
@@ -75,28 +80,43 @@ public class Drive{
 		}
 		else if(visionLineUpX){
 			Dashboard.put("Driving", "Auto aiming X axis");
-			//visionAutoAimX();
+			visionAutoAimX(Hardware.kGrip.getCenterX(), 150);
 		}
 	}
 	
 	
-	public void visionAutoAimX(int currentTargetX, int goalTargetX){
+	public void visionAutoAimX(double currentTargetX, int goalTargetX){
 		if(currentTargetX > 0){
 			//adjust to the right
-			if((currentTargetX < (0.7 * goalTargetX))){
-				setArcadeDrive(leftYVal, 0.75);
+			if(currentTargetX < 120){
+				setArcadeDrive(leftYVal, 0.47);
 			}
-			else if((currentTargetX < (0.9 * goalTargetX))){
-				setArcadeDrive(leftYVal, 0.5);
+			else if(currentTargetX < 146){
+				setArcadeDrive(leftYVal, 0.3);
+			}	
+			//adjust to the left
+			else if(currentTargetX > 180){
+				setArcadeDrive(leftYVal, -0.47);
+			}
+			else if(currentTargetX > 154){
+				setArcadeDrive(leftYVal, -0.3);
+			}
+			else{
+				setArcadeDrive(leftYVal, 0.0);
 			}
 			
-			//adjust to the left
-			if((currentTargetX > (1.3 * goalTargetX))){
-				setArcadeDrive(leftYVal, -0.75);
+			/*if(currentTargetX < 148){
+				setArcadeDrive(leftYVal, (100-(100*(currentTargetX/150))) );
 			}
-			else if((currentTargetX > (1.4 * goalTargetX))){
-				setArcadeDrive(leftYVal, -0.5);
+			else if(currentTargetX > 152){
+				setArcadeDrive(leftYVal, (100-(100*(currentTargetX/150)))/(100) );
 			}
+			else{
+				setArcadeDrive(leftYVal, 0.0);
+			}*/
+		}
+		else{
+			setArcadeDrive(leftYVal, 0.0);
 		}
 	}
 
@@ -174,7 +194,7 @@ public class Drive{
 	   *         on integration of the returned rate from the gyro.
 	   */
 	public double getGyroAngle() {
-		return -gyro.getAngle();
+		return gyro.getAngle();
 	}
 
 	/**

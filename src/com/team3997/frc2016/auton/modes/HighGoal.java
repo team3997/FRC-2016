@@ -1,5 +1,6 @@
 package com.team3997.frc2016.auton.modes;
 
+import com.team3997.frc2016.Params;
 import com.team3997.frc2016.auton.AutonMode;
 import com.team3997.frc2016.auton.AutonModeEndedException;
 
@@ -8,6 +9,10 @@ public class HighGoal extends AutonMode{
 	 @Override
 	    protected void routine() throws AutonModeEndedException{
 		 	//Drive forward set distance.
+		 	waitForDrive(1.5, 0.8, 0.0);
+		 	waitForDrive(0.3, 0.0, 0.6);
+		 	centerAim(3.0);
+		 	runShooter(7.0, 2.0, 1.0);
 		 	//Use gyro w/ PID to make sure it's driving straight.
 		 	//Drive over defense (gyro PID is still enabled)
 		 	//Use accelerometer to detect when we have finished going over the defense

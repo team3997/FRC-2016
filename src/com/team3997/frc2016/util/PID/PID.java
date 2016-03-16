@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class PID {
 	
-	private double P = 0.00;
+	private double P = 0.1;
 	private double I = 0.00;
 	private double D = 0.00;
 	
@@ -56,7 +56,7 @@ public class PID {
 		pidController.setPercentTolerance(tolerance);
 	}
 	
-	public void enablePID(){
+	public void enablePID(){		
 		pidController.enable();
 	}
 	

@@ -52,7 +52,7 @@ public class ChickenRun {
 		cRunMotor.set(-crunMotorPower);
 	}
 	
-	protected void run(double speed) {
+	public void run(double speed) {
 		cRunMotor.set(speed);
 	}
 }

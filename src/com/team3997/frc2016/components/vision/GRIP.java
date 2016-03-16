@@ -23,6 +23,7 @@ public class GRIP extends IterativeRobot {
 	
 	public void runTeleOp(){
 		updateGripValues();
+		printGripValues();
 	}
 	
 	/**
@@ -36,12 +37,21 @@ public class GRIP extends IterativeRobot {
 		width = table.getNumberArray("width", defaultValue);
     }
     
+    public double getCenterX(){
+    	if(centerx.length>0){
+    		return centerx[0];
+    	}
+    	else {
+    		return 0.0;
+    	}
+    }
+    
     /**
      * Print all incoming grip contour variables to the dashboard 
      */
     public void printGripValues(){
     	if(centerx.length > 0)
-    		Dashboard.put("centerx", centerx[0]);
+    		Dashboard.put("centerx", getCenterX());
     	if(centery.length > 0)
     		Dashboard.put("centery", centery[0]);
     	if(area.length > 0)
@@ -50,6 +60,7 @@ public class GRIP extends IterativeRobot {
     		Dashboard.put("height", height[0]);
     	if(width.length > 0)
     		Dashboard.put("width", width[0]);
+    	Dashboard.put("centerxarraysize", centerx.length);
     }
     
     /**

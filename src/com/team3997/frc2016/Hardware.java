@@ -1,6 +1,7 @@
 package com.team3997.frc2016;
 
 import com.team3997.frc2016.components.Lights;
+import com.team3997.frc2016.components.vision.GRIP;
 import com.team3997.frc2016.components.vision.Vision;
 import com.team3997.frc2016.subsystems.*;
 import com.team3997.frc2016.util.AMT103V_Encoder;
@@ -95,6 +96,7 @@ public class Hardware {
 	 * 
 	 * Vision
 	 */
+	public static GRIP kGrip = new GRIP();
 	public static Vision kVision = new Vision();
 
 	/*

@@ -47,7 +47,7 @@ public class Shooter {
 				PIDParams.sOutMax, PIDParams.sSamplesToAverage, PIDParams.sType);
 		
 		setRPMSetpoint(0);
-		
+		shooterPID.disablePID();
 		stopShooter();
 	}
 
@@ -85,20 +85,32 @@ public class Shooter {
 	public void runAuto() {
 		if(Params.SHOOTER_USE_PID){
 			if(gamePad.getYellowButton()){
-				shooterPID.changePID(PIDParams.syP.getDouble(), PIDParams.syI.getDouble(), PIDParams.syD.getDouble());
+				/*shooterPID.changePID(PIDParams.syP.getDouble(), PIDParams.syI.getDouble(), PIDParams.syD.getDouble());
 				
 				if(getRPMSetpoint() != PIDParams.syGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.syGoalRPM.getInt());
 					Dashboard.put("SHOOTER_PID", "yellow");
+					
+					System.out.println("yRPM" + PIDParams.syGoalRPM.getDouble());
+					System.out.println("yP" + PIDParams.syP.getDouble());
+					System.out.println("yI" + PIDParams.syI.getDouble());
+					System.out.println("yD" + PIDParams.syD.getDouble());
 				}
 
-				shooterPID.enablePID();
+				shooterPID.enablePID();*/
+				//this.run(Params.SHOOTER_YELLOW_MOTOR_POWER);
+				this.run(Params.SHOOTER_YELLOW_MOTOR_POWER);
 			}
 			else if(gamePad.getRedButton()){ 
 				shooterPID.changePID(PIDParams.srP.getDouble(), PIDParams.srI.getDouble(), PIDParams.srD.getDouble());
 				
 				if(getRPMSetpoint() != PIDParams.srGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.srGoalRPM.getInt());
+				
+					System.out.println("rRPM" + PIDParams.srGoalRPM.getDouble());
+					System.out.println("rP" + PIDParams.srP.getDouble());
+					System.out.println("rI" + PIDParams.srI.getDouble());
+					System.out.println("rD" + PIDParams.srD.getDouble());
 					Dashboard.put("SHOOTER_PID", "red");
 				}
 				
@@ -109,6 +121,11 @@ public class Shooter {
 				
 				if(getRPMSetpoint() != PIDParams.sbGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.sbGoalRPM.getInt());
+					
+					System.out.println("bRPM" + PIDParams.sbGoalRPM.getDouble());
+					System.out.println("bP" + PIDParams.sbP.getDouble());
+					System.out.println("bI" + PIDParams.sbI.getDouble());
+					System.out.println("bD" + PIDParams.sbD.getDouble());
 					Dashboard.put("SHOOTER_PID", "blue");
 				}
 				
@@ -119,6 +136,11 @@ public class Shooter {
 				
 				if(getRPMSetpoint() != PIDParams.sgGoalRPM.getInt()){
 					setRPMSetpoint(PIDParams.sgGoalRPM.getInt());
+					
+					System.out.println("gRPM" + PIDParams.sgGoalRPM.getDouble());
+					System.out.println("gP" + PIDParams.sgP.getDouble());
+					System.out.println("gI" + PIDParams.sgI.getDouble());
+					System.out.println("gD" + PIDParams.sgD.getDouble());
 					Dashboard.put("SHOOTER_PID", "green");
 				}
 				
@@ -209,5 +231,6 @@ public class Shooter {
 		shooterMotor1.set(0.00);
 		shooterMotor2.set(0.00);
 	}
+
 
 }

@@ -5,6 +5,7 @@ import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ShapeMode;
 import com.team3997.frc2016.Controls;
+import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -16,6 +17,7 @@ public class CameraFeed{
 	F310 gamePad;
 	Debounce yellowToggle;
 	Debounce redToggle;
+	Debounce red2Toggle;
 	Debounce blueToggle;
 	Debounce greenToggle;
 
@@ -23,12 +25,15 @@ public class CameraFeed{
 	public int buffer;
 	Image frame;
 
-	NIVision.Rect yellowRect = new NIVision.Rect(20, 170, 50, 50);
-	NIVision.Rect redRect = new NIVision.Rect(45, 170, 50, 50); 
-	NIVision.Rect blueRect = new NIVision.Rect(100, 170, 10, 10); 
-	NIVision.Rect greenRect = new NIVision.Rect(90, 170, 35, 35); 
+	NIVision.Rect emptyRect;
+	NIVision.Rect yellowRect;
+	NIVision.Rect redRect;
+	NIVision.Rect red2Rect;
+	NIVision.Rect blueRect;
+	NIVision.Rect greenRect; 
 
 	NIVision.Rect activeRect = yellowRect; // default rectangle is close rectangle
+	NIVision.Rect active2Rect = emptyRect;
 
 	public CameraFeed(F310 kGamePad) {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -40,10 +45,23 @@ public class CameraFeed{
 
 		yellowToggle = new Debounce(gamePad, F310.yellowButton);
 		redToggle = new Debounce(gamePad, F310.redButton);
+		red2Toggle = new Debounce(gamePad, F310.redButton);
 		blueToggle = new Debounce(gamePad, F310.blueButton);
 		greenToggle = new Debounce(gamePad, F310.greenButton);
 
 		CameraServer.getInstance().setQuality(80);
+	}
+	
+	public void initRect(){
+		emptyRect = new NIVision.Rect(0, 0, 0, 0);
+		yellowRect = new NIVision.Rect(PIDParams.yChTop.getInt(), PIDParams.yChLeft.getInt(), PIDParams.yChHeight.getInt(), PIDParams.yChWidth.getInt());
+		redRect = new NIVision.Rect(PIDParams.rChTop.getInt(), PIDParams.rChLeft.getInt(), PIDParams.rChHeight.getInt(), PIDParams.rChWidth.getInt());
+		red2Rect = new NIVision.Rect(0, 0, 0, 0);
+		blueRect = new NIVision.Rect(PIDParams.bChTop.getInt(), PIDParams.bChLeft.getInt(), PIDParams.bChHeight.getInt(), PIDParams.bChWidth.getInt()); 
+		greenRect = new NIVision.Rect(PIDParams.gChTop.getInt(), PIDParams.gChLeft.getInt(), PIDParams.gChHeight.getInt(), PIDParams.gChWidth.getInt());
+		
+		activeRect = yellowRect;
+		active2Rect = emptyRect;
 	}
 	
 	private void init(){
@@ -76,6 +94,7 @@ public class CameraFeed{
 		grabImage();
 		getRectFromButton();
 		drawRect(activeRect);
+		drawRect(active2Rect);
 		pushImage();
 	}
 
@@ -99,20 +118,24 @@ public class CameraFeed{
 	}
 
 	public void getRectFromButton() {
-		if (yellowToggle.getFall()) {
+		if (yellowToggle.getRise()) {
 			activeRect = yellowRect;
+			active2Rect = emptyRect;
 		}
 
-		if (redToggle.getFall()) {
+		if (redToggle.getRise()) {
 			activeRect = redRect;
+			active2Rect = red2Rect;
 		}
 
-		if (blueToggle.getFall()) {
+		if (blueToggle.getRise()) {
 			activeRect = blueRect;
+			active2Rect = emptyRect;
 		}
 
-		if (greenToggle.getFall()) {
+		if (greenToggle.getRise()) {
 			activeRect = greenRect;
+			active2Rect = emptyRect;
 		}
 	}
 }
