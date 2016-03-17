@@ -1,5 +1,6 @@
 package com.team3997.frc2016.components.vision;
 
+import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.Dashboard;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -43,6 +44,22 @@ public class GRIP extends IterativeRobot {
     	}
     	else {
     		return 0.0;
+    	}
+    }
+    
+    public boolean onTarget(){
+    	if(getCenterX() > 0){
+    		
+    		if((getCenterX() >= Params.LEFT_GOAL_X - 2) || (getCenterX() <= Params.LEFT_GOAL_X + 2)){
+    			return true;
+    		}
+    		else {
+        		return false;
+        	}
+    		
+    	}
+    	else {
+    		return false;
     	}
     }
     

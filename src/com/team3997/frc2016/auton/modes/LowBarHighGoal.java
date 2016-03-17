@@ -11,8 +11,7 @@ public class LowBarHighGoal extends AutonMode{
 
 		 	waitForDrive(1.5, 0.8, 0.0); //Drive forward over defense
 		 	waitForDrive(0.3, 0.0, 0.6); //Turn right towards goal
-		 	centerAim(3.0); //Aim the X axis
-		 	runShooter(7.0, 2.0, 1.0); //Shoot
+		 	centerAimAndShoot(4.0, Params.SHOOTER_YELLOW_MOTOR_POWER, 3.0); //Aim the X axis
 	    }
 
 	    @Override
