@@ -2,6 +2,7 @@ package com.team3997.frc2016.subsystems;
 
 import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.Hardware;
+import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Dashboard;
@@ -10,6 +11,7 @@ import com.team3997.frc2016.util.F310;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * @author mikechacko
@@ -103,7 +105,7 @@ public class Drive{
 		
 		else if(leftGoalVisionLineUpX){
 			Dashboard.put("Driving", "Auto aiming X Left");
-			leftGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.LEFT_GOAL_X);
+			leftGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
 		}
 		else if(middleGoalVisionLineUpX){
 			Dashboard.put("Driving", "Auto aiming X Middle");
@@ -198,22 +200,61 @@ public class Drive{
 	public void resetGyro() {
 		gyro.reset();
 	}
-
+	
+	public void leftGoalVisionAutoAimX(double currentTargetX, int goalTargetX, double lowThreshold){
+		
+		
+		double ms = (1.0-(currentTargetX / (goalTargetX)));
+		//System.out.println("visionThreshold" + lowThreshold);
+		
+		
+		
+		if(currentTargetX>0){
+		
+		if(ms < lowThreshold && ms>0){
+			ms = lowThreshold;
+		}
+		else if (Math.abs(ms)<lowThreshold){
+			ms = -lowThreshold;
+		}
+		
+		if(ms > 0.7 && ms>0){
+			ms = 0.7;
+		}
+		else if (Math.abs(ms)>0.7){
+			ms = -0.7;
+		}
+		
+		//if(Timer.getFPGATimestamp()){
+		
+		if((ms>0 || ms <0) && Math.abs(goalTargetX-currentTargetX)>5){
+			setArcadeDrive(leftYVal, ms);
+			System.out.println("ms" + ms);
+		}
+		else{
+			setArcadeDrive(leftYVal, 0.0);
+		}
+		}
+		else{
+			setArcadeDrive(leftYVal, 0.0);
+		}
+	}
+/*
 	public void leftGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
 		if(currentTargetX > 0){
 			//adjust to the right
 			if(currentTargetX < 120){
-				setArcadeDrive(leftYVal, 0.47);
+				setArcadeDrive(leftYVal, 0.5);
 			}
 			else if(currentTargetX < 146){
-				setArcadeDrive(leftYVal, 0.3);
+				setArcadeDrive(leftYVal, 0.4);
 			}	
 			//adjust to the left
 			else if(currentTargetX > 180){
-				setArcadeDrive(leftYVal, -0.47);
+				setArcadeDrive(leftYVal, -0.5);
 			}
 			else if(currentTargetX > 154){
-				setArcadeDrive(leftYVal, -0.3);
+				setArcadeDrive(leftYVal, -0.4);
 			}
 			else{
 				setArcadeDrive(leftYVal, 0.0);
@@ -223,7 +264,7 @@ public class Drive{
 			setArcadeDrive(leftYVal, 0.0);
 		}
 	}
-	
+	*/
 	public void middleGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
 		if(currentTargetX > 0){
 			//adjust to the right
@@ -231,14 +272,14 @@ public class Drive{
 				setArcadeDrive(leftYVal, 0.47);
 			}
 			else if(currentTargetX < 146){
-				setArcadeDrive(leftYVal, 0.3);
+				setArcadeDrive(leftYVal, 0.4);
 			}	
 			//adjust to the left
 			else if(currentTargetX > 180){
 				setArcadeDrive(leftYVal, -0.47);
 			}
 			else if(currentTargetX > 154){
-				setArcadeDrive(leftYVal, -0.3);
+				setArcadeDrive(leftYVal, -0.4);
 			}
 			else{
 				setArcadeDrive(leftYVal, 0.0);
@@ -253,17 +294,17 @@ public class Drive{
 		if(currentTargetX > 0){
 			//adjust to the right
 			if(currentTargetX < 120){
-				setArcadeDrive(leftYVal, 0.47);
+				setArcadeDrive(leftYVal, 0.55);
 			}
 			else if(currentTargetX < 146){
-				setArcadeDrive(leftYVal, 0.3);
+				setArcadeDrive(leftYVal, 0.4);
 			}	
 			//adjust to the left
 			else if(currentTargetX > 180){
-				setArcadeDrive(leftYVal, -0.47);
+				setArcadeDrive(leftYVal, -0.55);
 			}
 			else if(currentTargetX > 154){
-				setArcadeDrive(leftYVal, -0.3);
+				setArcadeDrive(leftYVal, -0.4);
 			}
 			else{
 				setArcadeDrive(leftYVal, 0.0);

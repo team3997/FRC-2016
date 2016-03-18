@@ -170,7 +170,8 @@ public class Shooter {
 			this.run(Params.SHOOTER_BLUE_MOTOR_POWER);
 		}
 		else if(gamePad.getGreenButton()){ 
-			this.run(Params.SHOOTER_GREEN_MOTOR_POWER);
+			this.run(Params.testShooter.getDouble());
+			System.out.println("shooter " + Params.testShooter.getDouble());
 		}
 		else if(gamePad.getLeftTrigger()) {
 			outtakeShooter();

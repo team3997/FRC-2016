@@ -9,9 +9,10 @@ public class LowBarHighGoal extends AutonMode{
 	 @Override
 	    protected void routine() throws AutonModeEndedException{
 
-		 	waitForDrive(1.5, 0.8, 0.0); //Drive forward over defense
-		 	waitForDrive(0.3, 0.0, 0.6); //Turn right towards goal
-		 	centerAimAndShoot(4.0, Params.SHOOTER_YELLOW_MOTOR_POWER, 3.0); //Aim the X axis
+		 	waitForDrive(2.5, 0.56, 0.0); //Drive forward over defense
+		 	waitForDrive(0.3, 0.0, 1.0); //Turn right towards goal
+		 	waitForDrive(0.3, 0.8, 0.0); //Turn right towards goal
+		 	centerAimAndShoot(8.0, Params.SHOOTER_YELLOW_MOTOR_POWER, 4.0); //Aim the X axis
 	    }
 
 	    @Override

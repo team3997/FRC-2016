@@ -1,5 +1,6 @@
 package com.team3997.frc2016.auton.actions;
 
+import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -18,7 +19,7 @@ public class CenterAimAction extends Action {
 
     @Override
     public void update() {
-    	drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X);
+    	drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
     	
     	System.out.println("running centering");
     }

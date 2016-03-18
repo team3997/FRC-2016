@@ -1,6 +1,7 @@
 package com.team3997.frc2016;
 
 import com.team3997.frc2016.util.UpdateParameters;
+import com.team3997.frc2016.util.UpdateParameters.Constant;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
@@ -25,9 +26,9 @@ public class Params extends UpdateParameters {
 	 * Vision Params
 	 * 
 	 */
-	public static final int MIDDLE_GOAL_X = 148;
-	public static final int LEFT_GOAL_X  = 150;
-	public static final int RIGHT_GOAL_X  = 152;
+	public static final int MIDDLE_GOAL_X = 146;
+	public static final int LEFT_GOAL_X  = 146;
+	public static final int RIGHT_GOAL_X  = 146;
 	
 	/*
 	 * 
@@ -71,4 +72,5 @@ public class Params extends UpdateParameters {
 	public static final double SHOOTER_RED_MOTOR_POWER = 0.98;
 	public static final double SHOOTER_BLUE_MOTOR_POWER = 0.96;
 	public static final double SHOOTER_GREEN_MOTOR_POWER = 0.94;
+	public static Constant testShooter = new Constant("testShooter", 1.0);
 }

@@ -10,6 +10,8 @@ public class PIDParams extends UpdateParameters {
 	 * 
 	 */
 	
+	public static Constant visionThreshold = new Constant("visionThreshold", 0.45);
+	
 	// Yellow Button
 	public static Constant syGoalRPM = new Constant("yShooter_Goal_RPM", 4500);
 	public static Constant syP = new Constant("yShooter_P", 0.030); //P
