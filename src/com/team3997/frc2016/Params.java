@@ -18,7 +18,7 @@ public class Params extends UpdateParameters {
 	 * Other Params
 	 */
 	public static final String CONSTANTS_FILE = "/home/admin/params.txt";
-	public static final String CAMERA_USB = "cam1";
+	public static final String CAMERA_USB = "cam2";
 	public static final String CAMERA_AXIS = "cam0";
 	
 	/*

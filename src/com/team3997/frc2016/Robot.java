@@ -50,7 +50,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		System.out.println("*****Running Main Code Base*****");
-		System.out.println("USING SHOOTER PID:" + Params.SHOOTER_USE_PID);
 		auton.listOptions();
 		cameraFeed.initRect();
 		// Update parameters from text file

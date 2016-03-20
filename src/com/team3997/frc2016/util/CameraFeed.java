@@ -9,19 +9,24 @@ import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class CameraFeed{
 
 	private Thread m_thread = null;
 
 	F310 gamePad;
+	
 	Debounce yellowToggle;
 	Debounce redToggle;
 	Debounce red2Toggle;
 	Debounce blueToggle;
 	Debounce greenToggle;
+	Debounce cameraToggle;
 
-	public int session;
+	public int sessionFront;
+	public int sessionBack;
+	public int currSession;
 	public int buffer;
 	Image frame;
 
@@ -30,7 +35,7 @@ public class CameraFeed{
 	NIVision.Rect redRect;
 	NIVision.Rect red2Rect;
 	NIVision.Rect blueRect;
-	NIVision.Rect greenRect; 
+	NIVision.Rect greenRect;
 
 	NIVision.Rect activeRect = yellowRect; // default rectangle is close rectangle
 	NIVision.Rect active2Rect = emptyRect;
@@ -38,18 +43,25 @@ public class CameraFeed{
 	public CameraFeed(F310 kGamePad) {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
-		session = NIVision.IMAQdxOpenCamera(Params.CAMERA_AXIS,
+		sessionFront = NIVision.IMAQdxOpenCamera(Params.CAMERA_AXIS,
 				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-
+		
+		sessionBack = NIVision.IMAQdxOpenCamera(Params.CAMERA_USB, 
+				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		
 		gamePad = kGamePad;
 
+		currSession = sessionFront;
+		//NIVision.IMAQdxConfigureGrab(currSession); 
+		
 		yellowToggle = new Debounce(gamePad, F310.yellowButton);
 		redToggle = new Debounce(gamePad, F310.redButton);
 		red2Toggle = new Debounce(gamePad, F310.redButton);
 		blueToggle = new Debounce(gamePad, F310.blueButton);
 		greenToggle = new Debounce(gamePad, F310.greenButton);
-
-		CameraServer.getInstance().setQuality(80);
+		cameraToggle = new Debounce(gamePad, F310.backButton);
+		
+		CameraServer.getInstance().setQuality(50);
 	}
 	
 	public void initRect(){
@@ -65,12 +77,11 @@ public class CameraFeed{
 	}
 	
 	private void init(){
-		NIVision.IMAQdxConfigureGrab(session);
-        NIVision.IMAQdxStartAcquisition(session);
+		NIVision.IMAQdxConfigureGrab(currSession);
 	}
 
 	public void stop() {
-		NIVision.IMAQdxStopAcquisition(session);
+		NIVision.IMAQdxStopAcquisition(currSession);
 		m_thread = null;
 	}
 
@@ -91,6 +102,19 @@ public class CameraFeed{
 	}
 	
 	public void loop() {
+		
+		if(cameraToggle.getRise()){
+			if(currSession == sessionFront){
+		        NIVision.IMAQdxStopAcquisition(currSession);
+		        currSession = sessionBack;
+		        NIVision.IMAQdxConfigureGrab(currSession);
+		    } else if(currSession == sessionBack){
+		        NIVision.IMAQdxStopAcquisition(currSession);
+		        currSession = sessionFront;
+		        NIVision.IMAQdxConfigureGrab(currSession);
+		    }
+		}
+		
 		grabImage();
 		getRectFromButton();
 		drawRect(activeRect);
@@ -100,7 +124,7 @@ public class CameraFeed{
 
 	private void grabImage() {
 		try {
-			NIVision.IMAQdxGrab(session, frame, 1);
+			NIVision.IMAQdxGrab(currSession, frame, 1);
 		}
 		catch (Exception e){
 			System.out.println("Camera Disconnected. Reinitializing...");

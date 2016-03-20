@@ -25,7 +25,7 @@ public class Controls {
 	public final static int FORCE_OUTTAKE_BUTTON = F310.leftBumper; // run outtake function on both intake and chicken run
 	public final static int SOFT_OUTTAKE_BUTTON = F310.leftTrigger; // run outtake function only on intake, not chicken run
 	
-	public final static int INTAKE_EXTEND_BUTTON = F310.backButton;
+	//public final static int INTAKE_EXTEND_BUTTON = F310.backButton;
 	
 	public final static int RUN_CRUN_TO_SHOOTER = F310.rightTrigger;
 	

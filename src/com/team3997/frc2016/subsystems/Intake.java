@@ -67,7 +67,7 @@ public class Intake {
     	}
     	
     	//Extender Controls
-    	if(gamePad.getButton(Controls.INTAKE_EXTEND_BUTTON)){
+    	if(gamePad.getPOVDown()){
     		extender.out();
     	}
     	else {
