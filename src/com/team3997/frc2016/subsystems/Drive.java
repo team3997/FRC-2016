@@ -91,7 +91,7 @@ public class Drive{
 			}
 			if(gyroAdjust){
 				Dashboard.put("Driving", "Auto adjusting with gyro");
-				//gyroAdjust();
+				gyroAdjust(0);
 			}
 		}
 	}
@@ -119,19 +119,16 @@ public class Drive{
 	
 	public void gyroAdjust(double targetAngle){
 		double angle = getGyroAngle();
-		angle /= 360;
+		angle %= 360;
 		if(angle > 180) angle = angle - 360;
 		else if (angle <-180) angle = angle + 360;
 		
-		double mo = -1 + (angle / targetAngle);
-		
-		if(mo>1) mo = 1; 
-		else if(mo<-1) mo = -1;
+		double mo = angle / 180;
 		
 		if(mo < 0.3 && mo >0) mo = 0.3;
 		else if(mo > -0.3 && mo <=0) mo = -0.3;
 		
-		setArcadeDrive(0, mo);
+		setArcadeDrive(0, -mo);
 	}
 
 	/**
@@ -147,7 +144,7 @@ public class Drive{
 	 * @param y
 	 *            forward direction
 	 * @param x
-	 *            rotate direction
+	 *            rotate direction (positive = clockwise)
 	 * @param squareInputs
 	 *            whether to square the x and y inputs to change input
 	 *            sensitivity
@@ -162,7 +159,7 @@ public class Drive{
 	 * @param y
 	 *            forward direction
 	 * @param x
-	 *            rotate direction
+	 *            rotate direction (positive = clockwise)
 	 */
 	public void setArcadeDrive(double y, double x) {
 		driveTrain.arcadeDrive(y, x, false);
