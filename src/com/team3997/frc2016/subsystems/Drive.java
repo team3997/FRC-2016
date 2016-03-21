@@ -21,25 +21,24 @@ import edu.wpi.first.wpilibj.Timer;
  * @author mikechacko
  *
  */
-public class Drive{
+public class Drive {
 
 	double rightXVal, leftXVal, rightYVal, leftYVal;
 	public AnalogGyro gyro;
 	public Encoder leftEncoder, rightEncoder;
 	private F310 gamePad;
 	boolean manualDrive = true;
-	
+
 	boolean middleGoalVisionLineUpX = false;
 	boolean leftGoalVisionLineUpX = false;
 	boolean rightGoalVisionLineUpX = false;
-	
+
 	double visionXOutput = 0.0;
 	RobotDrive driveTrain;
-	
-	
 
-	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
-			AMT103V_Encoder rightEncoder, AnalogGyro gyro, F310 kGamePad) {
+	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4,
+			AMT103V_Encoder leftEncoder, AMT103V_Encoder rightEncoder,
+			AnalogGyro gyro, F310 kGamePad) {
 
 		gamePad = kGamePad;
 
@@ -52,7 +51,7 @@ public class Drive{
 	}
 
 	public void runTeleOp() {
-		
+
 		Dashboard.put("Gyro Angle", getGyroAngle());
 		// Get Joystick input from gamepad
 		rightXVal = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED);
@@ -67,53 +66,50 @@ public class Drive{
 			rightYVal = -rightYVal;
 			leftYVal = -leftYVal;
 		}
-		
-		if(gamePad.getButton(Controls.LEFT_GOAL_VISION_LINE_UP_X)){
+
+		if (gamePad.getButton(Controls.LEFT_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
 			leftGoalVisionLineUpX = true;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = false;
-		}
-		else if(gamePad.getButton(Controls.MIDDLE_GOAL_VISION_LINE_UP_X)){
+		} else if (gamePad.getButton(Controls.MIDDLE_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = true;
 			rightGoalVisionLineUpX = false;
-		}
-		else if(gamePad.getButton(Controls.RIGHT_GOAL_VISION_LINE_UP_X)){
+		} else if (gamePad.getButton(Controls.RIGHT_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = true;
-		}
-		else {
+		} else {
 			manualDrive = true;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = false;
 		}
-		
 
 		// Drive at the given input magnitude
-		if(manualDrive){
+		if (manualDrive) {
 			Dashboard.put("Driving", "Manual");
 			if (Params.ARCADE_DRIVE)
 				setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
 			else
 				setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
 		}
-		
-		else if(leftGoalVisionLineUpX){
+
+		else if (leftGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Left");
-			leftGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
-		}
-		else if(middleGoalVisionLineUpX){
+			visionAutoAimX(Hardware.kGrip.getCenterX(),
+					Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
+		} else if (middleGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Middle");
-			middleGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.MIDDLE_GOAL_X);
-		}
-		else if(rightGoalVisionLineUpX){
+			visionAutoAimX(Hardware.kGrip.getCenterX(),
+					Params.MIDDLE_GOAL_X, PIDParams.visionThreshold.getDouble());
+		} else if (rightGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Right");
-			rightGoalVisionAutoAimX(Hardware.kGrip.getCenterX(), Params.RIGHT_GOAL_X);
+			visionAutoAimX(Hardware.kGrip.getCenterX(),
+					Params.RIGHT_GOAL_X, PIDParams.visionThreshold.getDouble());
 		}
 	}
 
@@ -177,19 +173,18 @@ public class Drive{
 		driveTrain.tankDrive(lefty, righty, false);
 	}
 
-
-	 /**
-	   * Return the actual angle in degrees that the robot is currently facing.
-	   *
-	   * The angle is based on the current accumulator value corrected by the
-	   * oversampling rate, the gyro type and the A/D calibration values. The angle
-	   * is continuous, that is it will continue from 360 to 361 degrees. This
-	   * allows algorithms that wouldn't want to see a discontinuity in the gyro
-	   * output as it sweeps past from 360 to 0 on the second time around.
-	   *
-	   * @return the current heading of the robot in degrees. This heading is based
-	   *         on integration of the returned rate from the gyro.
-	   */
+	/**
+	 * Return the actual angle in degrees that the robot is currently facing.
+	 *
+	 * The angle is based on the current accumulator value corrected by the
+	 * oversampling rate, the gyro type and the A/D calibration values. The
+	 * angle is continuous, that is it will continue from 360 to 361 degrees.
+	 * This allows algorithms that wouldn't want to see a discontinuity in the
+	 * gyro output as it sweeps past from 360 to 0 on the second time around.
+	 *
+	 * @return the current heading of the robot in degrees. This heading is
+	 *         based on integration of the returned rate from the gyro.
+	 */
 	public double getGyroAngle() {
 		return gyro.getAngle();
 	}
@@ -200,117 +195,36 @@ public class Drive{
 	public void resetGyro() {
 		gyro.reset();
 	}
-	
-	public void leftGoalVisionAutoAimX(double currentTargetX, int goalTargetX, double lowThreshold){
-		
-		
-		double ms = (1.0-(currentTargetX / (goalTargetX)));
-		//System.out.println("visionThreshold" + lowThreshold);
-		
-		
-		
-		if(currentTargetX>0){
-		
-		if(ms < lowThreshold && ms>0){
-			ms = lowThreshold;
-		}
-		else if (Math.abs(ms)<lowThreshold){
-			ms = -lowThreshold;
-		}
-		
-		if(ms > 0.7 && ms>0){
-			ms = 0.7;
-		}
-		else if (Math.abs(ms)>0.7){
-			ms = -0.7;
-		}
-		
-		//if(Timer.getFPGATimestamp()){
-		
-		if((ms>0 || ms <0) && Math.abs(goalTargetX-currentTargetX)>5){
-			setArcadeDrive(leftYVal, ms);
-			System.out.println("ms" + ms);
-		}
-		else{
-			setArcadeDrive(leftYVal, 0.0);
-		}
-		}
-		else{
-			setArcadeDrive(leftYVal, 0.0);
-		}
-	}
-/*
-	public void leftGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
-		if(currentTargetX > 0){
-			//adjust to the right
-			if(currentTargetX < 120){
-				setArcadeDrive(leftYVal, 0.5);
+
+	public void visionAutoAimX(double currentTargetX, int goalTargetX, double lowThreshold) {
+
+		double ms = (1.0 - (currentTargetX / (goalTargetX)));
+		// System.out.println("visionThreshold" + lowThreshold);
+
+		if (currentTargetX > 0) {
+
+			if (ms < lowThreshold && ms > 0) {
+				ms = lowThreshold;
+			} else if (Math.abs(ms) < lowThreshold) {
+				ms = -lowThreshold;
 			}
-			else if(currentTargetX < 146){
-				setArcadeDrive(leftYVal, 0.4);
-			}	
-			//adjust to the left
-			else if(currentTargetX > 180){
-				setArcadeDrive(leftYVal, -0.5);
+
+			if (ms > 0.7 && ms > 0) {
+				ms = 0.7;
+			} else if (Math.abs(ms) > 0.7) {
+				ms = -0.7;
 			}
-			else if(currentTargetX > 154){
-				setArcadeDrive(leftYVal, -0.4);
-			}
-			else{
+
+			// if(Timer.getFPGATimestamp()){
+
+			if ((ms > 0 || ms < 0)
+					&& Math.abs(goalTargetX - currentTargetX) > 5) {
+				setArcadeDrive(leftYVal, ms);
+				System.out.println("ms" + ms);
+			} else {
 				setArcadeDrive(leftYVal, 0.0);
 			}
-		}
-		else {
-			setArcadeDrive(leftYVal, 0.0);
-		}
-	}
-	*/
-	public void middleGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
-		if(currentTargetX > 0){
-			//adjust to the right
-			if(currentTargetX < 120){
-				setArcadeDrive(leftYVal, 0.47);
-			}
-			else if(currentTargetX < 146){
-				setArcadeDrive(leftYVal, 0.4);
-			}	
-			//adjust to the left
-			else if(currentTargetX > 180){
-				setArcadeDrive(leftYVal, -0.47);
-			}
-			else if(currentTargetX > 154){
-				setArcadeDrive(leftYVal, -0.4);
-			}
-			else{
-				setArcadeDrive(leftYVal, 0.0);
-			}
-		}
-		else {
-			setArcadeDrive(leftYVal, 0.0);
-		}
-	}
-	
-	public void rightGoalVisionAutoAimX(double currentTargetX, int goalTargetX){
-		if(currentTargetX > 0){
-			//adjust to the right
-			if(currentTargetX < 120){
-				setArcadeDrive(leftYVal, 0.55);
-			}
-			else if(currentTargetX < 146){
-				setArcadeDrive(leftYVal, 0.4);
-			}	
-			//adjust to the left
-			else if(currentTargetX > 180){
-				setArcadeDrive(leftYVal, -0.55);
-			}
-			else if(currentTargetX > 154){
-				setArcadeDrive(leftYVal, -0.4);
-			}
-			else{
-				setArcadeDrive(leftYVal, 0.0);
-			}
-		}
-		else {
+		} else {
 			setArcadeDrive(leftYVal, 0.0);
 		}
 	}

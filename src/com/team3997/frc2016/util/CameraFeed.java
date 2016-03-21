@@ -61,7 +61,7 @@ public class CameraFeed{
 		greenToggle = new Debounce(gamePad, F310.greenButton);
 		cameraToggle = new Debounce(gamePad, F310.backButton);
 		
-		CameraServer.getInstance().setQuality(50);
+		CameraServer.getInstance().setQuality(70);
 	}
 	
 	public void initRect(){

@@ -42,8 +42,9 @@ public class Robot extends IterativeRobot {
 	Vision vision = Hardware.kVision;
 	Lights lights = Hardware.kLights;
 	CameraFeed cameraFeed = Hardware.kCameraFeed;
-	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	Encoder rpmEncoder = Hardware.kFlyWheelEncoder;
+	
+	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
 
 	@Override
@@ -73,6 +74,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Start teleopInit()");
+		
 		auton.stop();
 		UpdateParameters.update();
 		shooter.initTeleOp();
@@ -113,9 +115,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		lights.setColor(Lights.PRIDE);
 		grip.runTeleOp();
+		
 		Dashboard.put("Gyro Angle", drive.getGyroAngle());
-		Dashboard.put("encoder pulses raw scaled", rpmEncoder.get());
-    	Dashboard.put("encoder RPM rate", (rpmEncoder.getRate() * 60)); //rpm
-    	Dashboard.put("encoder total distance (total rotations)", rpmEncoder.getDistance());
 	}
 }

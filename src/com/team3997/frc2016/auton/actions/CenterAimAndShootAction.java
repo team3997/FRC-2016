@@ -11,6 +11,8 @@ public class CenterAimAndShootAction extends Action {
     double start_time;
     double shooter_speed;
     double aimingTime;
+    double shooterSpinUpTime = 0.85;
+    double timeout = 4.0;
     boolean shooter_boolean = false;
     
 	public CenterAimAndShootAction(double seconds, double kSpeed, double kAimingTime) {
@@ -26,20 +28,19 @@ public class CenterAimAndShootAction extends Action {
     @Override
     public void update() {
     	grip.updateGripValues();
-    	//shooter.run(shooter_speed);
     	
     	if(Timer.getFPGATimestamp() <= start_time + aimingTime){
-    		drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
+    		drive.visionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
     		System.out.println("centerx " + grip.getCenterX());
     		//System.out.println("aiming");
     	}
     	
-    	if((Timer.getFPGATimestamp() >= start_time + aimingTime)&&(Timer.getFPGATimestamp() <= start_time + aimingTime + 1.0)){
+    	if((Timer.getFPGATimestamp() >= start_time + aimingTime)&&(Timer.getFPGATimestamp() <= start_time + aimingTime + shooterSpinUpTime)){
     		shooter.run(shooter_speed);
     		drive.stop();
     	}
     	
-    	if((Timer.getFPGATimestamp() >= start_time + aimingTime + 1.0) && (Timer.getFPGATimestamp() <= start_time + aimingTime + 4)){
+    	if((Timer.getFPGATimestamp() >= start_time + aimingTime + shooterSpinUpTime) && (Timer.getFPGATimestamp() <= start_time + aimingTime + timeout)){
     		shooter.run(shooter_speed);
     		//drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
     		if(grip.onTarget()){

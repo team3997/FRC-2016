@@ -19,7 +19,7 @@ public class CenterAimAction extends Action {
 
     @Override
     public void update() {
-    	drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
+    	drive.visionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
     	
     	System.out.println("running centering");
     }
