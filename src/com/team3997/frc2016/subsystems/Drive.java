@@ -27,6 +27,8 @@ public class Drive{
 	boolean manualDrive = true;
 	boolean visionLineUpX = false;
 	double visionXOutput = 0.0;
+	
+	boolean gyroAdjust = false;
 	RobotDrive driveTrain;
 
 	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4, AMT103V_Encoder leftEncoder,
@@ -64,6 +66,15 @@ public class Drive{
 			visionLineUpX = false;
 		}
 		
+		if(gamePad.getButton(Controls.GYRO_ADJUST)){
+			manualDrive = false;
+			gyroAdjust = true;
+		}
+		else{
+			manualDrive = true;
+			gyroAdjust = false;
+		}
+		
 
 		// Drive at the given input magnitude
 		if(manualDrive){
@@ -73,14 +84,20 @@ public class Drive{
 			else
 				setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
 		}
-		else if(visionLineUpX){
-			Dashboard.put("Driving", "Auto aiming X axis");
-			//visionAutoAimX();
+		else{
+			if(visionLineUpX){
+				Dashboard.put("Driving", "Auto aiming X axis");
+				//visionAutoAimX();
+			}
+			if(gyroAdjust){
+				Dashboard.put("Driving", "Auto adjusting with gyro");
+				//gyroAdjust();
+			}
 		}
 	}
 	
 	
-	public void visionAutoAimX(int currentTargetX, int goalTargetX){
+	public void visionAutoAimX(double currentTargetX, double goalTargetX){
 		if(currentTargetX > 0){
 			//adjust to the right
 			if((currentTargetX < (0.7 * goalTargetX))){
@@ -98,6 +115,23 @@ public class Drive{
 				setArcadeDrive(leftYVal, -0.5);
 			}
 		}
+	}
+	
+	public void gyroAdjust(double targetAngle){
+		double angle = getGyroAngle();
+		angle /= 360;
+		if(angle > 180) angle = angle - 360;
+		else if (angle <-180) angle = angle + 360;
+		
+		double mo = -1 + (angle / targetAngle);
+		
+		if(mo>1) mo = 1; 
+		else if(mo<-1) mo = -1;
+		
+		if(mo < 0.3 && mo >0) mo = 0.3;
+		else if(mo > -0.3 && mo <=0) mo = -0.3;
+		
+		setArcadeDrive(0, mo);
 	}
 
 	/**
