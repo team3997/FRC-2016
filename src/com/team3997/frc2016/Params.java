@@ -45,6 +45,7 @@ public class Params extends UpdateParameters {
 	public static final double DRIVE_MOTOR_SPEED = 1.0;
 	public static final boolean SQUARE_INPUTS = true;
 	public static final boolean ARCADE_DRIVE = true; // arcade drive is true, tank is false
+	public static final double DRIVE_TRAIN_ENCODERS_DISTANCE_PER_PULSE = (1.0/250.0) * (8*Math.PI);
 	
 	/*
 	 * 

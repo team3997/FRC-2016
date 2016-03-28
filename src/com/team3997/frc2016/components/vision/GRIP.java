@@ -49,14 +49,12 @@ public class GRIP extends IterativeRobot {
     
     public boolean onTarget(){
     	if(getCenterX() > 0){
-    		
     		if((getCenterX() >= Params.LEFT_GOAL_X - 2) || (getCenterX() <= Params.LEFT_GOAL_X + 2)){
     			return true;
     		}
     		else {
         		return false;
         	}
-    		
     	}
     	else {
     		return false;

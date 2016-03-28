@@ -31,7 +31,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	
 	public static boolean isManualMode = false;
-	
 	F310 driverGamePad = Hardware.kDriverGamePad;
 	F310 opGamePad = Hardware.kOpGamePad;
 	Drive drive = Hardware.kDrive;
@@ -43,7 +42,6 @@ public class Robot extends IterativeRobot {
 	Lights lights = Hardware.kLights;
 	CameraFeed cameraFeed = Hardware.kCameraFeed;
 	Encoder rpmEncoder = Hardware.kFlyWheelEncoder;
-	
 	Debounce manualToggle = new Debounce(opGamePad, Controls.MANUAL_CONTROL_TOGGLE_BUTTON);
 	public static Auton auton = new Auton();
 
@@ -51,8 +49,10 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		System.out.println("*****Running Main Code Base*****");
+		
 		auton.listOptions();
 		cameraFeed.initRect();
+		
 		// Update parameters from text file
 		UpdateParameters.update();
 	}
@@ -74,7 +74,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Start teleopInit()");
-		
 		auton.stop();
 		UpdateParameters.update();
 		shooter.initTeleOp();
@@ -89,17 +88,16 @@ public class Robot extends IterativeRobot {
 		intake.runTeleOp();
 		hanger.runTeleOp();
 		grip.runTeleOp();
+		
 		//Change between manual and automatic mode
 		Dashboard.put("Manual Mode", isManualMode);
 		if(manualToggle.getFall()){
 			isManualMode = !isManualMode;
 			shooter.shooterPID.disablePID();
 		}
-		
 		if(isManualMode){
 			//set lights to manual mode color
 		}
-		
 	}
 
 	@Override
@@ -115,7 +113,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		lights.setColor(Lights.PRIDE);
 		grip.runTeleOp();
-		
-		Dashboard.put("Gyro Angle", drive.getGyroAngle());
+		//Dashboard.put("Gyro Angle", drive.getGyroAngle());
 	}
 }

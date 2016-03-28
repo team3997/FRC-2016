@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class Drive {
 
 	double rightXVal, leftXVal, rightYVal, leftYVal;
-	public AnalogGyro gyro;
+	//public AnalogGyro gyro;
 	public Encoder leftEncoder, rightEncoder;
 	private F310 gamePad;
 	boolean manualDrive = true;
@@ -32,28 +32,46 @@ public class Drive {
 	boolean middleGoalVisionLineUpX = false;
 	boolean leftGoalVisionLineUpX = false;
 	boolean rightGoalVisionLineUpX = false;
-
+	boolean gyroAdjust = false;
+	double gyro_center_value = 0.0;
 	double visionXOutput = 0.0;
 	RobotDrive driveTrain;
 
 	public Drive(int drivePin1, int drivePin2, int drivePin3, int drivePin4,
-			AMT103V_Encoder leftEncoder, AMT103V_Encoder rightEncoder,
-			AnalogGyro gyro, F310 kGamePad) {
+			Encoder leftEncoder, Encoder rightEncoder, F310 kGamePad) {
 
 		gamePad = kGamePad;
 
-		this.leftEncoder = leftEncoder.getEncoderObject();
-		this.rightEncoder = rightEncoder.getEncoderObject();
-		this.gyro = gyro;
+		this.leftEncoder = leftEncoder;
+		this.rightEncoder = rightEncoder;
+		/*this.gyro = gyro;
 		gyro.initGyro();
-		gyro.reset();
+		gyro.reset();*/
+		//gyroAngle=0;
+		leftEncoder.reset();
+		rightEncoder.reset();
+		rightEncoder.setReverseDirection(true);
+		leftEncoder.setDistancePerPulse(Params.DRIVE_TRAIN_ENCODERS_DISTANCE_PER_PULSE);
+		rightEncoder.setDistancePerPulse(Params.DRIVE_TRAIN_ENCODERS_DISTANCE_PER_PULSE); //1.0/250.0
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
 	}
 
 	public void runTeleOp() {
 
-		Dashboard.put("Gyro Angle", getGyroAngle());
+		//Dashboard.put("Gyro Angle", getGyroAngle());
 		// Get Joystick input from gamepad
+		
+		if(gamePad.getBackButton()){
+			leftEncoder.reset();
+			rightEncoder.reset();
+		}
+		
+		Dashboard.put("left encoder raw", leftEncoder.getRaw());
+		Dashboard.put("right encoder raw", rightEncoder.getRaw());
+		
+		Dashboard.put("left encoder ", leftEncoder.getDistance());
+		Dashboard.put("right encoder", rightEncoder.getDistance());
+		
 		rightXVal = (gamePad.getRightX()) * (Params.DRIVE_MOTOR_SPEED);
 		leftXVal = (gamePad.getLeftX()) * (Params.DRIVE_MOTOR_SPEED);
 		rightYVal = (gamePad.getRightY()) * (Params.DRIVE_MOTOR_SPEED);
@@ -66,24 +84,44 @@ public class Drive {
 			rightYVal = -rightYVal;
 			leftYVal = -leftYVal;
 		}
+		
+		if(gamePad.getButton(Controls.GYRO_ADJUST)){
+			manualDrive = false;
+			gyroAdjust = true;
+		}
+		else{
+			manualDrive = true;
+			gyroAdjust = false;
+		}
 
 		if (gamePad.getButton(Controls.LEFT_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
+			gyroAdjust = false;
 			leftGoalVisionLineUpX = true;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = false;
 		} else if (gamePad.getButton(Controls.MIDDLE_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
+			gyroAdjust = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = true;
 			rightGoalVisionLineUpX = false;
 		} else if (gamePad.getButton(Controls.RIGHT_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
+			gyroAdjust = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = true;
-		} else {
+		} else if (gamePad.getButton(Controls.GYRO_ADJUST)){
+			manualDrive = false;
+			gyroAdjust = true;
+			leftGoalVisionLineUpX = false;
+			middleGoalVisionLineUpX = false;
+			rightGoalVisionLineUpX = false;
+		}
+		else {
 			manualDrive = true;
+			gyroAdjust = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = false;
@@ -96,21 +134,41 @@ public class Drive {
 				setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
 			else
 				setTankDrive(leftYVal, rightYVal, Params.SQUARE_INPUTS);
-		}
-
+		} 
 		else if (leftGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Left");
 			visionAutoAimX(Hardware.kGrip.getCenterX(),
 					Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
-		} else if (middleGoalVisionLineUpX) {
+		} 
+		else if (middleGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Middle");
 			visionAutoAimX(Hardware.kGrip.getCenterX(),
 					Params.MIDDLE_GOAL_X, PIDParams.visionThreshold.getDouble());
-		} else if (rightGoalVisionLineUpX) {
+		} 
+		else if (rightGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Right");
 			visionAutoAimX(Hardware.kGrip.getCenterX(),
 					Params.RIGHT_GOAL_X, PIDParams.visionThreshold.getDouble());
 		}
+		else if (gyroAdjust){
+			Dashboard.put("Driving", "Gyro centering to " + gyro_center_value);
+			gyroAdjust(gyro_center_value);
+		}
+	}
+	
+	public void gyroAdjust(double targetAngle){
+		//TODO: change angle to angle = gyro.getAngle();
+		double angle = 0;
+		angle %= 360;
+		if(angle > 180) angle = angle - 360;
+		else if (angle <-180) angle = angle + 360;
+		
+		double mo = angle / 180;
+		
+		if(mo < 0.3 && mo >0) mo = 0.3;
+		else if(mo > -0.3 && mo <=0) mo = -0.3;
+		
+		setArcadeDrive(0, -mo);
 	}
 
 	/**
@@ -132,7 +190,7 @@ public class Drive {
 	 *            sensitivity
 	 */
 	public void setArcadeDrive(double y, double x, boolean squareInputs) {
-		driveTrain.arcadeDrive(y, -x, squareInputs);
+		driveTrain.arcadeDrive(-y, -x, squareInputs);
 	}
 
 	/**
@@ -144,7 +202,7 @@ public class Drive {
 	 *            rotate direction
 	 */
 	public void setArcadeDrive(double y, double x) {
-		driveTrain.arcadeDrive(y, x, false);
+		driveTrain.arcadeDrive(-y, -x, false);
 	}
 
 	/**
@@ -185,16 +243,17 @@ public class Drive {
 	 * @return the current heading of the robot in degrees. This heading is
 	 *         based on integration of the returned rate from the gyro.
 	 */
-	public double getGyroAngle() {
+	//TODO: uncomment
+	/*public double getGyroAngle() {
 		return gyro.getAngle();
-	}
+	}*/
 
 	/**
 	 * Resets the gyro to a heading of zero.
 	 */
-	public void resetGyro() {
+	/*public void resetGyro() {
 		gyro.reset();
-	}
+	}*/
 
 	public void visionAutoAimX(double currentTargetX, int goalTargetX, double lowThreshold) {
 

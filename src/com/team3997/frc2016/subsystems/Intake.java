@@ -41,27 +41,24 @@ public class Intake {
     		this.stop();
     		cRun.run(Params.CRUN_SHOOTING_MOTOR_POWER);
     	}
-    	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){
-    		if(Robot.isManualMode){
-    			this.intake();
-    			cRun.intake();
-    		}
-    		else if(!Robot.isManualMode && !cRun.isIndexed()){
-    			this.intake();
-    			cRun.intake();
-    		}
-    		else {
-    			stopIntakeAndCRun();
-    		}
-    	}
     	else if(gamePad.getButton(Controls.FORCE_OUTTAKE_BUTTON)){
     		this.outtake();
     		cRun.outtake();
     	}
     	else if(gamePad.getButton(Controls.SOFT_OUTTAKE_BUTTON)){
-    		this.outtake();
-    		cRun.stop();
+    		if(!cRun.isIndexed()){
+    			this.outtake();
+        		cRun.outtake();
+    		}
+    		else{
+    			stopIntakeAndCRun();
+    		}
     	}
+    	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){
+    		this.intake();
+    		cRun.intake();
+    	}
+    	
     	else {
     		stopIntakeAndCRun();
     	}

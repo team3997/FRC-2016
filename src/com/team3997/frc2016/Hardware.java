@@ -62,18 +62,18 @@ public class Hardware {
 	 * 
 	 * Sensors (Encoders, gyro, index sensor, switches etc..)
 	 */
-	public static AMT103V_Encoder kDriveLeftEncoder = new AMT103V_Encoder(
-			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1]);
+	public static Encoder kDriveLeftEncoder = new Encoder(
+			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1], false, EncodingType.k4X);
 	
-	public static AMT103V_Encoder kDriveRightEncoder = new AMT103V_Encoder(
-			Pins.RIGHT_DRIVE_ENCODER_PINS[0], Pins.RIGHT_DRIVE_ENCODER_PINS[1]);
+	public static Encoder kDriveRightEncoder = new Encoder(
+			Pins.RIGHT_DRIVE_ENCODER_PINS[0], Pins.RIGHT_DRIVE_ENCODER_PINS[1], false, EncodingType.k4X);
 	
 	public static Encoder kFlyWheelEncoder = new Encoder(
 			Pins.SHOOTER_ENCODER_PINS[0], Pins.SHOOTER_ENCODER_PINS[1], false, EncodingType.k4X);
 	
 	public static DigitalInput kCRunIndexSensor = new DigitalInput(Pins.CRUN_INDEXER_PIN);
 	
-	public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
+	//public static AnalogGyro kGyro = new AnalogGyro(Pins.GYRO_PIN);
 	
 	public static Accelerometer kAccel = new BuiltInAccelerometer();
 
@@ -83,7 +83,7 @@ public class Hardware {
 	 */
 	public static Drive kDrive = new Drive(Pins.DRIVE_MOTOR_PINS[0],
 			Pins.DRIVE_MOTOR_PINS[1], Pins.DRIVE_MOTOR_PINS[2], Pins.DRIVE_MOTOR_PINS[3], 
-			kDriveLeftEncoder, kDriveRightEncoder, kGyro, kDriverGamePad);
+			kDriveLeftEncoder, kDriveRightEncoder, kDriverGamePad);
 	
 	public static ChickenRun kChickenRun = new ChickenRun(kCRunMotor, kCRunIndexSensor);
 	

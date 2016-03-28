@@ -173,9 +173,6 @@ public class Shooter {
 			this.run(Params.testShooter.getDouble());
 			System.out.println("shooter " + Params.testShooter.getDouble());
 		}
-		else if(gamePad.getLeftTrigger()) {
-			outtakeShooter();
-		} 
 		else {
 			stopShooter();
 		}

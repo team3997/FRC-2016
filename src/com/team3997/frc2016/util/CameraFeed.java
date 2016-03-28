@@ -4,14 +4,12 @@ import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ShapeMode;
-import com.team3997.frc2016.Controls;
 import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
-public class CameraFeed{
+public class CameraFeed {
 
 	private Thread m_thread = null;
 
@@ -61,7 +59,7 @@ public class CameraFeed{
 		greenToggle = new Debounce(gamePad, F310.greenButton);
 		cameraToggle = new Debounce(gamePad, F310.backButton);
 		
-		CameraServer.getInstance().setQuality(70);
+		CameraServer.getInstance().setQuality(60);
 	}
 	
 	public void initRect(){
@@ -114,7 +112,7 @@ public class CameraFeed{
 		        NIVision.IMAQdxConfigureGrab(currSession);
 		    }
 		}
-		
+		System.out.println("looping camera");
 		grabImage();
 		getRectFromButton();
 		drawRect(activeRect);
