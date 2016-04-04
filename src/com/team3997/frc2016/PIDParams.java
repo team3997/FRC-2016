@@ -61,6 +61,11 @@ public class PIDParams extends UpdateParameters {
 	public static final double sOutMax = 1.0; //maximum output value
 	public static final int sSamplesToAverage = 10; //Amount of samples to average
 	public static final PIDSourceType sType = PIDSourceType.kRate;	
+	
+	public static Constant dtSetpoint = new Constant ("dtSetpoint", 40.00);
+	public static Constant dtP = new Constant("dtP", 0.000); //P
+	public static Constant dtI = new Constant("dtI", 0.000); //I
+	public static Constant dtD = new Constant("dtD", 0.000); //D
 }
 /*
 yShooter_Goal_RPM 4800

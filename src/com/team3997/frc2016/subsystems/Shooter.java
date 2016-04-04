@@ -57,7 +57,7 @@ public class Shooter {
 	
 	// Function that runs during teleop periodically
 	public void runTeleOp() {
-
+		Dashboard.put("ball index state", cRun.isIndexed());
 		if( gamePad.getYellowButton() || gamePad.getRedButton() || gamePad.getBlueButton() || gamePad.getGreenButton() )
 			shooterIsSpinning = true;
 		else

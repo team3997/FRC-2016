@@ -48,15 +48,15 @@ public class Intake {
     	else if(gamePad.getButton(Controls.SOFT_OUTTAKE_BUTTON)){
     		if(!cRun.isIndexed()){
     			this.outtake();
-        		cRun.outtake();
+    			cRun.outtake();
     		}
-    		else{
+    		else {
     			stopIntakeAndCRun();
     		}
     	}
     	else if(gamePad.getButton(Controls.INTAKE_BUTTON)){
-    		this.intake();
-    		cRun.intake();
+    			this.intake();
+    			cRun.intake();
     	}
     	
     	else {

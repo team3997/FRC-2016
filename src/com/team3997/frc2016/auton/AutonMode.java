@@ -23,6 +23,14 @@ public abstract class AutonMode extends AutonBase{
         runAction(new WaitForDriveTimeAction(seconds, y, x));
     }
 	
+	public void waitForTankDrive(double seconds, double left, double right) throws AutonModeEndedException {
+        runAction(new WaitForTankDriveTimeAction(seconds, left, right));
+    }
+	
+	public void hitDriveStraightSetpoint(double inches, double speed) throws AutonModeEndedException {
+		runAction(new HitDriveStraightSetpointAction(inches, speed));
+	}
+	
 	public void centerAimAndShoot(double seconds, double kSpeed, double aimingTime) throws AutonModeEndedException {
 		runAction(new CenterAimAndShootAction(seconds, kSpeed, aimingTime));
 	}

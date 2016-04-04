@@ -68,13 +68,15 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-
+		Dashboard.put("left encoder ", Hardware.kDriveLeftEncoder.getDistance());
+		Dashboard.put("right encoder", Hardware.kDriveRightEncoder.getDistance());
 	}
 
 	@Override
 	public void teleopInit() {
 		System.out.println("Start teleopInit()");
 		auton.stop();
+		drive.encoderPIDSetpoint.disablePID();
 		UpdateParameters.update();
 		shooter.initTeleOp();
 		cameraFeed.start();

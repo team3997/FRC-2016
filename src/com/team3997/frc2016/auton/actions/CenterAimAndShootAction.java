@@ -43,9 +43,9 @@ public class CenterAimAndShootAction extends Action {
     	if((Timer.getFPGATimestamp() >= start_time + aimingTime + shooterSpinUpTime) && (Timer.getFPGATimestamp() <= start_time + aimingTime + timeout)){
     		shooter.run(shooter_speed);
     		//drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
-    		if(grip.onTarget()){
+    		//if(grip.onTarget()){
     			shooter_boolean = true;
-    		}
+    		//}
     		if(shooter_boolean){
 				cRun.run(Params.CRUN_SHOOTING_MOTOR_POWER);
 			}

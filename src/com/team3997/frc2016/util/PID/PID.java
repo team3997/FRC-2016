@@ -5,6 +5,7 @@ import com.team3997.frc2016.util.AMT103V_Encoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 
@@ -20,15 +21,17 @@ public class PID {
 	private double outMin;
 	private double outMax;
 	
-	private double rotationScale;
-	
 	private Encoder encoder;
 	private Spark outputMotor1;
 	private Spark outputMotor2;
 	
+	private Encoder leftDriveEncoder;
+	private Encoder rightDriveEncoder;
+	
 	private PIDSourceType sensingType;
 	
 	public ShooterMotorsPIDOutput pidShooterOutput;
+	public DriveTrainPIDOutput pidDriveTrainOutput;
 	
 	protected PIDController pidController;
 	
@@ -54,6 +57,36 @@ public class PID {
 		
 		pidController.setOutputRange(outMin, outMax);
 		pidController.setPercentTolerance(tolerance);
+	}
+	
+	//Drive Train
+	public PID(Encoder kLeftDriveEncoder, Encoder kRightDriveEncoder,
+			RobotDrive kDriveTrain){
+		leftDriveEncoder = kLeftDriveEncoder;
+		rightDriveEncoder = kRightDriveEncoder;
+		tolerance = 10;
+		samplesToAverage = 10;
+		outMin = -1.0;
+		outMax = 1.0;
+		sensingType = PIDSourceType.kDisplacement;
+		
+		pidDriveTrainOutput = new DriveTrainPIDOutput(kDriveTrain);
+		
+		pidController = new PIDController(P, I, D, rightDriveEncoder, pidDriveTrainOutput);
+		
+		pidController.setOutputRange(outMin, outMax);
+		pidController.setPercentTolerance(tolerance);
+		
+		leftDriveEncoder.setPIDSourceType(sensingType);
+    	leftDriveEncoder.setSamplesToAverage(samplesToAverage);
+    	rightDriveEncoder.setPIDSourceType(sensingType);
+    	rightDriveEncoder.setSamplesToAverage(samplesToAverage);
+	}
+	
+	public void setDriveOutputAsArcade(boolean state){
+		//0 = arcade straight
+		//1 = tank custom
+		pidDriveTrainOutput.arcade = state;
 	}
 	
 	public void enablePID(){		
@@ -87,5 +120,9 @@ public class PID {
 	
     public void changePID(double P, double I, double D){
     	pidController.setPID(P, I, D);
+    }
+    
+    public void changeOutput(double outMin, double outMax){
+    	pidController.setOutputRange(outMin, outMax);
     }
 }

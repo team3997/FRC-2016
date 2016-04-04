@@ -63,7 +63,7 @@ public class Hardware {
 	 * Sensors (Encoders, gyro, index sensor, switches etc..)
 	 */
 	public static Encoder kDriveLeftEncoder = new Encoder(
-			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1], false, EncodingType.k4X);
+			Pins.LEFT_DRIVE_ENCODER_PINS[0], Pins.LEFT_DRIVE_ENCODER_PINS[1], true, EncodingType.k4X);
 	
 	public static Encoder kDriveRightEncoder = new Encoder(
 			Pins.RIGHT_DRIVE_ENCODER_PINS[0], Pins.RIGHT_DRIVE_ENCODER_PINS[1], false, EncodingType.k4X);

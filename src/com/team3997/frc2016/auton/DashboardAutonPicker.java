@@ -19,6 +19,7 @@ public class DashboardAutonPicker {
 		registerAutonomous(new DriveForward());
 		registerAutonomous(new DriveMulti());
 		registerAutonomous(new LowBarHighGoal());
+		registerAutonomous(new LowBarHighGoalEncoder());
 	}
 	
 	//Function that sends options to the dashboard
@@ -31,6 +32,7 @@ public class DashboardAutonPicker {
 		autonChooser.addObject("Drive Forward (3s)", 1);
 		autonChooser.addObject("Drive Multi", 2); 
 		autonChooser.addObject("Low Bar High Goal", 3); 
+		autonChooser.addObject("Low Bar High Goal Encoder", 4); 
 		
 		// Put all these radio buttons in the smart dashboard
 		SmartDashboard.putData("Autonomous Selector", autonChooser);

@@ -7,6 +7,7 @@ import com.team3997.frc2016.Params;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 import com.team3997.frc2016.util.Dashboard;
 import com.team3997.frc2016.util.F310;
+import com.team3997.frc2016.util.PID.PID;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -17,17 +18,15 @@ import edu.wpi.first.wpilibj.Timer;
  * @author mikechacko
  *
  */
-/**
- * @author mikechacko
- *
- */
 public class Drive {
-
+	
 	double rightXVal, leftXVal, rightYVal, leftYVal;
 	//public AnalogGyro gyro;
 	public Encoder leftEncoder, rightEncoder;
 	private F310 gamePad;
 	boolean manualDrive = true;
+	
+	public PID encoderPIDSetpoint;
 
 	boolean middleGoalVisionLineUpX = false;
 	boolean leftGoalVisionLineUpX = false;
@@ -48,19 +47,22 @@ public class Drive {
 		gyro.initGyro();
 		gyro.reset();*/
 		//gyroAngle=0;
+		
 		leftEncoder.reset();
 		rightEncoder.reset();
-		rightEncoder.setReverseDirection(true);
+		
 		leftEncoder.setDistancePerPulse(Params.DRIVE_TRAIN_ENCODERS_DISTANCE_PER_PULSE);
-		rightEncoder.setDistancePerPulse(Params.DRIVE_TRAIN_ENCODERS_DISTANCE_PER_PULSE); //1.0/250.0
+		rightEncoder.setDistancePerPulse(Params.DRIVE_TRAIN_ENCODERS_DISTANCE_PER_PULSE);
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
+		
+		encoderPIDSetpoint = new PID(leftEncoder, rightEncoder, driveTrain);
 	}
 
 	public void runTeleOp() {
 
 		//Dashboard.put("Gyro Angle", getGyroAngle());
-		// Get Joystick input from gamepad
 		
+		// Get Joystick input from gamepad
 		if(gamePad.getBackButton()){
 			leftEncoder.reset();
 			rightEncoder.reset();
@@ -276,9 +278,8 @@ public class Drive {
 
 			// if(Timer.getFPGATimestamp()){
 
-			if ((ms > 0 || ms < 0)
-					&& Math.abs(goalTargetX - currentTargetX) > 5) {
-				setArcadeDrive(leftYVal, ms);
+			if ((ms > 0 || ms < 0) && Math.abs(goalTargetX - currentTargetX) > 5) {
+				setArcadeDrive(leftYVal, -ms);
 				System.out.println("ms" + ms);
 			} else {
 				setArcadeDrive(leftYVal, 0.0);

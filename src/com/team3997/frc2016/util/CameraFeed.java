@@ -41,15 +41,25 @@ public class CameraFeed {
 	public CameraFeed(F310 kGamePad) {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
-		sessionFront = NIVision.IMAQdxOpenCamera(Params.CAMERA_AXIS,
+		try {
+			sessionFront = NIVision.IMAQdxOpenCamera(Params.CAMERA_AXIS,
 				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		}
+		catch(Exception e) {
+			System.out.println("!!!axis camera failed to init");
+		}
 		
-		sessionBack = NIVision.IMAQdxOpenCamera(Params.CAMERA_USB, 
+		try {
+			sessionBack = NIVision.IMAQdxOpenCamera(Params.CAMERA_USB, 
 				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		}
+		catch(Exception e) {
+			System.out.println("!!!usb camera failed to init");
+		}
 		
 		gamePad = kGamePad;
 
-		currSession = sessionFront;
+		currSession = sessionBack;
 		//NIVision.IMAQdxConfigureGrab(currSession); 
 		
 		yellowToggle = new Debounce(gamePad, F310.yellowButton);
@@ -100,8 +110,8 @@ public class CameraFeed {
 	}
 	
 	public void loop() {
-		
 		if(cameraToggle.getRise()){
+			System.out.println("Switching Camera");
 			if(currSession == sessionFront){
 		        NIVision.IMAQdxStopAcquisition(currSession);
 		        currSession = sessionBack;
@@ -112,11 +122,9 @@ public class CameraFeed {
 		        NIVision.IMAQdxConfigureGrab(currSession);
 		    }
 		}
-		System.out.println("looping camera");
 		grabImage();
 		getRectFromButton();
 		drawRect(activeRect);
-		drawRect(active2Rect);
 		pushImage();
 	}
 
@@ -125,7 +133,7 @@ public class CameraFeed {
 			NIVision.IMAQdxGrab(currSession, frame, 1);
 		}
 		catch (Exception e){
-			System.out.println("Camera Disconnected. Reinitializing...");
+			System.out.println("Failed to grab image. Reinitializing...");
 			init();
 		}
 	}
@@ -133,12 +141,10 @@ public class CameraFeed {
 	private void pushImage() {
 		CameraServer.getInstance().setImage(frame);
 	}
-
 	private void drawRect(NIVision.Rect rect) {
 		NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_INVERT,
 				ShapeMode.SHAPE_RECT, 0.0f);
 	}
-
 	public void getRectFromButton() {
 		if (yellowToggle.getRise()) {
 			activeRect = yellowRect;

@@ -26,9 +26,9 @@ public class Params extends UpdateParameters {
 	 * Vision Params
 	 * 
 	 */
-	public static final int MIDDLE_GOAL_X = 146;
-	public static final int LEFT_GOAL_X  = 146;
-	public static final int RIGHT_GOAL_X  = 146;
+	public static final int MIDDLE_GOAL_X = 180;
+	public static final int LEFT_GOAL_X  = 180;
+	public static final int RIGHT_GOAL_X  = 180;
 	
 	/*
 	 * 
@@ -54,7 +54,7 @@ public class Params extends UpdateParameters {
 	 */
 	public static final double CRUN_MOTOR_POWER = 1.00;
 	public static final double CRUN_OUTTAKE_MOTOR_POWER = 1.00;
-	public static final double CRUN_SHOOTING_MOTOR_POWER = 0.6; //60%
+	public static final double CRUN_SHOOTING_MOTOR_POWER = 0.60; //60%
 	/*
 	 * 
 	 * Intake Parameters
