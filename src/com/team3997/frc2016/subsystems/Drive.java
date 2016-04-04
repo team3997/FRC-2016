@@ -20,13 +20,14 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Drive {
 	
-	double rightXVal, leftXVal, rightYVal, leftYVal;
+	public double rightXVal, leftXVal, rightYVal, leftYVal;
 	//public AnalogGyro gyro;
 	public Encoder leftEncoder, rightEncoder;
 	private F310 gamePad;
 	boolean manualDrive = true;
 	
 	public PID encoderPIDSetpoint;
+	public PID visionPID;
 
 	boolean middleGoalVisionLineUpX = false;
 	boolean leftGoalVisionLineUpX = false;
@@ -56,6 +57,10 @@ public class Drive {
 		driveTrain = new RobotDrive(drivePin1, drivePin2, drivePin3, drivePin4);
 		
 		encoderPIDSetpoint = new PID(leftEncoder, rightEncoder, driveTrain);
+		
+		visionPID = new PID(driveTrain, Hardware.kGrip);
+		visionPID.changePID(0.00, 0.00, 0.00);
+		visionPID.setSetpoint(180);
 	}
 
 	public void runTeleOp() {
@@ -89,41 +94,34 @@ public class Drive {
 		
 		if(gamePad.getButton(Controls.GYRO_ADJUST)){
 			manualDrive = false;
-			gyroAdjust = true;
 		}
 		else{
 			manualDrive = true;
-			gyroAdjust = false;
 		}
 
 		if (gamePad.getButton(Controls.LEFT_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
-			gyroAdjust = false;
 			leftGoalVisionLineUpX = true;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = false;
 		} else if (gamePad.getButton(Controls.MIDDLE_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
-			gyroAdjust = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = true;
 			rightGoalVisionLineUpX = false;
 		} else if (gamePad.getButton(Controls.RIGHT_GOAL_VISION_LINE_UP_X)) {
 			manualDrive = false;
-			gyroAdjust = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = true;
 		} else if (gamePad.getButton(Controls.GYRO_ADJUST)){
 			manualDrive = false;
-			gyroAdjust = true;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = false;
 		}
 		else {
 			manualDrive = true;
-			gyroAdjust = false;
 			leftGoalVisionLineUpX = false;
 			middleGoalVisionLineUpX = false;
 			rightGoalVisionLineUpX = false;
@@ -132,6 +130,10 @@ public class Drive {
 		// Drive at the given input magnitude
 		if (manualDrive) {
 			Dashboard.put("Driving", "Manual");
+			if(visionPID.isPIDEnabled()){
+				visionPID.disablePID();
+			}
+			
 			if (Params.ARCADE_DRIVE)
 				setArcadeDrive(leftYVal, rightXVal, Params.SQUARE_INPUTS);
 			else
@@ -139,38 +141,27 @@ public class Drive {
 		} 
 		else if (leftGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Left");
+			if(visionPID.isPIDEnabled()){
+				visionPID.disablePID();
+			}
+			
 			visionAutoAimX(Hardware.kGrip.getCenterX(),
 					Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
 		} 
 		else if (middleGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Middle");
-			visionAutoAimX(Hardware.kGrip.getCenterX(),
-					Params.MIDDLE_GOAL_X, PIDParams.visionThreshold.getDouble());
+			
+			visionPID.enablePID();
 		} 
 		else if (rightGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Right");
+			if(visionPID.isPIDEnabled()){
+				visionPID.disablePID();
+			}
+			
 			visionAutoAimX(Hardware.kGrip.getCenterX(),
 					Params.RIGHT_GOAL_X, PIDParams.visionThreshold.getDouble());
 		}
-		else if (gyroAdjust){
-			Dashboard.put("Driving", "Gyro centering to " + gyro_center_value);
-			gyroAdjust(gyro_center_value);
-		}
-	}
-	
-	public void gyroAdjust(double targetAngle){
-		//TODO: change angle to angle = gyro.getAngle();
-		double angle = 0;
-		angle %= 360;
-		if(angle > 180) angle = angle - 360;
-		else if (angle <-180) angle = angle + 360;
-		
-		double mo = angle / 180;
-		
-		if(mo < 0.3 && mo >0) mo = 0.3;
-		else if(mo > -0.3 && mo <=0) mo = -0.3;
-		
-		setArcadeDrive(0, -mo);
 	}
 
 	/**
@@ -232,30 +223,6 @@ public class Drive {
 	public void setTankDrive(double lefty, double righty) {
 		driveTrain.tankDrive(lefty, righty, false);
 	}
-
-	/**
-	 * Return the actual angle in degrees that the robot is currently facing.
-	 *
-	 * The angle is based on the current accumulator value corrected by the
-	 * oversampling rate, the gyro type and the A/D calibration values. The
-	 * angle is continuous, that is it will continue from 360 to 361 degrees.
-	 * This allows algorithms that wouldn't want to see a discontinuity in the
-	 * gyro output as it sweeps past from 360 to 0 on the second time around.
-	 *
-	 * @return the current heading of the robot in degrees. This heading is
-	 *         based on integration of the returned rate from the gyro.
-	 */
-	//TODO: uncomment
-	/*public double getGyroAngle() {
-		return gyro.getAngle();
-	}*/
-
-	/**
-	 * Resets the gyro to a heading of zero.
-	 */
-	/*public void resetGyro() {
-		gyro.reset();
-	}*/
 
 	public void visionAutoAimX(double currentTargetX, int goalTargetX, double lowThreshold) {
 

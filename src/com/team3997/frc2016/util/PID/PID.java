@@ -1,5 +1,6 @@
 package com.team3997.frc2016.util.PID;
 
+import com.team3997.frc2016.components.vision.GRIP;
 import com.team3997.frc2016.util.AMT103V_Encoder;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -28,10 +29,13 @@ public class PID {
 	private Encoder leftDriveEncoder;
 	private Encoder rightDriveEncoder;
 	
+	private GRIP grip;
+	
 	private PIDSourceType sensingType;
 	
 	public ShooterMotorsPIDOutput pidShooterOutput;
 	public DriveTrainPIDOutput pidDriveTrainOutput;
+	public VisionPIDOutput pidVisionOutput;
 	
 	protected PIDController pidController;
 	
@@ -83,10 +87,22 @@ public class PID {
     	rightDriveEncoder.setSamplesToAverage(samplesToAverage);
 	}
 	
-	public void setDriveOutputAsArcade(boolean state){
-		//0 = arcade straight
-		//1 = tank custom
-		pidDriveTrainOutput.arcade = state;
+	//Vision
+	public PID(RobotDrive kDriveTrain, GRIP kGRIP){
+
+		grip = kGRIP;
+		
+		tolerance = 4; //absolute
+		outMin = -1.0;
+		outMax = 1.0;
+		sensingType = PIDSourceType.kDisplacement;
+		
+		pidVisionOutput = new VisionPIDOutput(kDriveTrain);
+		
+		pidController = new PIDController(P, I, D, grip, pidVisionOutput);
+		
+		pidController.setOutputRange(outMin, outMax);
+		pidController.setAbsoluteTolerance(tolerance);
 	}
 	
 	public void enablePID(){		

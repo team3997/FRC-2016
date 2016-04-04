@@ -1,16 +1,17 @@
 package com.team3997.frc2016.util.PID;
 
+import com.team3997.frc2016.Hardware;
+
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Spark;
 
-public class DriveTrainPIDOutput implements PIDOutput{
+public class VisionPIDOutput implements PIDOutput{
 
 	private double PIDloopOutput = 0;
 	public boolean disablePIDControl = false;
 	RobotDrive driveTrain;
 	
-	DriveTrainPIDOutput(RobotDrive kDriveTrain){
+	VisionPIDOutput(RobotDrive kDriveTrain){
 		driveTrain = kDriveTrain;
 	}
 	
@@ -18,13 +19,9 @@ public class DriveTrainPIDOutput implements PIDOutput{
 	public void pidWrite(double output) {
 		PIDloopOutput = output;
 		
-		if(!disablePIDControl){
-				System.out.println("arcade");
-				driveTrain.arcadeDrive(output, 0.00, false);
-		}
-		else {
-			disablePIDControl = true;
-		}
+		//allows for pid control for rotation, and joystick control for forward/backward movement
+		driveTrain.arcadeDrive(-Hardware.kDrive.leftYVal, -output, false); 
+		
 	}
 	
 	public double getPIDLoopOutput(){

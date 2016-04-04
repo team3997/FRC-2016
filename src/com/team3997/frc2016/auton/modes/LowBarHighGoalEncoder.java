@@ -12,7 +12,6 @@ public class LowBarHighGoalEncoder extends AutonMode{
 		 	hitDriveStraightSetpoint(PIDParams.dtSetpoint.getDouble(), 0.4);
 		 	waitForTankDrive(0.7, 0.75, -0.4);
 		 	centerAimAndShoot(8.0, Params.SHOOTER_YELLOW_MOTOR_POWER, 4.0);
-		 	
 	    }
 	 
 	   @Override
