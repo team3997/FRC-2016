@@ -64,12 +64,17 @@ public class Robot extends IterativeRobot {
 		auton.start();
 		cameraFeed.start();
 		cameraFeed.initRect();
+		drive.visionPID.changePID(PIDParams.vP.getDouble(), PIDParams.vI.getDouble(), PIDParams.vD.getDouble());
+		drive.visionPID.setSetpoint(PIDParams.vSetpoint.getDouble());
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
 		Dashboard.put("left encoder ", Hardware.kDriveLeftEncoder.getDistance());
 		Dashboard.put("right encoder", Hardware.kDriveRightEncoder.getDistance());
+		Dashboard.put("VISIONPID", drive.visionPID.isPIDEnabled());
+		Dashboard.put("VISIONSetpoint", drive.visionPID.getSetpoint());
+		Dashboard.put("VISIONerror", drive.visionPID.getError());
 	}
 
 	@Override
@@ -81,6 +86,8 @@ public class Robot extends IterativeRobot {
 		shooter.initTeleOp();
 		cameraFeed.start();
 		cameraFeed.initRect();
+		drive.visionPID.changePID(PIDParams.vP.getDouble(), PIDParams.vI.getDouble(), PIDParams.vD.getDouble());
+		drive.visionPID.setSetpoint(PIDParams.vSetpoint.getDouble());
 	}
 
 	@Override
@@ -109,6 +116,8 @@ public class Robot extends IterativeRobot {
 		UpdateParameters.update();
 		cameraFeed.start();
 		cameraFeed.initRect();
+		drive.visionPID.changePID(PIDParams.vP.getDouble(), PIDParams.vI.getDouble(), PIDParams.vD.getDouble());
+		drive.visionPID.setSetpoint(PIDParams.vSetpoint.getDouble());
 	}
 
 	@Override
@@ -118,3 +127,47 @@ public class Robot extends IterativeRobot {
 		//Dashboard.put("Gyro Angle", drive.getGyroAngle());
 	}
 }
+/*
+ * testShooter 0.94
+visionThreshold 0.45
+yShooter_Goal_RPM 4800
+yShooter_P 0.0
+yShooter_I 0.000
+yShooter_D 0.000
+rShooter_Goal_RPM 4400
+rShooter_P 0.015
+rShooter_I 0.000
+rShooter_D 0.060
+bShooter_Goal_RPM 4440
+bShooter_P 0.015
+bShooter_I 0.000
+bShooter_D 0.060
+gShooter_Goal_RPM 3000
+gShooter_P 0.015
+gShooter_I 0.000
+gShooter_D 0.060
+yChTop 80
+yChLeft 189
+yChHeight 39
+yChWidth 74
+rChTop 88
+rChLeft 202
+rChHeight 39
+rChWidth 73
+bChTop 104
+bChLeft 202
+bChHeight 39
+bChWidth 67
+gChTop 170
+gChLeft 210
+gChHeight 30
+gChWidth 50
+dtSetpoint 150.0
+dtP 0.1
+dtI 0.00
+dtD 0.05
+vSetpoint 170
+vP 0.011
+vI 0.0
+vD 0.0
+ */

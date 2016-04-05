@@ -59,8 +59,8 @@ public class Drive {
 		encoderPIDSetpoint = new PID(leftEncoder, rightEncoder, driveTrain);
 		
 		visionPID = new PID(driveTrain, Hardware.kGrip);
-		visionPID.changePID(0.00, 0.00, 0.00);
-		visionPID.setSetpoint(180);
+		visionPID.changePID(PIDParams.vP.getDouble(), PIDParams.vI.getDouble(), PIDParams.vD.getDouble());
+		visionPID.setSetpoint(PIDParams.vSetpoint.getDouble());
 	}
 
 	public void runTeleOp() {
@@ -150,18 +150,38 @@ public class Drive {
 		} 
 		else if (middleGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Middle");
+			if(!visionPID.isPIDEnabled()){
+				System.out.println("Setpoint: " + visionPID.pidController.getSetpoint());
+				System.out.println("P: " + visionPID.pidController.getP());
+				System.out.println("I: " + visionPID.pidController.getI());
+				System.out.println("D: " + visionPID.pidController.getD());
+				System.out.println("grip pid get " + Hardware.kGrip.pidGet());
+				if(Hardware.kGrip.getCenterX() > 0){
+					visionPID.enablePID();
+				}
+				else{
+					visionPID.disablePID();
+				}
+			}
+			if(Hardware.kGrip.getCenterX() > 0){
+				visionPID.enablePID();
+			}
+			else{
+				visionPID.disablePID();
+			}
 			
-			visionPID.enablePID();
 		} 
 		else if (rightGoalVisionLineUpX) {
 			Dashboard.put("Driving", "Auto aiming X Right");
 			if(visionPID.isPIDEnabled()){
 				visionPID.disablePID();
 			}
-			
 			visionAutoAimX(Hardware.kGrip.getCenterX(),
 					Params.RIGHT_GOAL_X, PIDParams.visionThreshold.getDouble());
 		}
+		Dashboard.put("VISIONPID", visionPID.isPIDEnabled());
+		Dashboard.put("VISIONSetpoint", visionPID.getSetpoint());
+		Dashboard.put("VISIONerror", visionPID.getError());
 	}
 
 	/**

@@ -66,6 +66,11 @@ public class PIDParams extends UpdateParameters {
 	public static Constant dtP = new Constant("dtP", 0.000); //P
 	public static Constant dtI = new Constant("dtI", 0.000); //I
 	public static Constant dtD = new Constant("dtD", 0.000); //D
+	
+	public static Constant vSetpoint = new Constant ("vSetpoint", 180.00);
+	public static Constant vP = new Constant("vP", 0.000); //P
+	public static Constant vI = new Constant("vI", 0.000); //I
+	public static Constant vD = new Constant("vD", 0.000); //D
 }
 /*
 yShooter_Goal_RPM 4800

@@ -1,8 +1,10 @@
 package com.team3997.frc2016.auton.actions;
 
 import com.sun.glass.ui.Robot;
+import com.team3997.frc2016.Hardware;
 import com.team3997.frc2016.PIDParams;
 import com.team3997.frc2016.Params;
+import com.team3997.frc2016.util.Dashboard;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -30,7 +32,28 @@ public class CenterAimAndShootAction extends Action {
     	grip.updateGripValues();
     	
     	if(Timer.getFPGATimestamp() <= start_time + aimingTime){
-    		drive.visionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
+    		//drive.visionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
+    		Dashboard.put("Driving", "Auto aiming X Middle");
+			if(!drive.visionPID.isPIDEnabled()){
+				System.out.println("Setpoint: " + drive.visionPID.pidController.getSetpoint());
+				System.out.println("P: " + drive.visionPID.pidController.getP());
+				System.out.println("I: " + drive.visionPID.pidController.getI());
+				System.out.println("D: " + drive.visionPID.pidController.getD());
+				System.out.println("grip pid get " + Hardware.kGrip.pidGet());
+				if(Hardware.kGrip.getCenterX() > 0){
+					drive.visionPID.enablePID();
+				}
+				else{
+					drive.visionPID.disablePID();
+				}
+			}
+			if(Hardware.kGrip.getCenterX() > 0){
+				drive.visionPID.enablePID();
+			}
+			else{
+				drive.visionPID.disablePID();
+			}
+    		
     		System.out.println("centerx " + grip.getCenterX());
     		//System.out.println("aiming");
     	}
@@ -42,10 +65,11 @@ public class CenterAimAndShootAction extends Action {
     	
     	if((Timer.getFPGATimestamp() >= start_time + aimingTime + shooterSpinUpTime) && (Timer.getFPGATimestamp() <= start_time + aimingTime + timeout)){
     		shooter.run(shooter_speed);
-    		//drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
-    		//if(grip.onTarget()){
+    		////drive.leftGoalVisionAutoAimX(grip.getCenterX(), Params.LEFT_GOAL_X, PIDParams.visionThreshold.getDouble());
+    		drive.visionPID.disablePID();
+    		if(drive.visionPID.getError()<=15){
     			shooter_boolean = true;
-    		//}
+    		}
     		if(shooter_boolean){
 				cRun.run(Params.CRUN_SHOOTING_MOTOR_POWER);
 			}
@@ -60,6 +84,7 @@ public class CenterAimAndShootAction extends Action {
     	drive.stop();
     	shooter.stopShooter();
     	cRun.run(0.0);
+    	drive.visionPID.disablePID();
     }
 
     @Override

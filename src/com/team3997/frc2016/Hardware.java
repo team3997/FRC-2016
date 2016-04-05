@@ -36,7 +36,7 @@ public class Hardware {
 	 */
 	public static I2C kArduino = new I2C(I2C.Port.kOnboard, 168);
 	public static Lights kLights = new Lights(kArduino);
-	
+	public static GRIP kGrip = new GRIP();
 	
 	/*
 	 * 
@@ -96,7 +96,6 @@ public class Hardware {
 	 * 
 	 * Vision
 	 */
-	public static GRIP kGrip = new GRIP();
 	public static Vision kVision = new Vision();
 
 	/*

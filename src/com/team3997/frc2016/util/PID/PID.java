@@ -37,7 +37,7 @@ public class PID {
 	public DriveTrainPIDOutput pidDriveTrainOutput;
 	public VisionPIDOutput pidVisionOutput;
 	
-	protected PIDController pidController;
+	public PIDController pidController;
 	
 	
 	//Shooter PID constructor
@@ -96,7 +96,7 @@ public class PID {
 		outMin = -1.0;
 		outMax = 1.0;
 		sensingType = PIDSourceType.kDisplacement;
-		
+		grip.setPIDSourceType(sensingType);
 		pidVisionOutput = new VisionPIDOutput(kDriveTrain);
 		
 		pidController = new PIDController(P, I, D, grip, pidVisionOutput);

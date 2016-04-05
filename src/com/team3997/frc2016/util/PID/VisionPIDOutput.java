@@ -18,9 +18,9 @@ public class VisionPIDOutput implements PIDOutput{
 	@Override
 	public void pidWrite(double output) {
 		PIDloopOutput = output;
-		
+
 		//allows for pid control for rotation, and joystick control for forward/backward movement
-		driveTrain.arcadeDrive(-Hardware.kDrive.leftYVal, -output, false); 
+		driveTrain.arcadeDrive(-Hardware.kDrive.leftYVal, output, false); 
 		
 	}
 	

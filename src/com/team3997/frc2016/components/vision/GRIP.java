@@ -44,7 +44,7 @@ public class GRIP extends IterativeRobot implements PIDSource {
     
     public double getCenterX(){
     	if(centerx.length>0){
-    		return centerx[getLargestArrayValueIndex(area)];
+    		return centerx[0];
     	}
     	else {
     		return 0.0;
@@ -73,13 +73,13 @@ public class GRIP extends IterativeRobot implements PIDSource {
     	if(centerx.length > 0)
     		Dashboard.put("centerx", getCenterX());
     	if(centery.length > 0)
-    		Dashboard.put("centery", centery[getLargestArrayValueIndex(area)]);
+    		Dashboard.put("centery", centery[0]);
     	if(area.length > 0)
-    		Dashboard.put("area", area[getLargestArrayValueIndex(area)]);
+    		Dashboard.put("area", area[0]);
     	if(height.length > 0)
-    		Dashboard.put("height", height[getLargestArrayValueIndex(area)]);
+    		Dashboard.put("height", height[0]);
     	if(width.length > 0)
-    		Dashboard.put("width", width[getLargestArrayValueIndex(area)]);
+    		Dashboard.put("width", width[0]);
     	Dashboard.put("centerxarraysize", centerx.length);
     }
     
