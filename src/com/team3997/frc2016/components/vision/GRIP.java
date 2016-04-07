@@ -44,7 +44,7 @@ public class GRIP extends IterativeRobot implements PIDSource {
     
     public double getCenterX(){
     	if(centerx.length>0){
-    		return centerx[0];
+    		return getLargestArrayValue(centerx);
     	}
     	else {
     		return 0.0;
@@ -57,7 +57,7 @@ public class GRIP extends IterativeRobot implements PIDSource {
     		if((getCenterX() >= Params.LEFT_GOAL_X - 2) || (getCenterX() <= Params.LEFT_GOAL_X + 2)){
     			return true;
     		}
-    		else {
+    		else{
         		return false;
         	}
     	}
@@ -88,20 +88,14 @@ public class GRIP extends IterativeRobot implements PIDSource {
      * @param valueArray a double array
      * @return the value of the element with the largest value. (returns 0.0 if array is empty)
      */
-    public double getLargestArrayValue(double[] valueArray){
+    public double getLargestArrayValue(double[] arr){
     	
-    	if(!(valueArray.length > 0)){
-    		return 0.00;
-    	}
+    	double largest = arr[0];
+    	for(int i = 0; i < arr.length; i++)
+    		if(arr[i] > largest)
+    			largest = arr[i];
     	
-    	double max = 0;
-    	for(int i = 0; i < valueArray.length; i++){
-    		if(valueArray[i] > max){
-    			max = valueArray[i];
-    		}
-    	}
-    	
-    	return max;
+    	return largest;
     }
     
     /**
@@ -109,22 +103,18 @@ public class GRIP extends IterativeRobot implements PIDSource {
      * @param valueArray a double array
      * @return the value of the element with the largest value. (returns -1 if array is empty)
      */
-    public int getLargestArrayValueIndex(double[] valueArray){
+    public int getLargestArrayValueIndex(double[] arr){
+   
+    	int index = 0;
     	
-    	if(!(valueArray.length > 0)){
-    		return -1;
-    	}
+    	if(arr.length==0)  //If the array only has one index, return it's one index
+    		return 0;
     	
-    	int biggestIndex = 0;
-    	double max = 0;
-    	for(int i = 0; i < valueArray.length; i++){
-    		if(valueArray[i] > max){
-    			max = valueArray[i];
-    			biggestIndex = i;
-    		}
-    	}
-    	
-    	return biggestIndex;
+    	for(int i = 0; i < arr.length; i++)
+    		if(arr[i] > arr[index])
+    			index = i;
+    		
+    	return index;
     }
 
 	@Override

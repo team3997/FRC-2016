@@ -53,6 +53,8 @@ public class Robot extends IterativeRobot {
 		auton.listOptions();
 		cameraFeed.initRect();
 		
+		intake.extender.in();
+		
 		// Update parameters from text file
 		UpdateParameters.update();
 	}

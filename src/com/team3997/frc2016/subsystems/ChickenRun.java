@@ -36,19 +36,19 @@ public class ChickenRun {
 	/**
 	 * @return whether the ball is indexed in the bot
 	 */
-	protected boolean isIndexed(){
+	public boolean isIndexed(){
 		return !indexSignal.get();
 	}
 
-	protected void stop() {
+	public void stop() {
 		cRunMotor.set(0.0);
 	}
 	
-	protected void intake() {
+	public void intake() {
 		cRunMotor.set(crunMotorPower);
 	}
 	
-	protected void outtake() {
+	public void outtake() {
 		cRunMotor.set(-crunMotorPower);
 	}
 	

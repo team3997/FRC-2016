@@ -55,7 +55,7 @@ public class Pins {
 	 * 
 	 * Drive
 	 */
-	public static final int DRIVE_MOTOR_PINS[] = {0, 1, 2, 3}; // front left pin,
+	public static final int DRIVE_MOTOR_PINS[] = {1, 3, 0, 2}; // front left pin,
 															     // right pin
 	
 	/*
@@ -63,14 +63,14 @@ public class Pins {
 	 * ChickenRun
 	 * 
 	 */
-	public static final int CRUN_MOTOR_PIN = 5;
+	public static final int CRUN_MOTOR_PIN = 4;
 	public static final int CRUN_INDEXER_PIN = 0; //6 is other state
 	
 	/*
 	 * 
 	 * Intake
 	 */
-	public static final int INTAKE_MOTOR_PIN = 4; // left, right
+	public static final int INTAKE_MOTOR_PIN = 5; // left, right
 	public static final int INTAKE_EXTENDER_SOLE_PINS[] = {0, 1};
 
 	/*

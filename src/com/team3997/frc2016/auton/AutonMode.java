@@ -10,6 +10,7 @@ public abstract class AutonMode extends AutonBase{
 	protected Drive drive = Hardware.kDrive;
 	protected Shooter shooter = Hardware.kShooter;
 	protected Intake intake = Hardware.kIntake;
+	protected ChickenRun cRun = Hardware.kChickenRun;
 	protected Hanger hanger = Hardware.kHanger;
 	protected GRIP grip = Hardware.kGrip;
 	

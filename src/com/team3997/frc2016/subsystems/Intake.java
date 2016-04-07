@@ -15,8 +15,8 @@ public class Intake {
 	private F310 gamePad;
 	double intakeMotorPower = Params.INTAKE_MOTOR_POWER;
 	Talon intakeMotor;
-	private Extender extender;
-	private ChickenRun cRun;
+	public Extender extender;
+	public ChickenRun cRun;
 	
 	public Intake(Talon kIntakeMotor, DoubleSolenoid kIntakeExtenderSolenoid, 
 			F310 kGamePad, ChickenRun kCRun){
@@ -98,34 +98,4 @@ public class Intake {
     }
 
     
-}
-
-//Class for the intake extender
-class Extender {
-	DoubleSolenoid extenderSolenoid;
-	
-	Extender(DoubleSolenoid kExtenderSolenoid){
-		extenderSolenoid = kExtenderSolenoid;
-	}
-	
-	
-	public void out(){
-		extenderSolenoid.set(DoubleSolenoid.Value.kReverse);
-	}
-	
-	public void in(){
-		extenderSolenoid.set(DoubleSolenoid.Value.kForward);
-	}
-	
-	public void set(Value value){
-		extenderSolenoid.set(value);
-	}
-	
-	public Value get(){
-		return extenderSolenoid.get();
-	}
-	
-	public void off(){
-		extenderSolenoid.set(DoubleSolenoid.Value.kOff);
-	}
 }
